@@ -1,0 +1,21 @@
+{
+  "name": "to-do",
+  "version": "0.0.1",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon src/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/danyapac3/to-do.git"
+  },
+  "author": "danya_pac3",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/danyapac3/to-do/issues"
+  },
+  "homepage": "https://github.com/danyapac3/to-do#readme",
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  }
+}
