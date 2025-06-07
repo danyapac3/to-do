@@ -1,6 +1,5 @@
 console.clear();
 
-import {Task} from "./tasks/task.js";
-import {clamp, compareDates} from "./utils.js";
+import {Task} from "./classes/task.js";
 
 const task = new Task('hello');
