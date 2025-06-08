@@ -1,0 +1,14 @@
+.page {
+  display: flex;
+  height: 100%;
+}
+
+
+.page__sidebar {
+  width: 250px;
+}
+
+
+.page__project-board {
+  flex: 1;
+}

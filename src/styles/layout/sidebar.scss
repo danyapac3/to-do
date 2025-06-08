@@ -1,0 +1,54 @@
+@use 'sass:color';
+
+
+$primary-color: #F9F7F8;
+$sidebar-padding: 10px;
+
+
+.sidebar {
+  background-color: $primary-color;
+  position: relative;
+  padding: $sidebar-padding;
+}
+
+
+.sidebar.hidden {
+  width: 0px;
+  padding: 0px;
+
+  & .sidebar__show-hide-button {
+    // transform: translateX(100%);
+    left: $sidebar-padding;
+  }
+}
+
+
+.sidebar__content {
+  overflow: hidden;
+  width: 100%;
+}
+
+
+.sidebar__show-hide-button {
+  width: 38px;
+  height: 38px;
+  border-radius: 5px;
+  position: absolute;
+  top: $sidebar-padding;
+  right: $sidebar-padding;
+
+  background-color: $primary-color;
+  background-image: url('@images/icons/sidebar.svg');
+  background-size: 20px 20px;
+  background-repeat: no-repeat;
+  background-position: center;
+
+  transition: background-color 0.2s;
+
+  &:hover {
+    background-color: color.mix(black, $primary-color, 10%); 
+  }
+  &:active {
+    background-color: color.mix(black, $primary-color, 20%); 
+  }
+}
