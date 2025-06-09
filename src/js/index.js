@@ -1,6 +1,8 @@
-console.clear();
-
 import "@styles/index.scss";
-import {Task} from "./classes/task.js";
 
-const task = new Task('hello');
+const toggleSidebarButton = document.querySelector('.sidebar__toggle-visibility-button');
+const sidebar = document.querySelector('.sidebar');
+
+toggleSidebarButton.addEventListener('click', (e) => {
+  sidebar.classList.toggle('hidden');
+});

@@ -3,35 +3,74 @@
 
 $primary-color: #F9F7F8;
 $sidebar-padding: 10px;
+$toggle-visibility-button-size: 48px;
 
 
 .sidebar {
   background-color: $primary-color;
   position: relative;
   padding: $sidebar-padding;
-}
 
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 
-.sidebar.hidden {
-  width: 0px;
-  padding: 0px;
+  transition: 
+    width 0.2s ease-out,
+    padding-inline 0.2s ease-out;
 
-  & .sidebar__show-hide-button {
-    // transform: translateX(100%);
-    left: $sidebar-padding;
+  &.hidden {
+    width: 0px;
+    padding-inline: 0px;
   }
 }
 
 
-.sidebar__content {
-  overflow: hidden;
+.sidebar__top-box {
+  height: $toggle-visibility-button-size;
   width: 100%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
 }
 
 
-.sidebar__show-hide-button {
-  width: 38px;
-  height: 38px;
+.sidebar-settings-button {
+  background-color: $primary-color;
+  width: fit-content;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  user-select: none;
+  display: flex;
+  gap: 10px;
+
+  transition: background-color 0.2s;
+
+  &:hover {
+    background-color: color.mix(black, $primary-color, 10%); 
+  }
+
+  &:active {
+    background-color: color.mix(black, $primary-color, 20%); 
+  }
+
+  &::before {
+    content: '';
+    display: block;
+    width: 20px;
+    height: 20px;
+
+    background-image: url("@images/icons/cog.svg");
+    background-repeat: none;
+    background-position: center;
+  }
+}
+
+
+.sidebar__toggle-visibility-button {
+  width: $toggle-visibility-button-size;
+  height: $toggle-visibility-button-size;
   border-radius: 5px;
   position: absolute;
   top: $sidebar-padding;
@@ -43,12 +82,29 @@ $sidebar-padding: 10px;
   background-repeat: no-repeat;
   background-position: center;
 
-  transition: background-color 0.2s;
+  transition: background-color 0.2s, right 0.2s;
+  cursor: pointer;
 
   &:hover {
     background-color: color.mix(black, $primary-color, 10%); 
   }
+
   &:active {
     background-color: color.mix(black, $primary-color, 20%); 
   }
+
+  .sidebar.hidden & {
+    // transform: translateX(100%);
+    right: -$toggle-visibility-button-size - $sidebar-padding;
+  }
+}
+
+
+.sidebar__content {
+  overflow: hidden;
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
