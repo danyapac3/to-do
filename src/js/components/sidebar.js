@@ -1,0 +1,1 @@
+import htmlTemplate from "./sidebar.template.html"

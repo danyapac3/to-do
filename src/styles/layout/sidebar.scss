@@ -2,8 +2,23 @@
 
 
 $primary-color: #F9F7F8;
+$secondary-color: #767676;
 $sidebar-padding: 10px;
 $toggle-visibility-button-size: 48px;
+
+
+@mixin button-appearance {
+  cursor: pointer;
+  user-select: none;
+
+  &:hover {
+    background-color: color.mix(black, $primary-color, 10%); 
+  }
+
+  &:active {
+    background-color: color.mix(black, $primary-color, 20%); 
+  }
+}
 
 
 .sidebar {
@@ -41,19 +56,12 @@ $toggle-visibility-button-size: 48px;
   padding: 10px;
   border-radius: 5px;
   cursor: pointer;
-  user-select: none;
   display: flex;
   gap: 10px;
 
   transition: background-color 0.2s;
 
-  &:hover {
-    background-color: color.mix(black, $primary-color, 10%); 
-  }
-
-  &:active {
-    background-color: color.mix(black, $primary-color, 20%); 
-  }
+  @include button-appearance;
 
   &::before {
     content: '';
@@ -83,15 +91,8 @@ $toggle-visibility-button-size: 48px;
   background-position: center;
 
   transition: background-color 0.2s, right 0.2s;
-  cursor: pointer;
 
-  &:hover {
-    background-color: color.mix(black, $primary-color, 10%); 
-  }
-
-  &:active {
-    background-color: color.mix(black, $primary-color, 20%); 
-  }
+  @include button-appearance;
 
   .sidebar.hidden & {
     // transform: translateX(100%);
@@ -107,4 +108,37 @@ $toggle-visibility-button-size: 48px;
   display: flex;
   flex-direction: column;
   gap: 10px;
+}
+
+
+.sidebar__section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+
+.sidebar__section-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: $secondary-color;
+}
+
+
+.sidebar__section-item {
+  padding: 10px;
+  border-radius: 5px;
+  display: flex;
+  gap: 5px;
+
+  transition: background-color 0.2s;
+
+  @include button-appearance;
+
+  &.project {
+    &::before {
+      content: '#';
+      color: $secondary-color;
+    }
+  }
 }
