@@ -17,7 +17,6 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      filename: 'index.html',
       template: './src/index.html',
     }),
     new MiniCssExtractPlugin({
@@ -33,10 +32,20 @@ module.exports = {
       { 
         test: /\.s[ca]ss$/i,
         use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'],
-      }
+      },
+      {
+        test: /\.html$/i,
+        loader: "html-loader",
+      },
+      {
+        test: /\.(png|svg|jpg|jpeg|gif)$/i,
+        type: "asset/resource",
+      },
+
     ],
   },
   resolve: {
+    roots: [path.resolve(__dirname, 'src/'), path.resolve(__dirname, 'assets/')],
     alias: {
       '@*': path.resolve(__dirname, 'src/', '*/'),
     },
