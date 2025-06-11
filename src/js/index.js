@@ -6,3 +6,15 @@ const sidebar = document.querySelector('.sidebar');
 toggleSidebarButton.addEventListener('click', (e) => {
   sidebar.classList.toggle('hidden');
 });
+
+const state = {
+  projects: {
+
+  },
+  sections: {
+
+  },
+  tasks: {
+
+  }
+}
