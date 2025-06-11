@@ -22,8 +22,8 @@ export const compareDates = (d1, d2) => clamp(-1, 1, d1.getTime() - d2.getTime()
  */
 export const htmlToNode = (html) => {
   const template = document.createElement('template');
-  template.innerHTML = html;
-  nodesNumber = template.content.childNodes.length;
+  template.innerHTML = html.trim();
+  const nodesNumber = template.content.childNodes.length;
 
   if (nodesNumber !== 1) {
     throw Error('There must be single node in html');

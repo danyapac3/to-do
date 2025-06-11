@@ -125,7 +125,7 @@ $toggle-visibility-button-size: 48px;
 }
 
 
-.sidebar__section-item {
+.sidebar__project {
   padding: 10px;
   border-radius: 5px;
   display: flex;
@@ -135,7 +135,7 @@ $toggle-visibility-button-size: 48px;
 
   @include button-appearance;
 
-  &.project {
+  &.user-created {
     &::before {
       content: '#';
       color: $secondary-color;
