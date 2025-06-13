@@ -6,12 +6,12 @@ import template from './sidebar.html';
 
 
 const renderProject = (project) => {
-  return `<div class="sidebar__project user-created">${project.title}</div>`
+  return `<div class="sidebar__project user-created">${project.title}</div>`;
 }
 
-export default class Sidebar extends Component {
-  #isHidden = false;
 
+
+export default class Sidebar extends Component {
   constructor(onSelectProject = () => {}) {
     super({
       store,
@@ -19,14 +19,17 @@ export default class Sidebar extends Component {
     });
   }
 
+  #hide = (e) => {
+    this.element.classList.toggle('hidden');
+  }
+
   render() {
     const sidebar = this.element;
     const sidebarSectionContent = sidebar.querySelector('.sidebar__section-content');
     const toggleVisibilityButton = this.element.querySelector('.sidebar__toggle-visibility-button');
 
-    toggleVisibilityButton.addEventListener('click', (e) => {
-      this.element.classList.toggle('hidden');
-    });
+    toggleVisibilityButton.removeEventListener('click', this.#hide);
+    toggleVisibilityButton.addEventListener('click', this.#hide);
 
     if(store.state.projects) {
       sidebarSectionContent.innerHTML = 
