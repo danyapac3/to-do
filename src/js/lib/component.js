@@ -1,5 +1,10 @@
 export default class Component {
-  constructor({element}) {
-    this.element = element;
+  constructor({store, element}) {
+
+    this.render = this.render || function() {};
+
+    if (element) {
+      this.element = element;
+    }
   }
 }

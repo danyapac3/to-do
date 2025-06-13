@@ -1,24 +1,36 @@
-import {htmlToNode} from '/js/utils.js';
+import Component from '/js/lib/component';
+import store from '/js/store/index.js';
+import {htmlToNode} from '/js/utils';
+
 import template from './sidebar.html';
 
 
-const createSidebarProject = (project) => {
-  return htmlToNode(`<div class="sidebar__project user-created">${project.name}</div>`);
+const renderProject = (project) => {
+  return `<div class="sidebar__project user-created">${project.title}</div>`
 }
 
+export default class Sidebar extends Component {
+  #isHidden = false;
 
-export const createSidebar = (state = {}, callbacks = {}) => {
-  const sidebar = htmlToNode(template);
-  const sidebarSection = sidebar.querySelector('.sidebar__section');
-  const toggleVisibilityButton = sidebar.querySelector('.sidebar__toggle-visibility-button');
+  constructor(onSelectProject = () => {}) {
+    super({
+      store,
+      element: htmlToNode(template),
+    });
+  }
 
-  toggleVisibilityButton.addEventListener('click', (e) => {
-    sidebar.classList.toggle('hidden');
-  });
+  render() {
+    const sidebar = this.element;
+    const sidebarSectionContent = sidebar.querySelector('.sidebar__section-content');
+    const toggleVisibilityButton = this.element.querySelector('.sidebar__toggle-visibility-button');
 
-  state.projects?.forEach(project => {
-    sidebarSection.appendChild(createSidebarProject(project));
-  });
+    toggleVisibilityButton.addEventListener('click', (e) => {
+      this.element.classList.toggle('hidden');
+    });
 
-  return sidebar;
-};
+    if(store.state.projects) {
+      sidebarSectionContent.innerHTML = 
+        store.state.projects?.map(project => renderProject(project)).join('');
+    }
+  }
+}
