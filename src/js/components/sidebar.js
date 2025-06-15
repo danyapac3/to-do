@@ -5,8 +5,12 @@ import {htmlToNode} from '/js/utils';
 import template from './sidebar.html';
 
 
-const renderProject = (project) => {
-  return `<div class="sidebar__project user-created">${project.title}</div>`;
+const createProject = (project) => {
+  const element = document.createElement('div');
+  element.classList.add('sidebar__project', 'user-created');
+  element.dataset.id = project.id;
+  element.textContent = project.title;
+  return element;
 }
 
 
@@ -17,6 +21,8 @@ export default class Sidebar extends Component {
       store,
       element: htmlToNode(template),
     });
+
+    this.onSelectProject = onSelectProject;
   }
 
   #hide = (e) => {
@@ -31,9 +37,16 @@ export default class Sidebar extends Component {
     toggleVisibilityButton.removeEventListener('click', this.#hide);
     toggleVisibilityButton.addEventListener('click', this.#hide);
 
+
+    const projectElements = store.state.projects
+      .map(project => {
+        const elm = createProject(project);
+        elm.addEventListener('click', () => this.onSelectProject(project.id));
+        return elm;
+      });
+
     if(store.state.projects) {
-      sidebarSectionContent.innerHTML = 
-        store.state.projects?.map(project => renderProject(project)).join('');
+      sidebarSectionContent.append(...projectElements); 
     }
   }
 }

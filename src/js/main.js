@@ -5,14 +5,11 @@ import Sidebar from '@js/components/sidebar.js';
 
 
 
-const sidebar = new Sidebar();
+const sidebar = new Sidebar((projectId) => {
+  console.log(projectId)
+});
 const page = document.querySelector('.page');
 
 sidebar.render();
-
-store.dispatch('addProject', {title: 'hello me'});
-
-sidebar.render();
-
 
 page.appendChild(sidebar.element);
