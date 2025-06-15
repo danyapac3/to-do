@@ -1,7 +1,6 @@
 import Component from '/js/lib/component';
 import store from '/js/store/index.js';
 import {htmlToNode} from '/js/utils';
-
 import template from './sidebar.html';
 
 
