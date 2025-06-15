@@ -10,7 +10,7 @@ const page = document.querySelector('.page');
 
 sidebar.render();
 
-store.state.projects.push({title: 'reboot me'});
+store.dispatch('addProject', {title: 'hello me'});
 
 sidebar.render();
 
