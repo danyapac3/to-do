@@ -1,7 +1,7 @@
 import Component from '/js/lib/component';
-import {htmlToNode} from '/js/utils';
+import {htmlToNode} from '/js/lib/dom';
+import store from '/js/store/index';
 import template from './board.html';
-import store from '/js/store/index.js';
 
 export default class Board extends Component {
   #projectId;
