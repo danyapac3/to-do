@@ -3,14 +3,24 @@ import Store from '/js/store/store.js';
 export default class Component {
   constructor(params) {
 
+    const {
+      store,
+      element,
+      subscriptions = ['stateChange']
+    } = params;
+
     this.render = this.render || function() {};
 
-    if (params.store instanceof Store) {
-      params.store.events.subscribe('stateChange', () => this.render());
+    if (store instanceof Store) {
+      subscriptions.forEach(subscription => {
+        store.events.subscribe(subscription, () => this.render());
+      });
     }
 
-    if (params.element) {
-      this.element = params.element;
+    if (element) {
+      this.element = element;
     }
   }
+
+
 }

@@ -62,6 +62,8 @@ export default class Store {
 
     this.state = Object.assign(this.state, newState);
 
+    this.events.publish(mutationKey);
+
     return true;
   }
 }
