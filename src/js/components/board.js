@@ -4,21 +4,24 @@ import store from '/js/store/index';
 import template from './board.html';
 
 export default class Board extends Component {
-  #projectId;
 
-  constructor (projectId) {
+  constructor () {
     super({
       store,
       element: htmlToNode(template),
     });
-
-    this.projectId = projectId;
   }
 
   render() {
     const board = this.element;
     const title = board.querySelector('.board__title');
+    const project = store.state.currentProject;
 
-    title.textContent(this.#projectId);
+    console.log(project);
+
+
+    if (project && project.title) {
+      title.textContent = project.title;
+    }
   }
 }

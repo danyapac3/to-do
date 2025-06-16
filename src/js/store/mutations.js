@@ -6,5 +6,8 @@ export default {
   clearProject(state, payload) {
     state.projects.splice(payload.index, 1);
     return state;
+  },
+  setCurrentProject(state, payload) {    
+    return {currentProject: payload};
   }
 };

@@ -6,5 +6,8 @@ export default {
   },
   clearProject(context, payload) {
     context.commit('clearProject', payload);
+  },
+  setCurrentProject(context, payload) {
+    context.commit('setCurrentProject', payload)
   }
 };

@@ -13,15 +13,12 @@ const createProject = (project) => {
 }
 
 
-
 export default class Sidebar extends Component {
   constructor(onSelectProject = () => {}) {
     super({
       store,
       element: htmlToNode(template),
     });
-
-    this.onSelectProject = onSelectProject;
   }
 
   #hide = (e) => {
@@ -40,12 +37,14 @@ export default class Sidebar extends Component {
     const projectElements = store.state.projects
       .map(project => {
         const elm = createProject(project);
-        elm.addEventListener('click', () => this.onSelectProject(project.id));
+        elm.addEventListener('click', () => {
+          store.dispatch('setCurrentProject', project)
+        });
         return elm;
       });
 
     if(store.state.projects) {
-      sidebarSectionContent.append(...projectElements); 
+      sidebarSectionContent.replaceChildren(...projectElements); 
     }
   }
 }

@@ -6,7 +6,7 @@ export default class Component {
     this.render = this.render || function() {};
 
     if (params.store instanceof Store) {
-      params.store.events.publish('stateChange', () => this.render());
+      params.store.events.subscribe('stateChange', () => this.render());
     }
 
     if (params.element) {
