@@ -1,5 +1,5 @@
 import Component from '/js/lib/component';
-import {htmlToNode} from '/js/lib/dom';
+import {htmlToNode} from '/js/utils/dom';
 import store from '/js/store/index';
 import template from './board.html';
 

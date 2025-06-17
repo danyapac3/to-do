@@ -1,5 +1,5 @@
 import Component from '/js/lib/component';
-import {htmlToNode} from '/js/lib/dom';
+import {htmlToNode} from '/js/utils/dom';
 import store from '/js/store/index';
 import template from './sidebar.html';
 
@@ -14,12 +14,18 @@ const createProject = (project) => {
 
 
 export default class Sidebar extends Component {
-  constructor(onSelectProject = () => {}) {
+  #handlers;
+
+  constructor(handlers) {
     super({
       store,
       element: htmlToNode(template),
       subscriptions: ['addProject']
     });
+
+    this.#handlers = Object.assign({
+      onProjectSelect: () => {}
+    }, handlers)
   }
 
   #hide = (e) => {
@@ -39,7 +45,7 @@ export default class Sidebar extends Component {
       .map(project => {
         const elm = createProject(project);
         elm.addEventListener('click', () => {
-          store.dispatch('setCurrentProject', project)
+          onProjectSelect(project)
         });
         return elm;
       });
