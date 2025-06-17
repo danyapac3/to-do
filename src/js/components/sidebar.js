@@ -24,7 +24,6 @@ export default class Sidebar extends Component {
     });
 
     this.#handlers = Object.assign({
-      onProjectSelect: () => {}
     }, handlers)
   }
 
@@ -45,8 +44,9 @@ export default class Sidebar extends Component {
       .map(project => {
         const elm = createProject(project);
         elm.addEventListener('click', () => {
-          onProjectSelect(project)
+          store.dispatch('setCurrentProjectId', {id: project.id});
         });
+        console.log(store.state.currentProjectId); 
         return elm;
       });
 

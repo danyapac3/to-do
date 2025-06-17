@@ -15,8 +15,7 @@ export default class Board extends Component {
   render() {
     const board = this.element;
     const title = board.querySelector('.board__title');
-    const project = store.state.currentProject;
-
+    const project = store.state.projects.find(p => p.id === store.state.currentProjectId);
 
     if (project && project.title) {
       title.textContent = project.title;
