@@ -21,6 +21,4 @@ export default class Component {
       this.element = element;
     }
   }
-
-
 }

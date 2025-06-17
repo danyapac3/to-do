@@ -2,8 +2,27 @@ import {v4 as uuidv4} from 'uuid';
 
 export default {
   projects: [
-    {title: 'hello world on assembly', id: uuidv4()},
-    {title: 'say hello', id: uuidv4()},
+    {
+      id: 'p1',
+      title: 'hello world on assembly',
+      sectionIds: []
+    },
+    {
+      id: 'p2',
+      title: 'project2',
+      sectionIds: ['s1', 's2'],
+    },
   ],
+  sections: [
+    {
+      id: 's1',
+      title: 'to-do',
+    },
+    {
+      id: 's2',
+      title: 'done',
+    }
+  ],
+
   currentProject: null,
 }

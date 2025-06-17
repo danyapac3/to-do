@@ -46,7 +46,6 @@ export default class Sidebar extends Component {
         elm.addEventListener('click', () => {
           store.dispatch('setCurrentProjectId', {id: project.id});
         });
-        console.log(store.state.currentProjectId); 
         return elm;
       });
 

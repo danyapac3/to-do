@@ -1,3 +1,5 @@
+import {v4 as uuidv4} from 'uuid';
+
 export default class PubSub {
   constructor() {
     this.events = {};
@@ -8,7 +10,9 @@ export default class PubSub {
       this.events[event] = [];
     }
 
-    return this.events[event].push(callback);
+    const subscription = {token: 's-token-' + uuidv4(), callback}
+    this.events[event].push(subscription);
+    return subscription.token;
   }
 
   publish(event, data) {
@@ -16,6 +20,13 @@ export default class PubSub {
       return [];
     }
 
-    return this.events[event].map(callback => callback(data));
+    this.events[event].forEach(({callback}) => callback(data));
+  }
+
+  unsubscribe(token) {
+    for (let key in this.events) {
+      const event = this.events[key];
+      this.events[key] = event.filter(subscription => !(subscription.token === token));
+    }
   }
 } 

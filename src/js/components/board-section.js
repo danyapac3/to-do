@@ -4,15 +4,22 @@ import store from '/js/store/index';
 import template from './board-section.html';
 
 export default class BoardSection extends Component {
-
-  constructor () {
+  constructor (sectionId) {
     super({
       store,
       element: htmlToNode(template),
     });
+
+    this.sectionId = sectionId;
   }
 
   render() {
-    const section = this.element;
+    const borderSection = this.element;
+    const boardSectionTitle = borderSection.querySelector('.board-section__title');
+
+    const section = store.state.sections.find(s => s.id === this.sectionId);
+    if (section) {
+      boardSectionTitle.textContent = section.title;
+    }
   }
 }
