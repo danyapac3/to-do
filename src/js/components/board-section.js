@@ -4,9 +4,10 @@ import store from '/js/store/index';
 import template from './board-section.html';
 
 export default class BoardSection extends Component {
-  constructor (sectionId) {
+  constructor (sectionId, parent) {
     super({
       store,
+      parent,
       element: htmlToNode(template),
     });
 

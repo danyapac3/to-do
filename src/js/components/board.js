@@ -12,6 +12,8 @@ export default class Board extends Component {
       store,
       element: htmlToNode(template),
     });
+
+    this.init()
   }
 
   render() {

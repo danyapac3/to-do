@@ -24,7 +24,9 @@ export default class Sidebar extends Component {
     });
 
     this.#handlers = Object.assign({
-    }, handlers)
+    }, handlers);
+
+    this.init();
   }
 
   #hide = (e) => {

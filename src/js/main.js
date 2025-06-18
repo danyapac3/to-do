@@ -12,8 +12,6 @@ const page = document.querySelector('.page');
 const sidebar = new Sidebar();
 const board = new Board();
 
-board.render();
-sidebar.render();
 
 page.appendChild(sidebar.element);
 page.appendChild(board.element);

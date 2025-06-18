@@ -1,24 +1,69 @@
 import Store from '/js/store/store.js';
 
 export default class Component {
-  constructor(params) {
+  #subscriptionTokens = [];
+  #subscriptions;
 
+  constructor(params) {
     const {
       store,
       element,
-      subscriptions = ['stateChange']
+      subscriptions = ['stateChange'],
+      parent = null,
     } = params;
 
     this.render = this.render || function() {};
+    this.children = [];
+    this.parent = parent;
+    this.#subscriptions = subscriptions;
+    if (element) { this.element = element; }
+    if (store) { this.store = store; }
 
-    if (store instanceof Store) {
-      subscriptions.forEach(subscription => {
-        store.events.subscribe(subscription, () => this.render());
+    if (parent && !(parent instanceof Component)) {
+      throw new Error('"parent" parameter must an instance of "Component"');
+    }
+    if (parent) {
+      parent.addChild(this);
+    }
+  }
+
+  init() {
+    const subscriptionHandler = () => {
+      this.children.forEach(child => child.destroy());
+      this.render();
+    }
+
+    if (this.store instanceof Store) {
+      this.#subscriptions.forEach(subscription => {
+        this.#subscriptionTokens.push(
+          this.store.events.subscribe(subscription, subscriptionHandler)
+        );
       });
     }
 
-    if (element) {
-      this.element = element;
+    this.render();
+  }
+
+  addChild(child) {
+    if (child instanceof Component) {
+      this.children.push(child);
+    } else {
+      throw new Error('child must be an instance of "Component"');
+    }
+  }
+
+  destroy() {
+    this.children.forEach(child => child.destroy());
+    if (this.element) {
+      this.element.remove();
+    }
+    if (this.store) {
+      this.#subscriptionTokens.forEach(token => {
+        this.store.events.unsubscribe(token);
+      });
+    }
+    if (this.parent) {
+      parent.children = parent.children.splice(parent.children.indexOf(this), 1);
     }
   }
 }
