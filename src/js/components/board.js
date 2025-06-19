@@ -2,8 +2,7 @@ import Component from '/js/lib/component';
 import {htmlToNode} from '/js/utils/dom';
 import store from '/js/store/index';
 import template from './board.html';
-
-import BoardSection from './board-section';
+import List from './list';
 
 export default class Board extends Component {
 
@@ -26,7 +25,7 @@ export default class Board extends Component {
 
     if (project && project.sectionIds) {
       for (let sectionId of project.sectionIds) {
-        const section = new BoardSection(sectionId, this);
+        const section = new List(sectionId, this);
         boardContent.append(section.element);
       }
     }

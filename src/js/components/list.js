@@ -1,9 +1,9 @@
 import Component from '/js/lib/component';
 import {htmlToNode} from '/js/utils/dom';
 import store from '/js/store/index';
-import template from './board-section.html';
+import template from './list.html';
 
-export default class BoardSection extends Component {
+export default class List extends Component {
   constructor (sectionId, parent) {
     super({
       store,
@@ -18,10 +18,10 @@ export default class BoardSection extends Component {
 
   render() {
     const borderSection = this.element;
-    const boardSectionTitle = borderSection.querySelector('.board-section__title');
+    const ListTitle = borderSection.querySelector('.board-section__title');
     const section = store.state.sections.find(s => s.id === this.sectionId);
     if (section) {
-      boardSectionTitle.textContent = section.title;
+      ListTitle.textContent = section.title;
     }
   }
 }
