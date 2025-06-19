@@ -24,9 +24,7 @@ export default class Component {
     if (parent) {
       parent.addChild(this);
     }
-  }
 
-  init() {
     const subscriptionHandler = () => {
       this.children.forEach(child => child.destroy());
       this.children = [];
@@ -40,7 +38,9 @@ export default class Component {
         );
       });
     }
+  }
 
+  init() {
     this.render();
   }
 

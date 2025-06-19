@@ -10,7 +10,7 @@ export default class BoardSection extends Component {
       parent,
       element: htmlToNode(template),
     });
-
+    
     this.sectionId = sectionId;
 
     this.init();
@@ -19,7 +19,6 @@ export default class BoardSection extends Component {
   render() {
     const borderSection = this.element;
     const boardSectionTitle = borderSection.querySelector('.board-section__title');
-
     const section = store.state.sections.find(s => s.id === this.sectionId);
     if (section) {
       boardSectionTitle.textContent = section.title;

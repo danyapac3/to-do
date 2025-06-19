@@ -14,7 +14,8 @@ export default class Board extends Component {
       subscriptions: ['setCurrentProjectId'],
     });
 
-    this.init()
+
+    this.init();
   }
 
   render() {

@@ -14,8 +14,6 @@ const createProject = (project) => {
 
 
 export default class Sidebar extends Component {
-  #handlers;
-
   constructor(handlers) {
     super({
       store,
@@ -23,14 +21,7 @@ export default class Sidebar extends Component {
       subscriptions: ['addProject']
     });
 
-    this.#handlers = Object.assign({
-    }, handlers);
-
     this.init();
-  }
-
-  #hide = (e) => {
-    this.element.classList.toggle('hidden');
   }
 
   render() {
@@ -38,9 +29,9 @@ export default class Sidebar extends Component {
     const sidebarSectionContent = sidebar.querySelector('.sidebar__section-content');
     const toggleVisibilityButton = this.element.querySelector('.sidebar__toggle-visibility-button');
 
-    toggleVisibilityButton.removeEventListener('click', this.#hide);
-    toggleVisibilityButton.addEventListener('click', this.#hide);
-
+    toggleVisibilityButton.addEventListener('click', () => {
+      this.element.classList.toggle('hidden');
+    });
 
     const projectElements = store.state.projects
       .map(project => {
