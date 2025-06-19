@@ -12,6 +12,8 @@ export default class BoardSection extends Component {
     });
 
     this.sectionId = sectionId;
+
+    this.init();
   }
 
   render() {
