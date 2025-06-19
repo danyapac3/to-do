@@ -63,7 +63,7 @@ export default class Component {
       });
     }
     if (this.parent) {
-      parent.children = parent.children.splice(parent.children.indexOf(this), 1);
+      this.parent.children = this.parent.children.splice(this.parent.children.indexOf(this), 1);
     }
   }
 }

@@ -11,6 +11,7 @@ export default class Board extends Component {
     super({
       store,
       element: htmlToNode(template),
+      subscriptions: ['setCurrentProjectId'],
     });
 
     this.init()
@@ -23,10 +24,9 @@ export default class Board extends Component {
     const boardContent = board.querySelector('.board__content');
 
     if (project && project.sectionIds) {
-      const sections = [];
       for (let sectionId of project.sectionIds) {
-        const section = new BoardSection(sectionId);
-        sections.push(section);
+        const section = new BoardSection(sectionId, this);
+        boardContent.append(section.element);
       }
     }
 
