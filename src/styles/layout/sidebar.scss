@@ -1,10 +1,20 @@
 @use 'sass:color';
+@use 'sass:math';
 
 
 $primary-color: #F9F7F8;
 $secondary-color: #767676;
-$sidebar-padding: 10px;
-$toggle-visibility-button-size: 48px;
+$toggle-visibility-button-size: 32px;
+$sidebar-width: 250px;
+$sidebar-padding-right: 10px;
+$sidebar-padding-left: 10px;
+$sidebar-padding-top: 10px;
+$sidebar-padding-bottom: 10px;
+$sidebar-padding: 
+  $sidebar-padding-top
+  $sidebar-padding-right
+  $sidebar-padding-bottom
+  $sidebar-padding-left;
 
 
 @mixin button-appearance {
@@ -22,86 +32,69 @@ $toggle-visibility-button-size: 48px;
 
 
 .sidebar {
-  width: 250px;
+  width: $sidebar-width;
+  padding: $sidebar-padding;
   background-color: $primary-color;
   position: relative;
-  padding: $sidebar-padding;
 
   display: flex;
   flex-direction: column;
   gap: 10px;
 
-  transition: 
-    width 0.2s ease-out,
-    transform 0.2s ease-out;
+  transition: width 0.2s, background-color 0.2s;
 
   &.hidden {
-    transform: translateX(-250px)
+    width: 0;
   }
 }
 
+.sidebar__content {
+  width: $sidebar-width - $sidebar-padding-right - $sidebar-padding-left;
+  transition: transform 0.2s;
 
-.sidebar__top-box {
-  height: $toggle-visibility-button-size;
-  width: 100%;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-}
-
-
-.sidebar-settings-button {
-  background-color: $primary-color;
-  width: fit-content;
-  padding: 10px;
-  border-radius: 5px;
-  cursor: pointer;
-  display: flex;
-  gap: 10px;
-
-  transition: background-color 0.2s;
-
-  @include button-appearance;
-
-  &::before {
-    content: '';
-    display: block;
-    width: 20px;
-    height: 20px;
-
-    background-image: url("@images/icons/cog.svg");
-    background-repeat: none;
-    background-position: center;
+  .sidebar.hidden & {
+    transform: translateX(-$sidebar-width);
   }
 }
-
 
 .sidebar__toggle-visibility-button {
+  border-radius: 9999px;
   width: $toggle-visibility-button-size;
   height: $toggle-visibility-button-size;
-  border-radius: 5px;
   position: absolute;
-  top: $sidebar-padding;
-  right: $sidebar-padding;
-
+  top: 50%;
+  right: -(math.div($toggle-visibility-button-size, 2));
   background-color: $primary-color;
-  background-image: url('@images/icons/sidebar.svg');
-  background-size: 20px 20px;
-  background-repeat: no-repeat;
-  background-position: center;
+  transform: translateY(-50%);
 
   transition: background-color 0.2s, right 0.2s;
 
   @include button-appearance;
 
   .sidebar.hidden & {
-    // transform: translateX(100%);
-    right: -$toggle-visibility-button-size - $sidebar-padding;
+    right: -(math.div($toggle-visibility-button-size, 2));
+  }
+
+  &::after {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 100%;
+    background-image: url('/images/icons/arrow.svg');
+    background-size: 10px 10px;
+    background-repeat: no-repeat;
+    background-position: center;
+    transform: scale(-1, 1);
+    transition: transform 0.2s;
+  }
+
+  .sidebar.hidden &::after {
+    transform: scale(1, 1);
   }
 }
 
 
-.sidebar__content {
+.sidebar__sections {
   overflow: hidden;
   width: 100%;
 
