@@ -5,12 +5,12 @@ export default {
     {
       id: 'p1',
       title: 'hello world on assembly',
-      sectionIds: []
+      listIds: []
     },
     {
       id: 'p2',
       title: 'project2',
-      sectionIds: ['l1', 'l2'],
+      listIds: ['l1', 'l2'],
     },
   ],
   lists: [

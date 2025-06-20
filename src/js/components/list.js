@@ -4,24 +4,24 @@ import store from '/js/store/index';
 import template from './list.html';
 
 export default class List extends Component {
-  constructor (sectionId, parent) {
+  constructor (listId, parent) {
     super({
       store,
       parent,
       element: htmlToNode(template),
     });
     
-    this.sectionId = sectionId;
+    this.listId = listId;
 
     this.init();
   }
 
   render() {
-    const borderSection = this.element;
-    const ListTitle = borderSection.querySelector('.list__title');
-    const section = store.state.sections.find(s => s.id === this.sectionId);
-    if (section) {
-      ListTitle.textContent = section.title;
+    const listElement = this.element;
+    const ListTitle = listElement.querySelector('.list__title');
+    const list = store.state.lists.find(s => s.id === this.listId);
+    if (list) {
+      ListTitle.textContent = list.title;
     }
   }
 }
