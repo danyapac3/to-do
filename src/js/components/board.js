@@ -23,6 +23,8 @@ export default class Board extends Component {
     const project = store.state.projects.find(p => p.id === store.state.currentProjectId);
     const boardContent = board.querySelector('.board__content');
 
+    console.log(store.state.currentProjectId);
+
     if (project && project.listIds) {
       for (let listId of project.listIds) {
         const list = new List(listId, this);

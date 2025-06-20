@@ -1,5 +1,59 @@
+$primary-color: #F9F7F8;
+$secondary-color: white;
+$secondary-text-color: #808080;
+
+@mixin coloredIcon($url, $color: black) {
+  background-color: $color;
+  mask-image: $url;
+  mask-position: center;
+  mask-size: contain;
+  mask-repeat: no-repeat;
+  -webkit-mask-image: $url;
+  -webkit-mask-position: center;
+  -webkit-mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+}
+
 .list {
+  width: 320px;
+  padding: 15px;
+  background-color: $primary-color;
+  flex-shrink: 0;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.list-header {
+  padding: 10px;
 }
 
 .list__title {
+  font-weight: 500;
+  font-size: 18px;
+}
+
+.list__body {
+}
+
+.list__footer {
+}
+
+.list__add-task-button {
+  user-select: none;
+  padding: 10px;
+  gap: 10px;
+  display: flex;
+  align-items: center;
+  color: $secondary-text-color;
+  
+  &::before {
+    content: "";
+    display: block;
+    width: 20px;
+    height: 20px;
+
+    @include coloredIcon(url('/images/icons/plus.svg'), $secondary-text-color);
+  }
 }

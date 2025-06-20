@@ -24,5 +24,5 @@ export default {
     }
   ],
 
-  currentProject: null,
+  currentProjectId: 'p2',
 }

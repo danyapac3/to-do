@@ -1,6 +1,7 @@
 .board {
   padding: 16px;
   flex: 1;
+  gap: 30px;
 }
 
 .board__header {
@@ -11,5 +12,9 @@
   font-size: 24px;
 }
 
-// .board__content {
-// }
+.board__content {
+  gap: 10px;
+  display: flex;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
