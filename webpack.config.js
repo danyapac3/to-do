@@ -32,7 +32,15 @@ module.exports = {
       },
       { 
         test: /\.s[ca]ss$/i,
-        use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'],
+        use: [
+          MiniCssExtractPlugin.loader,
+          'css-loader',
+          {
+            loader: "sass-loader",
+            options: {
+              additionalData: "$me: red;\n"
+            }
+          }],
       },
       {
         test: /\.html$/i,
