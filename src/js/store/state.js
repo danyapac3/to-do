@@ -10,16 +10,16 @@ export default {
     {
       id: 'p2',
       title: 'project2',
-      sectionIds: ['s1', 's2'],
+      sectionIds: ['l1', 'l2'],
     },
   ],
-  sections: [
+  lists: [
     {
-      id: 's1',
+      id: 'l1',
       title: 'to-do',
     },
     {
-      id: 's2',
+      id: 'l2',
       title: 'done',
     }
   ],

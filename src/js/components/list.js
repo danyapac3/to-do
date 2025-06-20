@@ -18,7 +18,7 @@ export default class List extends Component {
 
   render() {
     const borderSection = this.element;
-    const ListTitle = borderSection.querySelector('.board-section__title');
+    const ListTitle = borderSection.querySelector('.list__title');
     const section = store.state.sections.find(s => s.id === this.sectionId);
     if (section) {
       ListTitle.textContent = section.title;
