@@ -1,12 +1,10 @@
 import Component from '/js/lib/component';
 import {htmlToNode} from '/js/utils/dom';
-import store from '/js/store/index';
 import template from './list.html';
 
 export default class List extends Component {
   constructor (listId, parent) {
     super({
-      store,
       parent,
       element: htmlToNode(template),
     });
@@ -19,7 +17,7 @@ export default class List extends Component {
   render() {
     const listElement = this.element;
     const ListTitle = listElement.querySelector('.list__title');
-    const list = store.state.lists.find(s => s.id === this.listId);
+    const list = this.store.state.lists.find(s => s.id === this.listId);
     if (list) {
       ListTitle.textContent = list.title;
     }

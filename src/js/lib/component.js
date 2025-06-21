@@ -15,14 +15,19 @@ export default class Component {
     this.render = this.render || function() {};
     this.children = [];
     this.#subscriptions = subscriptions;
-    if (element) { this.element = element; }
-    if (store) { this.store = store; }
-
+    
     if (parent && !(parent instanceof Component)) {
       throw new Error('"parent" parameter must an instance of "Component"');
     }
     if (parent) {
       parent.addChild(this);
+    }
+    
+    if (element) { this.element = element; }
+    if (store) { 
+      this.store = store;
+    } else if (parent.store) { 
+      this.store = parent.store
     }
 
     const subscriptionHandler = () => {

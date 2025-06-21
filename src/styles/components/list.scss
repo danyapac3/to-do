@@ -1,3 +1,5 @@
+@use '@styles/shared' as *;
+
 $primary-color: #F9F7F8;
 $secondary-color: white;
 $secondary-text-color: #808080;
@@ -37,8 +39,8 @@ $secondary-text-color: #808080;
 .list__body {
 }
 
-.list__footer {
-}
+// .list__footer {
+// }
 
 .list__add-task-button {
   user-select: none;
@@ -47,6 +49,11 @@ $secondary-text-color: #808080;
   display: flex;
   align-items: center;
   color: $secondary-text-color;
+  border-radius: 5px;
+  transition: background-color 0.2s;
+  line-height: 1;
+
+  @include button($primary-color);
   
   &::before {
     content: "";

@@ -1,0 +1,14 @@
+@use 'sass:color';
+
+@mixin button($color) {
+  cursor: pointer;
+  user-select: none;
+
+  &:hover {
+    background-color: color.mix(black, $color, 10%); 
+  }
+
+  &:active {
+    background-color: color.mix(black, $color, 20%); 
+  }
+}

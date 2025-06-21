@@ -1,5 +1,5 @@
-@use 'sass:color';
 @use 'sass:math';
+@use '@styles/shared' as *;
 
 
 $primary-color: #F9F7F8;
@@ -15,20 +15,6 @@ $sidebar-padding:
   $sidebar-padding-right
   $sidebar-padding-bottom
   $sidebar-padding-left;
-
-
-@mixin button-appearance {
-  cursor: pointer;
-  user-select: none;
-
-  &:hover {
-    background-color: color.mix(black, $primary-color, 10%); 
-  }
-
-  &:active {
-    background-color: color.mix(black, $primary-color, 20%); 
-  }
-}
 
 
 .sidebar {
@@ -69,7 +55,7 @@ $sidebar-padding:
 
   transition: background-color 0.2s, right 0.2s;
 
-  @include button-appearance;
+  @include button($primary-color);
 
   .sidebar.hidden & {
     right: -(math.div($toggle-visibility-button-size, 2));
@@ -128,7 +114,7 @@ $sidebar-padding:
 
   transition: background-color 0.2s;
 
-  @include button-appearance;
+  @include button($primary-color);
 
   &.user-created {
     &::before {

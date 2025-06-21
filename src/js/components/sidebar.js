@@ -1,6 +1,5 @@
 import Component from '/js/lib/component';
 import {htmlToNode} from '/js/utils/dom';
-import store from '/js/store/index';
 import template from './sidebar.html';
 
 
@@ -12,9 +11,8 @@ const createProject = (project) => {
   return element;
 }
 
-
 export default class Sidebar extends Component {
-  constructor(handlers) {
+  constructor({store}) {
     super({
       store,
       element: htmlToNode(template),
@@ -33,16 +31,16 @@ export default class Sidebar extends Component {
       this.element.classList.toggle('hidden');
     });
 
-    const projectElements = store.state.projects
+    const projectElements = this.store.state.projects
       .map(project => {
         const elm = createProject(project);
         elm.addEventListener('click', () => {
-          store.dispatch('setCurrentProjectId', {id: project.id});
+          this.store.dispatch('setCurrentProjectId', {id: project.id});
         });
         return elm;
       });
 
-    if(store.state.projects) {
+    if(this.store.state.projects) {
       sidebarSectionContent.replaceChildren(...projectElements); 
     }
   }
