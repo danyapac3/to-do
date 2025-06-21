@@ -9,19 +9,23 @@ export default class Component {
       store,
       element,
       subscriptions = ['stateChange'],
-      parent = null,
+      parent
     } = params;
 
-    this.render = this.render || function() {};
-    this.children = [];
-    this.#subscriptions = subscriptions;
-    
+    if (parent === undefined) {
+      throw new Error('Parent must be specified, as null, or instance of Component');
+    }
+
     if (parent && !(parent instanceof Component)) {
       throw new Error('"parent" parameter must an instance of "Component"');
     }
     if (parent) {
       parent.addChild(this);
     }
+
+    this.render = this.render || function() {};
+    this.children = [];
+    this.#subscriptions = subscriptions;
     
     if (element) { this.element = element; }
     if (store) { 

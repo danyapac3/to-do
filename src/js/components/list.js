@@ -3,8 +3,9 @@ import {htmlToNode} from '/js/utils/dom';
 import template from './list.html';
 
 export default class List extends Component {
-  constructor (listId, parent) {
+  constructor ({listId, parent, store}) {
     super({
+      store,
       parent,
       element: htmlToNode(template),
     });

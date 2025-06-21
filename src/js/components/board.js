@@ -5,11 +5,12 @@ import List from './list';
 
 export default class Board extends Component {
 
-  constructor ({store}) {
+  constructor ({store, parent}) {
     super({
       store,
       element: htmlToNode(template),
       subscriptions: ['setCurrentProjectId'],
+      parent,
     });
 
 
@@ -24,7 +25,7 @@ export default class Board extends Component {
 
     if (project && project.listIds) {
       for (let listId of project.listIds) {
-        const list = new List(listId, this);
+        const list = new List({listId, parent:this});
         boardContent.append(list.element);
       }
     }

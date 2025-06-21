@@ -12,11 +12,13 @@ const createProject = (project) => {
 }
 
 export default class Sidebar extends Component {
-  constructor({store}) {
+  constructor({store, parent}) {
+    console.log('hello');
     super({
       store,
+      parent,
       element: htmlToNode(template),
-      subscriptions: ['addProject']
+      subscriptions: ['addProject'],
     });
 
     this.init();
