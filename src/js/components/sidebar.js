@@ -1,5 +1,5 @@
 import Component from '/js/lib/component';
-import {htmlToNode} from '/js/utils/dom';
+import {htmlToNode} from '/js/lib/utils/dom';
 import template from './sidebar.html';
 
 
