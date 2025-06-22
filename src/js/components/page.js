@@ -4,7 +4,6 @@ import Board from '/js/components/board';
 
 export default class Page extends Component {
   constructor({store, parent, element}) {
-    console.log(element);
     super({
       store,
       parent,

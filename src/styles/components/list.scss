@@ -25,6 +25,10 @@ $secondary-text-color: #808080;
   display: flex;
   flex-direction: column;
   gap: 10px;
+
+  & .hidden {
+    display: none;
+  }
 }
 
 .list-header {
@@ -36,8 +40,8 @@ $secondary-text-color: #808080;
   font-size: 18px;
 }
 
-.list__body {
-}
+// .list__body {
+// }
 
 // .list__footer {
 // }

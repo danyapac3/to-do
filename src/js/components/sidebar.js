@@ -13,7 +13,6 @@ const createProject = (project) => {
 
 export default class Sidebar extends Component {
   constructor({store, parent}) {
-    console.log('hello');
     super({
       store,
       parent,

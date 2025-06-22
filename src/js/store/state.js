@@ -23,6 +23,9 @@ export default {
       title: 'done',
     }
   ],
+  tasks: [
+    
+  ],
 
   currentProjectId: 'p2',
 }

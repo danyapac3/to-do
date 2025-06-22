@@ -13,6 +13,7 @@
 }
 
 .board__content {
+  align-items: start;
   gap: 10px;
   display: flex;
   overflow-x: auto;
