@@ -41,6 +41,8 @@ $secondary-text-color: #808080;
 }
 
 .list__body {
+  display: flex;
+  flex-direction: column;
   gap: 10px;
 }
 
@@ -80,11 +82,13 @@ $secondary-text-color: #808080;
 .list__form-field-wrapper {
   border-radius: 5px;
   border: solid 1.5px #666666;
-  padding: 5px;
   overflow: hidden;
+  background-color: white;
 }
 
 .list__form-field {
+  box-sizing: border-box;
+  padding: 5px;
   $line-height: 16px;
   line-height: 16px * 1.5;
   max-height: $line-height * 4 * 1.5;
