@@ -40,8 +40,9 @@ $secondary-text-color: #808080;
   font-size: 18px;
 }
 
-// .list__body {
-// }
+.list__body {
+  gap: 10px;
+}
 
 // .list__footer {
 // }
@@ -67,4 +68,64 @@ $secondary-text-color: #808080;
 
     @include coloredIcon(url('/images/icons/plus.svg'), $secondary-text-color);
   }
+}
+
+.list__form {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  gap: 10px;
+}
+
+.list__form-field-wrapper {
+  border-radius: 5px;
+  border: solid 1.5px #666666;
+  padding: 5px;
+  overflow: hidden;
+}
+
+.list__form-field {
+  $line-height: 16px;
+  line-height: 16px * 1.5;
+  max-height: $line-height * 4 * 1.5;
+  scrollbar-width: thin;
+  outline: none;
+  overflow: auto;
+
+  &:empty::after {
+    content: "Enter a title";
+    color: #999999;
+  }
+}
+
+
+.list__form-controls {
+  display: flex;
+  gap: 10px;
+}
+
+
+.list__form-save-button {
+  $bgc: #292CFB;
+  padding: 5px 10px;
+  color: white;
+  background-color: $bgc;
+  border: none;
+  border-radius: 5px;
+  transition: background-color 0.2s;
+
+  @include button($bgc);
+}
+
+
+.list__form-cancel-button {
+  $bgc: $primary-color;
+  padding: 5px 10px;
+  background-color: $bgc;
+  border: none;
+  border-radius: 5px;
+  transition: background-color 0.2s;
+
+  @include button($bgc);
+
 }

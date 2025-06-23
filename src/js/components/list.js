@@ -36,7 +36,6 @@ export default class List extends Component {
     const formSaveButton = this.element.querySelector('.list__form-save-button');
     const formCancelButton = this.element.querySelector('.list__form-cancel-button');
 
-    const createTask = (title) => {console.log(`created with title:${title}`)};
 
     addTaskButton.addEventListener('click', (e) => {
       hide(addTaskButton);
@@ -44,28 +43,35 @@ export default class List extends Component {
       formField.focus();
     });
 
+    formField.addEventListener('input', () => {
+      if (formField.innerHTML === '<br>') {formField.innerHTML = '';}
+    });
+
     formSaveButton.addEventListener('click', () => {
-      const trimmedText = formField.value.trim();
+      const trimmedText = formField.textContent.trim();
       if (trimmedText) {
-        createTask(trimmedText);
         this.store.dispatch('addTask', {listId: this.id ,title: trimmedText});
         hide(form);
         show(addTaskButton);
       } else {
         formField.focus();
       }
-      formField.value = '';
+      formField.textContent = '';
     });
 
     formCancelButton.addEventListener('click', () => {
-      formField.value = '';
+      formField.textContent = '';
       hide(form);
       show(addTaskButton);
     });
 
+    
+
     hide(form);
+    hide(body);
 
     const tasks = this.store.state.tasks.filter(t => t.listId === this.id);
+    if (tasks.length) { show(body); }
     tasks.forEach(task => {
       const taskElement = new Task({id: task.id, parent: this}).element;
       body.appendChild(taskElement);
