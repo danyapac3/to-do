@@ -24,13 +24,9 @@ export default class Store {
       set(state, key, value) {
         state[key] = value;
 
-        self.events.publish('stateChange');
-
         if (self.status !== 'mutation') {
           console.warn(`You should use a mutation to set ${key}`);
         };
-
-        self.status = 'restring';
 
         return true;
       }
@@ -62,7 +58,10 @@ export default class Store {
 
     this.state = Object.assign(this.state, newState);
 
+    this.events.publish('stateChange');
     this.events.publish(mutationKey);
+
+    this.status = 'restring';
 
     return true;
   }

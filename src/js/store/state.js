@@ -17,10 +17,12 @@ export default {
     {
       id: 'l1',
       title: 'to-do',
+      taskIds: [],
     },
     {
       id: 'l2',
       title: 'done',
+      taskIds: [],
     }
   ],
   tasks: [

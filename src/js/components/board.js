@@ -25,7 +25,7 @@ export default class Board extends Component {
 
     if (project && project.listIds) {
       for (let listId of project.listIds) {
-        const list = new List({listId, parent:this});
+        const list = new List({id: listId, parent:this});
         boardContent.append(list.element);
       }
     }

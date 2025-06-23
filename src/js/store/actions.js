@@ -5,7 +5,7 @@ export default {
     context.commit('addProject', {title, id: uuidv4()});
   },
   addTask(context, payload) {
-    context.commit('addTask', payload);
+    context.commit('addTask', {id: uuidv4(), ...payload});
   },
   clearProject(context, payload) {
     context.commit('clearProject', payload);

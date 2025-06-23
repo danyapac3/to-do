@@ -1,4 +1,5 @@
 import Component from '/js/lib/component';
+import Task from '/js/components/task.js';
 import {htmlToNode} from '/js/lib/utils/dom';
 import template from './list.html';
 
@@ -6,14 +7,15 @@ const hide = (elem) => elem.classList.toggle('hidden', true);
 const show = (elem) => elem.classList.toggle('hidden', false);
 
 export default class List extends Component {
-  constructor ({listId, parent, store}) {
+  constructor ({id, parent, store}) {
     super({
       store,
       parent,
       element: htmlToNode(template),
+      subscriptions: ['addTask'],
     });
     
-    this.listId = listId;
+    this.id = id;
 
     this.init();
   }
@@ -21,8 +23,9 @@ export default class List extends Component {
   render() {
     
     const listElement = this.element;
+    const body = this.element.querySelector('.list__body');
     const ListTitle = listElement.querySelector('.list__title');
-    const list = this.store.state.lists.find(s => s.id === this.listId);
+    const list = this.store.state.lists.find(l => l.id === this.id);
     if (list) {
       ListTitle.textContent = list.title;
     }
@@ -45,6 +48,7 @@ export default class List extends Component {
       const trimmedText = formField.value.trim();
       if (trimmedText) {
         createTask(trimmedText);
+        this.store.dispatch('addTask', {listId: this.id ,title: trimmedText});
         hide(form);
         show(addTaskButton);
       } else {
@@ -59,6 +63,12 @@ export default class List extends Component {
       show(addTaskButton);
     });
 
-    hide(form)
+    hide(form);
+
+    const tasks = this.store.state.tasks.filter(t => t.listId === this.id);
+    tasks.forEach(task => {
+      const taskElement = new Task({id: task.id, parent: this}).element;
+      body.appendChild(taskElement);
+    });
   }
 }
