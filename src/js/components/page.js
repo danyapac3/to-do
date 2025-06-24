@@ -8,6 +8,7 @@ export default class Page extends Component {
       store,
       parent,
       element,
+      subscriptions: [],
     })
 
     this.init();

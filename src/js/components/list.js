@@ -47,6 +47,16 @@ export default class List extends Component {
       if (formField.innerHTML === '<br>') {formField.innerHTML = '';}
     });
 
+    formField.addEventListener('blur', () => {
+      const trimmedText = formField.textContent.trim();
+      if (trimmedText)
+        this.store.dispatch('addTask', {listId: this.id ,title: trimmedText});
+
+      hide(form);
+      show(addTaskButton);
+      formField.textContent = '';
+    });
+
     formSaveButton.addEventListener('click', () => {
       const trimmedText = formField.textContent.trim();
       if (trimmedText) {
