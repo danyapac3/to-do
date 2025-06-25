@@ -46,8 +46,8 @@ export default class List extends Component {
     formField.addEventListener('input', () => {
       if (formField.innerHTML === '<br>') {formField.innerHTML = '';}
     });
-
-    formField.addEventListener('blur', () => {
+    
+    const addTaskHandler = ({currentTarget: formField}) => {
       const trimmedText = formField.textContent.trim();
       if (trimmedText)
         this.store.dispatch('addTask', {listId: this.id ,title: trimmedText});
@@ -55,27 +55,26 @@ export default class List extends Component {
       hide(form);
       show(addTaskButton);
       formField.textContent = '';
-    });
+    }
 
-    formSaveButton.addEventListener('click', () => {
-      const trimmedText = formField.textContent.trim();
-      if (trimmedText) {
-        this.store.dispatch('addTask', {listId: this.id ,title: trimmedText});
+    formField.addEventListener('blur', (e) => {
+      if (document.activeElement === formField) {
+        return
+      }
+      if (e.relatedTarget === listElement) {
+        formField.focus();
+        return;
+      }
+      if (e.relatedTarget === formCancelButton) {
+        formField.textContent = '';
         hide(form);
         show(addTaskButton);
-      } else {
-        formField.focus();
+        return;
       }
-      formField.textContent = '';
+      addTaskHandler(e);
     });
 
-    formCancelButton.addEventListener('click', () => {
-      formField.textContent = '';
-      hide(form);
-      show(addTaskButton);
-    });
-
-    
+    formSaveButton.addEventListener('click', addTaskHandler);
 
     hide(form);
     hide(body);
