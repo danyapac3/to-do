@@ -26,10 +26,7 @@ export default class List extends Component {
     const body = this.element.querySelector('.list__body');
     const ListTitle = listElement.querySelector('.list__title');
     const list = this.store.state.lists.find(l => l.id === this.id);
-    if (list) {
-      ListTitle.textContent = list.title;
-    }
-
+    
     const addTaskButton = this.element.querySelector('.list__add-task-button');
     const form = this.element.querySelector('.list__form');
     const formField = this.element.querySelector('.list__form-field');
@@ -43,8 +40,11 @@ export default class List extends Component {
       formField.focus();
     });
 
-    formField.addEventListener('input', () => {
-      if (formField.innerHTML === '<br>') {formField.innerHTML = '';}
+    formField.addEventListener('input', ({currentTarget}) => {
+      if (formField.innerHTML === '<br>') {
+        formField.innerHTML = '';
+        return;
+      }
     });
     
     const addTaskHandler = ({currentTarget: formField}) => {
@@ -78,6 +78,10 @@ export default class List extends Component {
 
     hide(form);
     hide(body);
+
+    if (list) {
+      ListTitle.textContent = list.title;
+    }
 
     const tasks = this.store.state.tasks.filter(t => t.listId === this.id);
     if (tasks.length) { show(body); }

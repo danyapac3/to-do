@@ -4,10 +4,57 @@
   background-color: white;
   border-radius: 10px;
   transition: background-color 0.2s;
-
+  padding: 10px;
+  
   @include button(white);
 }
 
+.task__title-box {
+  align-items: center;
+  display: flex;
+  gap: 10px;
+  
+  &:has(.task__checkbox:checked) {
+    text-decoration: line-through;
+    opacity: 50%;
+  }
+}
+
+.task__checkbox {
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  background-image: url('/images/icons/checker_unchecked.svg');
+  background-position: center;  
+  background-repeat: no-repeat;
+  background-size: contain;
+  outline: none;
+  opacity: 0;
+  transition: opacity 0.2s;
+  cursor: pointer;
+
+  &:checked {
+    opacity: 1;
+    background-image: url('/images/icons/checker_checked.svg');
+  }
+
+  .task:hover & {
+    opacity: 1;
+  }
+}
+
 .task__title {
-  padding: 10px;
+  transition: margin-left 0.2s;
+  margin-left: -16px - 10px;
+  line-height: 100%;
+
+  .task:hover & {
+    margin-left: 0;
+    opacity: 1;
+  }
+
+  .task:has(.task__checkbox:checked) & {
+    margin-left: 0;
+    opacity: 1;
+  }
 }

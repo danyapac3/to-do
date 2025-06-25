@@ -5,10 +5,10 @@
   user-select: none;
 
   &:hover {
-    background-color: color.mix(black, $color, 10%); 
+    background-color: color.mix(black, $color, 5%); 
   }
 
   &:active {
-    background-color: color.mix(black, $color, 20%); 
+    background-color: color.mix(black, $color, 8%); 
   }
 }
