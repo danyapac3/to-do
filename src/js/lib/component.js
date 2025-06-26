@@ -2,9 +2,7 @@ import Store from '/js/store/store.js';
 import PubSub from '/js/lib/pubsub.js';
 
 export default class Component {
-  #subscriptionTokens = [];
-  #subscriptions;
-
+  #subscriptionTokens;
   constructor(params) {
     const {
       store,
@@ -19,7 +17,7 @@ export default class Component {
     this.events = new PubSub();
     this.element = element;
     this.children = [];
-    this.#subscriptions = subscriptions;
+    this.#subscriptionTokens = []
 
     if (parent) parent.addChild(this);
 
@@ -29,7 +27,7 @@ export default class Component {
       this.render();
     }
 
-    this.#subscriptions.forEach(subscription => {
+    subscriptions.forEach(subscription => {
       const token = this.store.events.subscribe(subscription, subscriptionHandler);
       this.#subscriptionTokens.push(token);
     });
@@ -53,5 +51,13 @@ export default class Component {
         this.store.events.unsubscribe(token);
       });
     }
+  }
+
+  on(type, handler) {
+    return this.events.subscribe(type, handler);
+  }
+
+  emit(type, data) {
+    this.events.publish(type, data);
   }
 }
