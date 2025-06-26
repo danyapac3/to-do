@@ -7,6 +7,9 @@ export default {
   addTask(context, payload) {
     context.commit('addTask', {id: uuidv4(), ...payload});
   },
+  setTaskСompleteness(context, payload) {
+    context.commit('setTaskСompleteness', payload)
+  },
   clearProject(context, payload) {
     context.commit('clearProject', payload);
   },

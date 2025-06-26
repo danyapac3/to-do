@@ -7,6 +7,7 @@ export default class Task extends Component {
     super({
       parent,
       element: htmlToNode(template),
+      subscriptions: [],
     });
 
     this.id = id;
@@ -16,7 +17,18 @@ export default class Task extends Component {
 
   render() {
     const task = this.store.state.tasks.find(t => t.id === this.id);
-    const title = this.element.querySelector('.task__title');
-    title.textContent = task.title;
+    const $task = this.element;
+    const $title = $task.querySelector('.task__title');
+    const $checkbox = $task.querySelector('.task__checkbox');
+    
+    if (task.completed) {
+      $checkbox.checked = true;
+    }
+    
+    $checkbox.addEventListener('change', () => {
+      console.log(this.store);
+      this.store.dispatch('setTaskСompleteness', {id: this.id, completed: $checkbox.checked});
+    });
+    $title.textContent = task.title;
   }
 }
