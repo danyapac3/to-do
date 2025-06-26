@@ -1,4 +1,5 @@
 import Store from '/js/store/store.js';
+import PubSub from '/js/lib/pubsub.js';
 
 export default class Component {
   #subscriptionTokens = [];
@@ -11,28 +12,16 @@ export default class Component {
       subscriptions = ['stateChange'],
       parent
     } = params;
-
-    if (parent === undefined) {
-      throw new Error('Parent must be specified, as null, or instance of Component');
-    }
-
-    if (parent && !(parent instanceof Component)) {
-      throw new Error('"parent" parameter must an instance of "Component"');
-    }
-    if (parent) {
-      parent.addChild(this);
-    }
-
-    this.render = this.render || function() {};
+    
+    this.render = this.render;
+    this.parent = parent || null;
+    this.store = store || parent.store || null
+    this.events = new PubSub();
+    this.element = element;
     this.children = [];
     this.#subscriptions = subscriptions;
-    
-    if (element) { this.element = element; }
-    if (store) { 
-      this.store = store;
-    } else if (parent.store) { 
-      this.store = parent.store
-    }
+
+    if (parent) parent.addChild(this);
 
     const subscriptionHandler = () => {
       this.children.forEach(child => child.destroy());
@@ -40,13 +29,10 @@ export default class Component {
       this.render();
     }
 
-    if (this.store instanceof Store) {
-      this.#subscriptions.forEach(subscription => {
-        this.#subscriptionTokens.push(
-          this.store.events.subscribe(subscription, subscriptionHandler)
-        );
-      });
-    }
+    this.#subscriptions.forEach(subscription => {
+      const token = this.store.events.subscribe(subscription, subscriptionHandler);
+      this.#subscriptionTokens.push(token);
+    });
   }
 
   init() {
@@ -54,18 +40,14 @@ export default class Component {
   }
 
   addChild(child) {
-    if (child instanceof Component) {
-      this.children.push(child);
-    } else {
+    if (!(child instanceof Component)) 
       throw new Error('child must be an instance of "Component"');
-    }
+    this.children.push(child);
   }
 
   destroy() {
     this.children.forEach(child => child.destroy());
-    if (this.element) {
-      this.element.remove();
-    }
+    this.element.remove();
     if (this.store) {
       this.#subscriptionTokens.forEach(token => {
         this.store.events.unsubscribe(token);

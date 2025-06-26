@@ -29,4 +29,4 @@ export default class PubSub {
       this.events[key] = event.filter(subscription => !(subscription.token === token));
     }
   }
-} 
+}
