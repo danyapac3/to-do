@@ -12,3 +12,16 @@
     background-color: color.mix(black, $color, 8%); 
   }
 }
+
+
+@mixin coloredIcon($url, $color: black) {
+  background-color: $color;
+  mask-image: $url;
+  mask-position: center;
+  mask-size: contain;
+  mask-repeat: no-repeat;
+  -webkit-mask-image: $url;
+  -webkit-mask-position: center;
+  -webkit-mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+}

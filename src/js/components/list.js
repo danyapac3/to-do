@@ -1,5 +1,6 @@
 import Component from '/js/lib/component';
-import Task from '/js/components/task.js';
+import Task from '/js/components/task';
+import AddItemForm from '/js/components/add-item';
 import {htmlToNode} from '/js/lib/utils/dom';
 import template from './list.html';
 
@@ -24,59 +25,10 @@ export default class List extends Component {
     
     const listElement = this.element;
     const body = this.element.querySelector('.list__body');
+    const footer = this.element.querySelector('.list__footer');
     const ListTitle = listElement.querySelector('.list__title');
     const list = this.store.state.lists.find(l => l.id === this.id);
-    
-    const addTaskButton = this.element.querySelector('.list__add-task-button');
-    const form = this.element.querySelector('.list__form');
-    const formField = this.element.querySelector('.list__form-field');
-    const formSaveButton = this.element.querySelector('.list__form-save-button');
-    const formCancelButton = this.element.querySelector('.list__form-cancel-button');
 
-
-    addTaskButton.addEventListener('click', (e) => {
-      hide(addTaskButton);
-      show(form);
-      formField.focus();
-    });
-
-    formField.addEventListener('input', ({currentTarget}) => {
-      if (formField.innerHTML === '<br>') {
-        formField.innerHTML = '';
-        return;
-      }
-    });
-    
-    const addTaskHandler = ({currentTarget: formField}) => {
-      const trimmedText = formField.textContent.trim();
-      if (trimmedText)
-        this.store.dispatch('addTask', {listId: this.id ,title: trimmedText});
-
-      hide(form);
-      show(addTaskButton);
-      formField.textContent = '';
-    }
-
-    formField.addEventListener('blur', (e) => {
-      if (document.activeElement === formField) {
-        return
-      }
-      if (e.relatedTarget === listElement) {
-        formField.focus();
-        return;
-      }
-      if (e.relatedTarget === formCancelButton) {
-        formField.textContent = '';
-        hide(form);
-        show(addTaskButton);
-        return;
-      }
-      addTaskHandler(e);
-    });
-
-    formSaveButton.addEventListener('click', addTaskHandler);
-
-    hide(form);
     hide(body);
 
     if (list) {
@@ -89,5 +41,11 @@ export default class List extends Component {
       const taskElement = new Task({id: task.id, parent: this}).element;
       body.appendChild(taskElement);
     });
+
+    const newTaskForm = new AddItemForm({parent: this, title: 'Add new task'});
+    newTaskForm.on('save', ({text}) => {
+      this.store.dispatch('addTask', {listId: this.id ,title: text});
+    });
+    footer.appendChild(newTaskForm.element);
   }
 }
