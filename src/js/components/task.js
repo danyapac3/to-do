@@ -3,20 +3,17 @@ import {htmlToNode} from '/js/lib/utils/dom';
 import template from './task.html';
 
 export default class Task extends Component {
-  constructor({id, parent}) {
+  constructor({parent, props}) {
     super({
+      props,
       parent,
       element: htmlToNode(template),
       subscriptions: [],
     });
-
-    this.id = id;
-
-    this.init();
   }
 
-  render() {
-    const task = this.store.state.tasks.find(t => t.id === this.id);
+  render({id}) {
+    const task = this.store.state.tasks.find(t => t.id === id);
     const $task = this.element;
     const $title = $task.querySelector('.task__title');
     const $checkbox = $task.querySelector('.task__checkbox');
@@ -26,8 +23,7 @@ export default class Task extends Component {
     }
     
     $checkbox.addEventListener('change', () => {
-      console.log(this.store);
-      this.store.dispatch('setTaskСompleteness', {id: this.id, completed: $checkbox.checked});
+      this.store.dispatch('setTaskСompleteness', {id, completed: $checkbox.checked});
     });
     $title.textContent = task.title;
   }

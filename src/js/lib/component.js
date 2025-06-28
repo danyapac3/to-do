@@ -2,22 +2,23 @@ import Store from '/js/store/store.js';
 import PubSub from '/js/lib/pubsub.js';
 
 export default class Component {
-  #subscriptionTokens;
   constructor(params) {
     const {
       store,
       element,
       subscriptions = ['stateChange'],
-      parent
+      parent,
+      props
     } = params;
-    
-    this.render = this.render;
+
+    this.props = {};
+    this.render = this.render.bind(this, props || {});
     this.parent = parent || null;
-    this.store = store || parent.store || null
+    this.store = store || parent.store || null;
     this.events = new PubSub();
     this.element = element;
     this.children = [];
-    this.#subscriptionTokens = []
+    this.subscriptionTokens = []
 
     if (parent) parent.addChild(this);
 
@@ -29,11 +30,9 @@ export default class Component {
 
     subscriptions.forEach(subscription => {
       const token = this.store.events.subscribe(subscription, subscriptionHandler);
-      this.#subscriptionTokens.push(token);
+      this.subscriptionTokens.push(token);
     });
-  }
 
-  init() {
     this.render();
   }
 
@@ -47,7 +46,7 @@ export default class Component {
     this.children.forEach(child => child.destroy());
     this.element.remove();
     if (this.store) {
-      this.#subscriptionTokens.forEach(token => {
+      this.subscriptionTokens.forEach(token => {
         this.store.events.unsubscribe(token);
       });
     }

@@ -12,9 +12,6 @@ export default class Board extends Component {
       subscriptions: ['setCurrentProjectId'],
       parent,
     });
-
-
-    this.init();
   }
 
   render() {
@@ -25,7 +22,10 @@ export default class Board extends Component {
 
     if (project && project.listIds) {
       for (let listId of project.listIds) {
-        const list = new List({id: listId, parent:this});
+        const list = new List({
+          parent: this,
+          props: {id: listId},
+        });
         boardContent.append(list.element);
       }
     }

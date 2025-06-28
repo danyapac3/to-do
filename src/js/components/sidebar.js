@@ -19,8 +19,6 @@ export default class Sidebar extends Component {
       element: htmlToNode(template),
       subscriptions: ['addProject'],
     });
-
-    this.init();
   }
 
   render() {

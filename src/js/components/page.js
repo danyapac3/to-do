@@ -10,8 +10,6 @@ export default class Page extends Component {
       element,
       subscriptions: [],
     })
-
-    this.init();
   }
 
   render() {

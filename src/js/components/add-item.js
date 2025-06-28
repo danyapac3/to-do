@@ -3,17 +3,16 @@ import { htmlToNode, showElement, hideElement } from '/js/lib/utils/dom';
 import template from './add-item.html';
 
 export default class AddItem extends Component {
-  constructor ({parent, title}) {
+  constructor ({parent, props}) {
     super({
       parent,
+      props,
       element: htmlToNode(template),
       subscriptions: [],
     });
-
-    this.init();
   }
 
-  render() {
+  render(props) {
     const $openFormButton = this.element.querySelector('.add-item__open-form-button');
     const $form = this.element.querySelector('.add-item__form')
     const $textField = this.element.querySelector('.add-item__text-field');
@@ -45,7 +44,6 @@ export default class AddItem extends Component {
     });
 
     $textField.addEventListener('blur', (e) => {
-      console.log(e.relatedTarget);
       if (
         document.activeElement === $textField 
         || e.relatedTarget === $cancelButton
@@ -82,7 +80,7 @@ export default class AddItem extends Component {
       $textField.focus();
     });
 
-    $openFormButton = 
+    $openFormButton.textContent = props.title;
     hideElement($form);
   }
 }
