@@ -3,6 +3,12 @@ export default {
     state.projects.push(payload);
     return state;
   },
+  addList(state, {id, projectId, title}) {
+    state.lists.push({id, title});
+    const project = state.projects.find(p => p.id === projectId);
+    project.listIds.push(id);
+    return state;
+  },
   addTask(state, {id, listId, title}) {
     state.tasks.push({id, title, listId, completed: false});
     const list = state.lists.find(l => l.id === listId);

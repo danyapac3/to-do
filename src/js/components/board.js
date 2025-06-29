@@ -10,7 +10,7 @@ export default class Board extends Component {
     super({
       store,
       element: htmlToNode(template),
-      subscriptions: ['setCurrentProjectId'],
+      subscriptions: ['setCurrentProjectId', 'addList'],
       parent,
     });
   }
@@ -35,6 +35,9 @@ export default class Board extends Component {
     const addSectionForm = new AddItem({
       parent: this,
       props: {title: 'Add new section'}
+    });
+    addSectionForm.on('save', ({text}) => {
+      this.store.dispatch('addList', {title: text, projectId: project.id})
     });
     addNewSectionFormPlace.appendChild(addSectionForm.element);
 
