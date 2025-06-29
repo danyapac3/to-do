@@ -1,13 +1,16 @@
 $primary-color: #F9F7F8;
 
 .board {
-  padding: 16px;
+  display: flex;
+  flex-direction: column;
   flex: 1;
-  gap: 30px;
+  overflow: hidden;
 }
 
 .board__header {
   height: 48px;
+  display: flex;
+  padding: 16px;
 }
 
 .board__title {
@@ -17,15 +20,18 @@ $primary-color: #F9F7F8;
 .board__body {
   display: flex;
   align-items: start;
+  padding: 16px;
   gap: 10px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  flex: 1;
 }
 
 .board__content {
+  height: 100%;
   align-items: start;
   gap: 10px;
   display: flex;
-  overflow-x: auto;
-  overflow-y: hidden;
 }
 
 .board__add-new-section-form-place {
@@ -33,4 +39,5 @@ $primary-color: #F9F7F8;
   padding: 10px;
   border-radius: 10px;
   width: 320px;
+  flex-shrink: 0;
 }
