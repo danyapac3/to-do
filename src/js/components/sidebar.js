@@ -27,7 +27,7 @@ export default class Sidebar extends Component {
     const toggleVisibilityButton = this.element.querySelector('.sidebar__toggle-visibility-button');
 
     toggleVisibilityButton.addEventListener('click', () => {
-      this.element.classList.toggle('hidden');
+      this.element.classList.toggle('collapsed');
     });
 
     const projectElements = this.store.state.projects

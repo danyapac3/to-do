@@ -29,7 +29,7 @@ $sidebar-padding:
 
   transition: width 0.2s, background-color 0.2s;
 
-  &.hidden {
+  &.collapsed {
     width: 0;
   }
 }
@@ -38,7 +38,7 @@ $sidebar-padding:
   width: $sidebar-width - $sidebar-padding-right - $sidebar-padding-left;
   transition: transform 0.2s;
 
-  .sidebar.hidden & {
+  .sidebar.collapsed & {
     transform: translateX(-$sidebar-width);
   }
 }
@@ -57,7 +57,7 @@ $sidebar-padding:
 
   @include button($primary-color);
 
-  .sidebar.hidden & {
+  .sidebar.collapsed & {
     right: -(math.div($toggle-visibility-button-size, 2));
   }
 
@@ -74,7 +74,7 @@ $sidebar-padding:
     transition: transform 0.2s;
   }
 
-  .sidebar.hidden &::after {
+  .sidebar.collapsed &::after {
     transform: scale(1, 1);
   }
 }
