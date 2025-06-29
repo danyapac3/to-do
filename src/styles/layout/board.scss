@@ -1,3 +1,5 @@
+$primary-color: #F9F7F8;
+
 .board {
   padding: 16px;
   flex: 1;
@@ -12,10 +14,23 @@
   font-size: 24px;
 }
 
+.board__body {
+  display: flex;
+  align-items: start;
+  gap: 10px;
+}
+
 .board__content {
   align-items: start;
   gap: 10px;
   display: flex;
   overflow-x: auto;
   overflow-y: hidden;
+}
+
+.board__add-new-section-form-place {
+  background-color: $primary-color;
+  padding: 10px;
+  border-radius: 10px;
+  width: 320px;
 }
