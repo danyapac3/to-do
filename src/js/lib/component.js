@@ -18,7 +18,7 @@ export default class Component {
     this.events = new PubSub();
     this.element = element;
     this.children = [];
-    this.subscriptionTokens = []
+    this.subscriptionTokens = [];
 
     if (parent) parent.addChild(this);
 

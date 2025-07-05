@@ -4,13 +4,14 @@ export default {
     return state;
   },
   addList(state, {id, projectId, title}) {
-    state.lists.push({id, title});
+    state.lists.push({id, title, taskIds: []});
     const project = state.projects.find(p => p.id === projectId);
     project.listIds.push(id);
     return state;
   },
   addTask(state, {id, listId, title}) {
     state.tasks.push({id, title, listId, completed: false});
+    console.log(state);
     const list = state.lists.find(l => l.id === listId);
     list.taskIds.push(id);
     return state;
