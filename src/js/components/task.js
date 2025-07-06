@@ -17,6 +17,8 @@ export default class Task extends Component {
     const $task = this.element;
     const $title = $task.querySelector('.task__title');
     const $checkbox = $task.querySelector('.task__checkbox');
+
+    $task.dataset.id = id;
     
     if (task.completed) {
       $checkbox.checked = true;

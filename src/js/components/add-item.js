@@ -82,6 +82,5 @@ export default class AddItem extends Component {
 
     $openFormButton.textContent = props.title;
     hideElement($form);
-    console.log($form);
   }
 }

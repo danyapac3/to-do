@@ -19,46 +19,48 @@ export default class List extends Component {
   }
 
   render({id}) {
-    const listElement = this.element;
-    const body = this.element.querySelector('.list__body');
-    const footer = this.element.querySelector('.list__footer');
-    const ListTitle = listElement.querySelector('.list__title');
+    const $list = this.element;
+    const $body = this.element.querySelector('.list__body');
+    const $footer = this.element.querySelector('.list__footer');
+    const $title = $list.querySelector('.list__title');
     const list = this.store.state.lists.find(l => l.id === id);
-    const sortable = new Sortable(body, {
+    $list.dataset.id = id;
+    const sortable = new Sortable($body, {
       animation: 200,
       group: 'list',
       ghostClass: 'ghost',
 
-      onStart(event) {
-        body.classList.add('has-dragging');
+      onStart: (event) => {
+        $body.classList.add('has-dragging');
       },
 
-      onEnd(event) {
-        body.classList.remove('has-dragging');
+      onEnd: ({ from: $from, to: $to, oldIndex, newIndex }) => {
+        $body.classList.remove('has-dragging');
+        
+        console.log($from.closest('.list'), $to.closest('.list'));
+        const oldListId = $from.closest('.list').dataset.id;
+        const newListId = $to.closest('.list').dataset.id;
+        this.store.dispatch('moveTask', {oldListId, newListId, oldIndex, newIndex});
       }
     });
     
     if (list) {
-      ListTitle.textContent = list.title;
+      $title.textContent = list.title;
     }
 
-    const tasks = this.store.state.tasks.filter(t => t.listId === id);
-    if (tasks.length) { showElement(body); }
-    tasks.forEach(task => {
-      const taskElement = new Task({
-        parent: this,
-        props: {id: task.id}
-      }).element;
-      body.appendChild(taskElement);
+    list.taskIds.forEach(taskId => {
+      const taskElement = new Task({parent: this, props: {id: taskId}}).element;
+      $body.appendChild(taskElement);
     });
 
     const newTaskForm = new AddItemForm({
       parent: this,
-      props: {title: 'Add new task'}
+      props: {title: 'Add new task'},
     });
     newTaskForm.on('save', ({text}) => {
       this.store.dispatch('addTask', {listId: id ,title: text});
     });
-    footer.appendChild(newTaskForm.element);
+    
+    $footer.appendChild(newTaskForm.element);
   }
 }
