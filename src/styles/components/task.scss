@@ -1,3 +1,5 @@
+@use 'sass:color';
+
 @use '/styles/shared' as *;
 
 .task {
@@ -6,7 +8,15 @@
   transition: background-color 0.2s;
   padding: 10px;
   
-  @include button(white);
+  *:not(.has-dragging) > & {
+    @include button(white);
+  }
+
+
+  &.ghost {
+    background-color: color.mix(white, black);
+    color: rgb(0 0 0 / 0);
+  }
 }
 
 .task__title-box {
@@ -38,7 +48,7 @@
     background-image: url('/images/icons/checker_checked.svg');
   }
 
-  .task:hover & {
+  *:not(.has-dragging) > .task:hover &  {
     opacity: 1;
   }
 }
@@ -48,7 +58,7 @@
   margin-left: -16px - 10px;
   line-height: 100%;
 
-  .task:hover & {
+  *:not(.has-dragging) > .task:hover & {
     margin-left: 0;
     opacity: 1;
   }

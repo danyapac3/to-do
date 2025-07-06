@@ -31,7 +31,16 @@ export default class List extends Component {
     const list = this.store.state.lists.find(l => l.id === id);
     const sortable = new Sortable(body, {
       animation: 200,
-      group: 'list'
+      group: 'list',
+      ghostClass: 'ghost',
+
+      onStart(event) {
+        body.classList.add('has-dragging');
+      },
+
+      onEnd(event) {
+        body.classList.remove('has-dragging');
+      }
     });
     
     hide(body);
