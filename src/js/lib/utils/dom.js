@@ -15,6 +15,5 @@ export const htmlToNode = (html) => {
   return template.content.firstChild;
 };
 
-export const hideElement = (elem) => elem.classList.toggle('hidden', true);
-
-export const showElement = (elem) => elem.classList.toggle('hidden', false);
+export const hideElement = (elm) => elm.hidden = true;
+export const showElement = (elm) => elm.hidden = false;
