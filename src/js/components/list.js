@@ -3,6 +3,10 @@ import Task from '/js/components/task';
 import AddItemForm from '/js/components/add-item';
 import {htmlToNode} from '/js/lib/utils/dom';
 import template from './list.html';
+import Sortable, { AutoScroll } from 'sortablejs/modular/sortable.core.esm.js';
+
+Sortable.mount(new AutoScroll());
+
 
 const hide = (elem) => elem.classList.toggle('hidden', true);
 const show = (elem) => elem.classList.toggle('hidden', false);
@@ -19,12 +23,17 @@ export default class List extends Component {
   }
 
   render({id}) {
+    
     const listElement = this.element;
     const body = this.element.querySelector('.list__body');
     const footer = this.element.querySelector('.list__footer');
     const ListTitle = listElement.querySelector('.list__title');
     const list = this.store.state.lists.find(l => l.id === id);
-
+    const sortable = new Sortable(body, {
+      animation: 200,
+      group: 'list'
+    });
+    
     hide(body);
 
     if (list) {

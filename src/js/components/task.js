@@ -1,5 +1,5 @@
 import Component from '/js/lib/component';
-import {htmlToNode} from '/js/lib/utils/dom';
+import { htmlToNode } from '/js/lib/utils/dom';
 import template from './task.html';
 
 export default class Task extends Component {

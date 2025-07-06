@@ -29,6 +29,8 @@
     "webpack-dev-server": "^5.2.2"
   },
   "dependencies": {
+    "interactjs": "^1.10.27",
+    "sortablejs": "^1.15.6",
     "uuid": "^11.1.0"
   }
 }
