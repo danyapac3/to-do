@@ -11,6 +11,7 @@ $primary-color: #F9F7F8;
   height: 48px;
   display: flex;
   padding: 16px;
+  padding-left: 24px;
 }
 
 .board__title {
@@ -21,6 +22,7 @@ $primary-color: #F9F7F8;
   display: flex;
   align-items: start;
   padding: 16px;
+  padding-left: 24px;
   gap: 10px;
   overflow-x: auto;
   overflow-y: hidden;
