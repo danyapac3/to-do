@@ -16,12 +16,17 @@ export default {
     return state;
   },
   moveTask(state, {oldListId, newListId, oldIndex, newIndex}) {
+    const listById = listId => state.lists.find(l => l.id === listId)
+    const oldList = listById(oldListId);
+    const newList = listById(newListId);
+    const taskId = oldList.taskIds[oldIndex];
+
     if (oldListId === newListId) {
-      const list = state.lists.find(l => l.id === newListId);
-      const taskId = list.taskIds[oldIndex];
-      const task = state.tasks.find(t => t.id === taskId);
-      list.taskIds.splice(oldIndex, 1);
-      list.taskIds.splice(newIndex, 0, taskId)
+      newList.taskIds.splice(oldIndex, 1);
+      newList.taskIds.splice(newIndex, 0, taskId)
+    } else {
+      oldList.taskIds.splice(oldIndex, 1);
+      newList.taskIds.splice(newIndex, 0, taskId)
     }
 
     return state;

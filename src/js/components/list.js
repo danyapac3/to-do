@@ -36,8 +36,7 @@ export default class List extends Component {
 
       onEnd: ({ from: $from, to: $to, oldIndex, newIndex }) => {
         $body.classList.remove('has-dragging');
-        
-        console.log($from.closest('.list'), $to.closest('.list'));
+
         const oldListId = $from.closest('.list').dataset.id;
         const newListId = $to.closest('.list').dataset.id;
         this.store.dispatch('moveTask', {oldListId, newListId, oldIndex, newIndex});
