@@ -14,7 +14,7 @@ export default class Page extends Component {
 
   render() {
     const sidebar = new Sidebar({store: this.store, parent: this});
-    const board = new Board({store: this.store, parent: this});
+    const board = new Board({parent: this});
 
     this.element.appendChild(sidebar.element);
     this.element.appendChild(board.element);

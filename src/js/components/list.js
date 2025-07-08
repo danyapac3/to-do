@@ -3,9 +3,7 @@ import Task from '/js/components/task';
 import AddItemForm from '/js/components/add-item';
 import {htmlToNode, hideElement, showElement} from '/js/lib/utils/dom';
 import template from './list.html';
-import Sortable, { AutoScroll } from 'sortablejs/modular/sortable.core.esm.js';
-
-Sortable.mount(new AutoScroll());
+import Sortable from 'sortablejs/modular/sortable.core.esm.js';
 
 export default class List extends Component {
   constructor ({parent, store, props}) {
@@ -14,7 +12,7 @@ export default class List extends Component {
       store,
       parent,
       element: htmlToNode(template),
-      subscriptions: ['addTask'],
+      subscriptions: ['addTask', 'moveTask'],
     });
   }
 

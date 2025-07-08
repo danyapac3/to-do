@@ -16,9 +16,17 @@ $secondary-text-color: #808080;
   display: flex;
   flex-direction: column;
   gap: 10px;
+
+  &.ghost {
+    background-color: black;
+    opacity: .2;
+    * {
+      opacity: 0;
+    }
+  }
 }
 
-.list-header {
+.list__header {
   padding: 10px;
 }
 
