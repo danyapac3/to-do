@@ -12,14 +12,16 @@ export default class Component {
     } = params;
 
     this.props = {};
-    this.render = this.render.bind(this, props || {});
     this.parent = parent || null;
     this.store = store || parent.store || null;
     this.events = new PubSub();
     this.element = element;
     this.children = [];
     this.subscriptionTokens = [];
-
+    this.render = this.render.bind(this, props || {});
+    this.init = this.init ? this.init.bind(this, props || {}) : () => {};
+    this.clearUp = this.clearUp ? this.clearUp.bind(this, props || {}) : () => {};
+    
     if (parent) parent.addChild(this);
 
     const subscriptionHandler = () => {
@@ -33,6 +35,7 @@ export default class Component {
       this.subscriptionTokens.push(token);
     });
 
+    this.init();
     this.render();
   }
 
@@ -43,6 +46,7 @@ export default class Component {
   }
 
   destroy() {
+    this.clearUp();
     this.children.forEach(child => child.destroy());
     this.element.remove();
     if (this.store) {

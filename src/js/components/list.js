@@ -16,13 +16,10 @@ export default class List extends Component {
     });
   }
 
-  render({id}) {
-    const $list = this.element;
+  init() {
     const $body = this.element.querySelector('.list__body');
-    const $footer = this.element.querySelector('.list__footer');
-    const $title = $list.querySelector('.list__title');
-    const list = this.store.state.lists.find(l => l.id === id);
-    $list.dataset.id = id;
+    console.log($body);
+
     const sortable = new Sortable($body, {
       animation: 200,
       group: 'list',
@@ -40,6 +37,15 @@ export default class List extends Component {
         this.store.dispatch('moveTask', {oldListId, newListId, oldIndex, newIndex});
       }
     });
+  }
+
+  render({id}) {
+    const $list = this.element;
+    const $body = this.element.querySelector('.list__body');
+    const $footer = this.element.querySelector('.list__footer');
+    const $title = $list.querySelector('.list__title');
+    const list = this.store.state.lists.find(l => l.id === id);
+    $list.dataset.id = id;
     
     if (list) {
       $title.textContent = list.title;
