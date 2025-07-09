@@ -14,7 +14,7 @@
 
 
   &.ghost {
-    background-color: color.mix(white, black);
+    background-color: rgb(0 0 0 / .1);
     color: rgb(0 0 0 / 0);
   }
 }

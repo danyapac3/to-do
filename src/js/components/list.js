@@ -21,7 +21,7 @@ export default class List extends Component {
     console.log($body);
 
     const sortable = new Sortable($body, {
-      animation: 200,
+      animation: 0,
       group: 'list',
       ghostClass: 'ghost',
 
