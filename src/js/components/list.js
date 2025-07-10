@@ -1,3 +1,7 @@
+import editIcon from '/images/icons/edit.svg';
+import detailsIcon from '/images/icons/details.svg';
+import removeIcon from '/images/icons/bin.svg';
+
 import Component from '/js/lib/component';
 import Task from '/js/components/task';
 import ContextMenu from '/js/components/context-menu';
@@ -21,8 +25,18 @@ export default class List extends Component {
     const $body = this.element.querySelector('.list__body');
     const $actionsButton = this.element.querySelector('.list__show-actions-button');
     
-    $actionsButton.addEventListener('click', ({pageX, pageY}) => {
-      new ContextMenu({parent: this, props: {pageX, pageY}});
+    $actionsButton.addEventListener('click', (e) => {
+      const contextMenu = new ContextMenu({parent: this, props: {
+        items: [
+          { title: 'Rename', eventName: 'rename', iconSrc: editIcon },
+          { title: 'Details', eventName: 'showDetails', iconSrc: detailsIcon },
+          { title: 'Remove', eventName: 'remove', iconSrc: removeIcon },
+        ],
+      }});
+
+      contextMenu.on('rename', () => alert('rename'));
+      contextMenu.on('showDetails', () => alert('details'));
+      contextMenu.on('remove', () => alert('remove'));
     });
 
     const sortable = new Sortable($body, {
