@@ -2,10 +2,12 @@
 @use "./common/general.scss";
 @use "./common/fonts.scss";
 
+@use "./layout/context-menu-place.scss";
 @use "./layout/page.scss";
 @use "./layout/sidebar.scss";
 @use "./layout/board.scss";
 
+@use "./components/context-menu.scss";
 @use "./components/list.scss";
 @use "./components/task.scss";
 @use "./components/add-item.scss";

@@ -1,5 +1,6 @@
 import Component from '/js/lib/component';
 import Task from '/js/components/task';
+import ContextMenu from '/js/components/context-menu';
 import AddItemForm from '/js/components/add-item';
 import {htmlToNode, hideElement, showElement} from '/js/lib/utils/dom';
 import template from './list.html';
@@ -18,7 +19,11 @@ export default class List extends Component {
 
   init() {
     const $body = this.element.querySelector('.list__body');
-    console.log($body);
+    const $actionsButton = this.element.querySelector('.list__show-actions-button');
+    
+    $actionsButton.addEventListener('click', ({pageX, pageY}) => {
+      new ContextMenu({parent: this, props: {pageX, pageY}});
+    });
 
     const sortable = new Sortable($body, {
       animation: 0,
