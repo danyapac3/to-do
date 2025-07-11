@@ -2,7 +2,7 @@ import editIcon from '/images/icons/edit.svg';
 import detailsIcon from '/images/icons/details.svg';
 import removeIcon from '/images/icons/bin.svg';
 
-import { contextMenu } from '/js/shared-components';
+import { contextMenu } from '/js/shared/components';
 import Component from '/js/lib/component';
 import Task from '/js/components/task';
 import AddItemForm from '/js/components/add-item';
