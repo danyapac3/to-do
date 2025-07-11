@@ -28,11 +28,12 @@ export default class List extends Component {
       $contextMenu.focus();
       $contextMenu.style.transform = `translate(${pageX || 0}px, ${pageY || 0}px)`;
       document.removeEventListener('click', clickHandler);
+ 
+      $contextMenu.onblur = () => {
+        this.destroy();
+      }
     }
 
-    $contextMenu.addEventListener('blur', () => {
-      this.destroy();
-    });
 
     document.addEventListener('click', clickHandler);
   }
@@ -44,8 +45,9 @@ export default class List extends Component {
       const $item = createItem(title, iconSrc); 
       $items.appendChild($item);
       $item.addEventListener('click', () => {
+        $contextMenu.onblur = null;
         this.emit(eventName);
-        $contextMenu.blur();
+        this.destroy();
       });
     });
   }

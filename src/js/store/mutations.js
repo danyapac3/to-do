@@ -4,17 +4,17 @@ export default {
     return state;
   },
   
-  addList(state, {id, projectId, title}) {
-    state.lists.push({id, title, taskIds: []});
-    const project = state.projects.find(p => p.id === projectId);
-    project.listIds.push(id);
-    return state;
-  },
-
   addTask(state, {id, listId, title}) {
     state.tasks.push({id, title, listId, completed: false});
     const list = state.lists.find(l => l.id === listId);
     list.taskIds.push(id);
+    return state;
+  },
+  
+  addList(state, {id, projectId, title}) {
+    state.lists.push({id, title, taskIds: []});
+    const project = state.projects.find(p => p.id === projectId);
+    project.listIds.push(id);
     return state;
   },
 
@@ -23,15 +23,26 @@ export default {
     const oldList = listById(oldListId);
     const newList = listById(newListId);
     const taskId = oldList.taskIds[oldIndex];
+    const task = state.tasks.find(t => t.id === taskId);
 
     if (oldListId === newListId) {
       newList.taskIds.splice(oldIndex, 1);
-      newList.taskIds.splice(newIndex, 0, taskId)
+      newList.taskIds.splice(newIndex, 0, taskId);
     } else {
+      task.listId = newListId;
       oldList.taskIds.splice(oldIndex, 1);
-      newList.taskIds.splice(newIndex, 0, taskId)
+      newList.taskIds.splice(newIndex, 0, taskId);
     }
 
+    return state;
+  },
+
+  removeList(state, {id}) {
+    const project = state.projects.find(p => p.listIds.includes(id));
+    const listIdIndex = project.listIds.indexOf(id);
+    project.listIds.splice(listIdIndex, 1);
+    state.tasks = state.tasks.filter(t => t.listId !== id);
+    state.lists = state.lists.filter(l => l.id !== id);
     return state;
   },
 

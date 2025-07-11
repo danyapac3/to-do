@@ -10,7 +10,7 @@ export default class Board extends Component {
   constructor ({parent}) {
     super({
       element: htmlToNode(template),
-      subscriptions: ['setCurrentProjectId', 'addList'],
+      subscriptions: ['setCurrentProjectId', 'addList', 'removeList'],
       parent,
     });
   }

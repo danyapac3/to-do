@@ -21,7 +21,7 @@ export default class List extends Component {
     });
   }
 
-  init() {
+  init({id}) {
     const $body = this.element.querySelector('.list__body');
     const $actionsButton = this.element.querySelector('.list__show-actions-button');
     
@@ -33,10 +33,12 @@ export default class List extends Component {
           { title: 'Remove', eventName: 'remove', iconSrc: removeIcon },
         ],
       }});
-
+      
+      contextMenu.on('remove', () => {
+        this.store.dispatch('removeList', {id});
+      });
       contextMenu.on('rename', () => alert('rename'));
       contextMenu.on('showDetails', () => alert('details'));
-      contextMenu.on('remove', () => alert('remove'));
     });
 
     const sortable = new Sortable($body, {

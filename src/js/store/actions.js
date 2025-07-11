@@ -5,22 +5,26 @@ export default {
     context.commit('addProject', {title, id: uuidv4()});
   },
 
-  addList(context, {projectId, title}) {
-    context.commit('addList', {projectId, title, id: uuidv4()});
-  },
-
   addTask(context, payload) {
     context.commit('addTask', {id: uuidv4(), ...payload});
   },
-
+  
   moveTask(context, {oldListId, newListId, oldIndex, newIndex}) {
     if ((oldListId === newListId) && (oldIndex === newIndex)) return;
     context.commit('moveTask', {oldListId, newListId, oldIndex, newIndex});
+  },
+  
+  addList(context, {projectId, title}) {
+    context.commit('addList', {projectId, title, id: uuidv4()});
   },
 
   moveList(context, { oldIndex, newIndex, projectId }) {
     if (oldIndex === newIndex) return
     context.commit('moveList', { oldIndex, newIndex, projectId });
+  },
+
+  removeList(context, {id}) {
+    context.commit('removeList', {id});
   },
 
   setTaskСompleteness(context, payload) {
