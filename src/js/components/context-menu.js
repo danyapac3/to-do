@@ -11,44 +11,45 @@ const createItem = (title, iconSrc) => htmlToNode(
 
 
 export default class List extends Component {
-  constructor ({parent, props}) {
+  constructor () {
     super({
-      props,
-      parent,
       element: htmlToNode(template),
       subscriptions: [],
     });
   }
   
-  init({items}) {
+  init() {
     const $contextMenu = this.element;
+    const $items = $contextMenu.querySelector('.context-menu__items');
     const $contextMenuPlace = document.querySelector('.context-menu-place');
+    $contextMenuPlace.appendChild($contextMenu);
+
+    $contextMenu.addEventListener('blur', () => {
+      $contextMenu.hidden = true;
+      [...$items.children].forEach($item => $item.remove());
+    });
+    
     const clickHandler = ({pageX, pageY}) => {
-      $contextMenuPlace.appendChild($contextMenu);
+      if ($contextMenu.hidden) return;
       $contextMenu.focus();
       $contextMenu.style.transform = `translate(${pageX || 0}px, ${pageY || 0}px)`;
-      document.removeEventListener('click', clickHandler);
- 
-      $contextMenu.onblur = () => {
-        this.destroy();
-      }
     }
-
-
+    
     document.addEventListener('click', clickHandler);
   }
 
-  render({items}) {
+  showWithItems(items) {
     const $contextMenu = this.element;
+
     const $items = $contextMenu.querySelector('.context-menu__items');
-    items.forEach(({ title, iconSrc, eventName }) => {
+    $contextMenu.hidden = false;
+    items.forEach(({ title, iconSrc, callback }) => {
       const $item = createItem(title, iconSrc); 
-      $items.appendChild($item);
       $item.addEventListener('click', () => {
-        $contextMenu.onblur = null;
-        this.emit(eventName);
-        this.destroy();
+        $contextMenu.blur();
+        callback();
       });
+      $items.appendChild($item);
     });
   }
 }

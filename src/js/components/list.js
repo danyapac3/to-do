@@ -2,11 +2,11 @@ import editIcon from '/images/icons/edit.svg';
 import detailsIcon from '/images/icons/details.svg';
 import removeIcon from '/images/icons/bin.svg';
 
+import { contextMenu } from '/js/shared-components';
 import Component from '/js/lib/component';
 import Task from '/js/components/task';
-import ContextMenu from '/js/components/context-menu';
 import AddItemForm from '/js/components/add-item';
-import {htmlToNode, hideElement, showElement} from '/js/lib/utils/dom';
+import { htmlToNode, hideElement, showElement } from '/js/lib/utils/dom';
 import template from './list.html';
 import Sortable from 'sortablejs/modular/sortable.core.esm.js';
 
@@ -26,19 +26,25 @@ export default class List extends Component {
     const $actionsButton = this.element.querySelector('.list__show-actions-button');
     
     $actionsButton.addEventListener('click', (e) => {
-      const contextMenu = new ContextMenu({parent: this, props: {
-        items: [
-          { title: 'Rename', eventName: 'rename', iconSrc: editIcon },
-          { title: 'Details', eventName: 'showDetails', iconSrc: detailsIcon },
-          { title: 'Remove', eventName: 'remove', iconSrc: removeIcon },
-        ],
-      }});
-      
-      contextMenu.on('remove', () => {
-        this.store.dispatch('removeList', {id});
-      });
-      contextMenu.on('rename', () => alert('rename'));
-      contextMenu.on('showDetails', () => alert('details'));
+      contextMenu.showWithItems([
+        {
+          title: 'Rename',
+          iconSrc: editIcon,
+          callback: () => alert('rename'),
+        },
+        { 
+          title: 'Details',
+          iconSrc: detailsIcon,
+          callback: () => alert('details'),
+        },
+        { 
+          title: 'Remove',
+          iconSrc: removeIcon,
+          callback: () => {
+            this.store.dispatch('removeList', {id});
+          }
+        },
+      ]);
     });
 
     const sortable = new Sortable($body, {
