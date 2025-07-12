@@ -1,5 +1,5 @@
 import editIcon from '/images/icons/edit.svg';
-import detailsIcon from '/images/icons/details.svg';
+import moveIcon from '/images/icons/move-to.svg';
 import removeIcon from '/images/icons/bin.svg';
 
 import { contextMenu } from '/js/shared/components';
@@ -27,7 +27,7 @@ export default class List extends Component {
     const $actionsButton = $list.querySelector('.list__show-actions-button');
     const $title = $list.querySelector('.list__title');
     const list = this.store.state.lists.find(l => l.id === id);
-
+    const project = this.store.state.projects.find(p => p.listIds.includes(list.id));
     $title.addEventListener('change', (e) => {
       if ($title.value === '') return;
 
@@ -43,8 +43,26 @@ export default class List extends Component {
         return;
       }
     });
-    
-    $actionsButton.addEventListener('click', (e) => {
+
+    function moveListTo (projectId) {
+      this.store.dispatch('moveListOutside', {
+        sourceId: project.id,
+        destinationId: projectId,
+        listId: id,
+      });
+    };
+
+    const showMoveMenu = () => {
+      const availableProjects = this.store.state.projects.filter(p => !p.listIds.includes(id));
+      const items = availableProjects.map(project => ({
+        title: project.title,
+        iconSrc: moveIcon,
+        callback: moveListTo.bind(this, project.id),
+      }));
+      contextMenu.showWithItems(items);
+    };
+
+    const showActionMenu = () => {
       contextMenu.showWithItems([
         {
           title: 'Rename',
@@ -52,9 +70,9 @@ export default class List extends Component {
           callback: () => { $title.focus() },
         },
         { 
-          title: 'Details',
-          iconSrc: detailsIcon,
-          callback: () => alert('details'),
+          title: 'Move to',
+          iconSrc: moveIcon,
+          callback: showMoveMenu,
         },
         { 
           title: 'Remove',
@@ -64,7 +82,9 @@ export default class List extends Component {
           }
         },
       ]);
-    });
+    };
+    
+    $actionsButton.addEventListener('click', showActionMenu);
 
     const sortable = new Sortable($body, {
       animation: 0,

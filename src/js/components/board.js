@@ -10,7 +10,7 @@ export default class Board extends Component {
   constructor ({parent}) {
     super({
       element: htmlToNode(template),
-      subscriptions: ['setCurrentProjectId', 'addList', 'removeList'],
+      subscriptions: ['setCurrentProjectId', 'addList', 'removeList', 'moveListOutside'],
       parent,
     });
   }
@@ -26,7 +26,12 @@ export default class Board extends Component {
       handle: '.list__header',
 
       onEnd: ({ oldIndex, newIndex }) => {
-        this.store.dispatch('moveList', { oldIndex, newIndex, projectId: project.id });
+        this.store.dispatch('moveList', { 
+          oldIndex,
+          newIndex,
+          sourceId: project.id,
+          destinationId: project.id,
+        });
       }
     });
   }

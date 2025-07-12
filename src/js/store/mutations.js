@@ -61,12 +61,20 @@ export default {
     return state;
   },
 
-  moveList(state, { oldIndex, newIndex, projectId}) {
-    const currentProject = getProjectById(state, projectId);
-    const listId = currentProject.listIds[oldIndex];
-    currentProject.listIds.splice(oldIndex, 1);
-    currentProject.listIds.splice(newIndex, 0, listId);
+  moveListWithin(state, { oldIndex, newIndex, sourceId, listId}) {
+    const project = getProjectById(state, sourceId);
+    project.listIds.splice(oldIndex, 1);
+    project.listIds.splice(newIndex, 0, listId);
   },
+
+  moveListOutside(state, { sourceId, destinationId, listId }) {
+    const sourceProject = getProjectById(state, sourceId);
+    const destinationProject = getProjectById(state, destinationId);
+    const listIdIndex = sourceProject.listIds.indexOf(listId);
+    sourceProject.listIds.splice(listIdIndex, 1);
+    destinationProject.listIds.splice(0, 0, listId);
+  }
+  ,
 
   renameList(state, {id, title}) {
     getListById(state, id).title = title;

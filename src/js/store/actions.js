@@ -18,9 +18,17 @@ export default {
     context.commit('addList', {projectId, title, id: uuidv4()});
   },
 
-  moveList(context, { oldIndex, newIndex, projectId }) {
-    if (oldIndex === newIndex) return
-    context.commit('moveList', { oldIndex, newIndex, projectId });
+  moveListOutside(context, { sourceId, destinationId, listId }) {
+    context.commit('moveListOutside', {sourceId, destinationId, listId});
+  },
+
+  moveList(context, { oldIndex, newIndex, sourceId, destinationId }) {
+    const sourceProject = context.state.projects.find(p => p.id === sourceId);
+    const listId = sourceProject.listIds[oldIndex];
+
+    if (sourceId === destinationId) {
+      context.commit('moveListWithin', { oldIndex, newIndex, sourceId, listId });
+    }
   },
 
   removeList(context, {id}) {

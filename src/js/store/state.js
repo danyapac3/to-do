@@ -12,6 +12,21 @@ export default {
       title: 'project2',
       listIds: ['l1', 'l2'],
     },
+    {
+      id: 'p3',
+      title: 'install windows',
+      listIds: []
+    },
+    {
+      id: 'p4',
+      title: 'switch to linux',
+      listIds: []
+    },
+    {
+      id: 'p5',
+      title: 'youtube',
+      listIds: []
+    },
   ],
   lists: [
     {
