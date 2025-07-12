@@ -23,6 +23,7 @@ export default class List extends Component {
     const $items = $contextMenu.querySelector('.context-menu__items');
     const $contextMenuPlace = document.querySelector('.context-menu-place');
     $contextMenuPlace.appendChild($contextMenu);
+    $contextMenu.hidden = true;
 
     $contextMenu.addEventListener('blur', () => {
       $contextMenu.hidden = true;

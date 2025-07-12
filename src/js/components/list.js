@@ -22,15 +22,34 @@ export default class List extends Component {
   }
 
   init({id}) {
-    const $body = this.element.querySelector('.list__body');
-    const $actionsButton = this.element.querySelector('.list__show-actions-button');
+    const $list = this.element;
+    const $body = $list.querySelector('.list__body');
+    const $actionsButton = $list.querySelector('.list__show-actions-button');
+    const $title = $list.querySelector('.list__title');
+    const list = this.store.state.lists.find(l => l.id === id);
+
+    $title.addEventListener('change', (e) => {
+      if ($title.value === '') return;
+
+      if (list.title !== $title.value) {
+        this.store.dispatch('renameList', {id, title: $title.value});
+        return;
+      }
+    });
+
+    $title.addEventListener('blur', (e) => {
+      if ($title.value === '') {
+        $title.value = list.title;
+        return;
+      }
+    });
     
     $actionsButton.addEventListener('click', (e) => {
       contextMenu.showWithItems([
         {
           title: 'Rename',
           iconSrc: editIcon,
-          callback: () => alert('rename'),
+          callback: () => { $title.focus() },
         },
         { 
           title: 'Details',
@@ -75,7 +94,7 @@ export default class List extends Component {
     $list.dataset.id = id;
     
     if (list) {
-      $title.textContent = list.title;
+      $title.value = list.title;
     }
 
     list.taskIds.forEach(taskId => {

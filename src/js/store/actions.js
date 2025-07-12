@@ -27,6 +27,10 @@ export default {
     context.commit('removeList', {id});
   },
 
+  renameList(context, {title, id}) {
+    context.commit('renameList', {title, id});
+  },
+
   setTaskСompleteness(context, payload) {
     context.commit('setTaskСompleteness', payload)
   },
