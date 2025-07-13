@@ -36,11 +36,40 @@ export default class Sidebar extends Component {
         elm.addEventListener('click', () => {
           this.store.dispatch('setCurrentProjectId', {id: project.id});
         });
+        elm.addEventListener('dragenter', (e) => {
+          elm.classList.add('drag-over'); 
+        });
+        elm.addEventListener('dragleave', (e) => {
+          elm.classList.remove('drag-over'); 
+        });        
+        elm.addEventListener('dragover', (e) => {
+          e.preventDefault();
+        });
+        elm.addEventListener('drop', (e) => {
+          elm.classList.remove('drag-over'); 
+          let data;
+          
+          try {
+            data = JSON.parse(e.dataTransfer.getData('Text'));
+          } catch (e) {
+            return;
+          }
+
+          const sourceProject = this.store.state.projects.find(p => p.listIds.includes(data.id));
+
+          if (data.type === 'list') {
+            this.store.dispatch('moveListOutside', {
+              sourceId: sourceProject.id,
+              destinationId: project.id,
+              listId: data.id,
+            });
+          }
+        });
         return elm;
       });
 
     if(this.store.state.projects) {
-      sidebarSectionContent.replaceChildren(...projectElements); 
+      sidebarSectionContent.replaceChildren(...projectElements);
     }
   }
 }

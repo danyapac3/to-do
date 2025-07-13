@@ -25,7 +25,12 @@ export default class Board extends Component {
       ghostClass: 'ghost',
       handle: '.list__header',
 
+      setData: (dataTransfer, dragElm) => {
+        dataTransfer.setData('Text', JSON.stringify({type: 'list', id: dragElm.dataset.id}));
+      },
+
       onEnd: ({ oldIndex, newIndex }) => {
+        if (oldIndex === newIndex) return;
         this.store.dispatch('moveList', { 
           oldIndex,
           newIndex,

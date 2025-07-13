@@ -122,4 +122,9 @@ $sidebar-padding:
       color: $secondary-color;
     }
   }
+
+  &.drag-over {
+    border: 2px solid gray;
+    background-color: white;
+  }
 }
