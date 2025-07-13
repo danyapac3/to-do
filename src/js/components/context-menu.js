@@ -32,12 +32,11 @@ export default class List extends Component {
     });
   }
 
-  showWithItems(items, pageX = 0, pageY = 0) {
+  showWithItems(items, x = 0, y = 0) {
     const $contextMenu = this.element;
-    
     const $items = $contextMenu.querySelector('.context-menu__items');
-    $contextMenu.style.transform = `translate(${pageX || 0}px, ${pageY || 0}px)`;
     $contextMenu.hidden = false;
+
     $contextMenu.focus();
     items.forEach(({ title, iconSrc, callback }) => {
       const $item = createItem(title, iconSrc); 
@@ -47,5 +46,14 @@ export default class List extends Component {
       });
       $items.appendChild($item);
     });
+
+    const { width, height } = $contextMenu.getBoundingClientRect();
+    const right = x + width;
+    const bottom = y + height;
+    const windowRightShift = window.innerWidth - right;
+    const windowBottomShift = window.innerHeight - bottom;
+    const realX = windowRightShift < 0 ? windowRightShift + x : x;
+    const realY = windowBottomShift < 0 ? windowBottomShift + y : y;
+    $contextMenu.style.transform = `translate(${realX}px, ${realY}px)`;
   }
 }

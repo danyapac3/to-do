@@ -47,6 +47,7 @@ $secondary-text-color: #808080;
   font-size: 18px;
   height: 100%;
   text-overflow: ellipsis;
+  color: black;
 
   &:hover:after {
     content: attr(value);

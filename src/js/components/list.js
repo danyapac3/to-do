@@ -30,6 +30,7 @@ export default class List extends Component {
     const project = this.store.state.projects.find(p => p.listIds.includes(list.id));
     $title.addEventListener('change', (e) => {
       if ($title.value === '') return;
+      $title.disabled = true;
 
       if (list.title !== $title.value) {
         this.store.dispatch('renameList', {id, title: $title.value});
@@ -38,6 +39,7 @@ export default class List extends Component {
     });
 
     $title.addEventListener('blur', (e) => {
+      $title.disabled = true;
       if ($title.value === '') {
         $title.value = list.title;
         return;
@@ -63,12 +65,11 @@ export default class List extends Component {
     };
 
     const showActionMenu = ({pageX, pageY}) => {
-      console.log(pageX, pageY);
       contextMenu.showWithItems([
         {
           title: 'Rename',
           iconSrc: editIcon,
-          callback: () => { $title.focus() },
+          callback: () => { $title.disabled = false; $title.focus(); },
         },
         { 
           title: 'Move to',
