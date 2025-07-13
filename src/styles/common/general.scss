@@ -14,3 +14,7 @@ html, body {
 *[hidden] {
   display: none !important;
 }
+
+* {
+  -webkit-tap-highlight-color: transparent;
+}

@@ -1,4 +1,5 @@
 import Component from '/js/lib/component';
+import { contextMenu } from '/js/shared/components';
 import { htmlToNode } from '/js/lib/utils/dom';
 import template from './task.html';
 
@@ -17,7 +18,7 @@ export default class Task extends Component {
     const $task = this.element;
     const $title = $task.querySelector('.task__title');
     const $checkbox = $task.querySelector('.task__checkbox');
-
+    
     $task.dataset.id = id;
     
     if (task.completed) {

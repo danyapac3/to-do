@@ -52,17 +52,18 @@ export default class List extends Component {
       });
     };
 
-    const showMoveMenu = () => {
+    const showMoveMenu = (pageX, pageY) => {
       const availableProjects = this.store.state.projects.filter(p => !p.listIds.includes(id));
       const items = availableProjects.map(project => ({
         title: project.title,
         iconSrc: moveIcon,
         callback: moveListTo.bind(this, project.id),
       }));
-      contextMenu.showWithItems(items);
+      contextMenu.showWithItems(items, pageX, pageY);
     };
 
-    const showActionMenu = () => {
+    const showActionMenu = ({pageX, pageY}) => {
+      console.log(pageX, pageY);
       contextMenu.showWithItems([
         {
           title: 'Rename',
@@ -72,7 +73,7 @@ export default class List extends Component {
         { 
           title: 'Move to',
           iconSrc: moveIcon,
-          callback: showMoveMenu,
+          callback: () => showMoveMenu(pageX, pageY),
         },
         { 
           title: 'Remove',
@@ -81,15 +82,19 @@ export default class List extends Component {
             this.store.dispatch('removeList', {id});
           }
         },
-      ]);
+      ], pageX, pageY);
     };
     
     $actionsButton.addEventListener('click', showActionMenu);
 
     const sortable = new Sortable($body, {
       animation: 0,
+      delay: 150,
+      delayOnTouchOnly: true,
       group: 'list',
       ghostClass: 'ghost',
+      chosenClass: 'chosen',
+      dragClass: 'drag',
 
       onStart: (event) => {
         $body.classList.add('has-dragging');
