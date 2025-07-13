@@ -58,10 +58,9 @@ export default class List extends Component {
       const availableProjects = this.store.state.projects.filter(p => !p.listIds.includes(id));
       const items = availableProjects.map(project => ({
         title: project.title,
-        iconSrc: moveIcon,
         callback: moveListTo.bind(this, project.id),
       }));
-      contextMenu.showWithItems(items, pageX, pageY);
+      contextMenu.showWithItems(items, pageX, pageY, 'Move to');
     };
 
     const showActionMenu = ({pageX, pageY}) => {
@@ -83,7 +82,7 @@ export default class List extends Component {
             this.store.dispatch('removeList', {id});
           }
         },
-      ], pageX, pageY);
+      ], pageX, pageY, 'Actions');
     };
     
     $actionsButton.addEventListener('click', showActionMenu);

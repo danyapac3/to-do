@@ -32,10 +32,13 @@ export default class List extends Component {
     });
   }
 
-  showWithItems(items, x = 0, y = 0) {
+  showWithItems(items, x = 0, y = 0, title) {
     const $contextMenu = this.element;
+    const $title = $contextMenu.querySelector('.context-menu__title');
     const $items = $contextMenu.querySelector('.context-menu__items');
     $contextMenu.hidden = false;
+    $title.textContent = title || '';
+    $title.hidden = !title;
 
     $contextMenu.focus();
     items.forEach(({ title, iconSrc, callback }) => {
