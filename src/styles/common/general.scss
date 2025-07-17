@@ -18,3 +18,18 @@ html, body {
 * {
   -webkit-tap-highlight-color: transparent;
 }
+
+input[type=checkbox] {
+  appearance: none;
+  background-image: url('/images/icons/checker_unchecked.svg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  outline: none;
+  transition: opacity 0.2s;
+  cursor: pointer;
+
+  &:checked {
+    background-image: url('/images/icons/checker_checked.svg');
+  }
+}

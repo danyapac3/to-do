@@ -34,24 +34,11 @@
 }
 
 .task__checkbox {
-  appearance: none;
   width: 16px;
   height: 16px;
-  background-image: url('/images/icons/checker_unchecked.svg');
-  background-position: center;  
-  background-repeat: no-repeat;
-  background-size: contain;
-  outline: none;
   opacity: 0;
-  transition: opacity 0.2s;
-  cursor: pointer;
 
-  &:checked {
-    opacity: 1;
-    background-image: url('/images/icons/checker_checked.svg');
-  }
-
-  *:not(.has-dragging) > .task:hover &  {
+  .task:hover &, &:checked {
     opacity: 1;
   }
 }
