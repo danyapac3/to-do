@@ -3,7 +3,7 @@ import state from './state.js';
 import mutations from './mutations.js';
 import actions from './actions.js';
 
-
+console.log(state);
 export default new Store({
   actions,
   mutations,
