@@ -1,5 +1,5 @@
 import Component from '/js/lib/component';
-import { contextMenu } from '/js/shared/components';
+import { contextMenu, taskModal } from '/js/shared/components';
 import { htmlToNode } from '/js/lib/utils/dom';
 import template from './task.html';
 
@@ -9,7 +9,21 @@ export default class Task extends Component {
       props,
       parent,
       element: htmlToNode(template),
-      subscriptions: [],
+      subscriptions: ['setTaskСompleteness'],
+    });
+  }
+
+  init({id}) {
+    const $task = this.element;
+    const $title = $task.querySelector('.task__title');
+    const $checkbox = $task.querySelector('.task__checkbox');
+
+    $checkbox.addEventListener('change', () => {
+      this.store.dispatch('setTaskСompleteness', {id, completed: $checkbox.checked});
+    });
+
+    $title.addEventListener('click', () => {
+      taskModal.showWithTask(id);
     });
   }
 
@@ -24,10 +38,7 @@ export default class Task extends Component {
     if (task.completed) {
       $checkbox.checked = true;
     }
-    
-    $checkbox.addEventListener('change', () => {
-      this.store.dispatch('setTaskСompleteness', {id, completed: $checkbox.checked});
-    });
+
     $title.textContent = task.title;
   }
 }

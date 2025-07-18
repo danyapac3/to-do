@@ -19,6 +19,8 @@ $close-button-size: 30px;
 
 .task-modal__header {
   padding-right: $close-button-size + 20px;
+  display: flex;
+  gap: 10px;
 }
 
 .task-modal__task-checkbox {
