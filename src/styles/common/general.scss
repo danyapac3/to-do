@@ -26,6 +26,7 @@ input[type=checkbox] {
   background-repeat: no-repeat;
   background-size: contain;
   outline: none;
+  flex-shrink: none;
   transition: opacity 0.2s;
   cursor: pointer;
 

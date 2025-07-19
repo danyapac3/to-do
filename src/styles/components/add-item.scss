@@ -1,23 +1,5 @@
 @use '@styles/shared' as *;
 
-$primary-color: #F9F7F8;
-$secondary-color: white;
-$secondary-text-color: #808080;
-
-
-  // .add-item
-  // .add-item__open-form-button
-  // .add-item__form
-  // .add-item__field-wrapper
-  // .add-item__controls
-  // .add-item__save-button
-  // .add-item__cancel-button
-
-// .add-item {
-
-// }
-
-
 .add-item__open-form-button {
   color: $secondary-text-color;
   padding: 10px;
@@ -34,8 +16,8 @@ $secondary-text-color: #808080;
   &::before {
     content: "";
     display: block;
-    width: 20px;
-    height: 20px;
+    width: 16px;
+    height: 16px;
 
     @include coloredIcon(url('/images/icons/plus.svg'), $secondary-text-color);
   }

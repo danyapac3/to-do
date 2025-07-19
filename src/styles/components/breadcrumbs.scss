@@ -1,0 +1,57 @@
+@use '/styles/shared' as *;
+
+.breadcrumbs {
+  font-size: 12px;
+  display: flex;
+  gap: 17px;
+  scrollbar-width: none;
+  
+  &::-webkit-scrollbar { 
+    display: none;
+  }
+}
+
+
+.breadcrumbs-item {
+  display: flex;
+  position: relative; 
+  padding: 4px 6px;
+  border-radius: 5px;
+  color: $secondary-text-color;
+
+  transition: background-color 0.2s;
+
+  @include button($primary-color);
+
+  &::after {
+    color: black;
+    content: '/';
+    display: block;
+    position: absolute;
+    pointer-events: none;
+    right: 0;
+    transform: translateX(calc(100% + 6px));
+  }
+}
+
+
+.breadcrumbs-item--project {
+  &::before {
+    content: '#';
+    margin-right: 2px;
+  }
+}
+
+
+.breadcrumbs-item--list {
+  &::before {
+    content: '';
+    display: block;
+    width: 12px;
+    height: 12px;
+    margin-right: 2px;
+
+    @include coloredIcon(url('/images/icons/list.svg'), $secondary-text-color);
+  }
+  
+}
