@@ -1,7 +1,7 @@
 import Component from '/js/lib/component';
 import {htmlToNode} from '/js/lib/utils/dom';
 import template from './task-modal.html';
-import store from '/js/store/index';
+import AddItem from '/js/components/add-item.js';
 
 // .task-modal
 // .task-modal__exit-button
@@ -52,23 +52,13 @@ export default class Sidebar extends Component {
     $modalPlace.append($modal);
   }
 
-  render() {
+  render(props) {
+    
 
   }
 
   showWithTask(id) {
-    const task = this.store.state.tasks.find(t => t.id === id);
-    const $modal = this.element;
-    const $title = $modal.querySelector('.task-modal__title');
-  
-    $title.textContent = task.title;
-    
-
-    const {
-      projectId,
-      listId,
-    } = task;
-
+    this.render(this.props);
     this.element.showModal();
   }
 }
