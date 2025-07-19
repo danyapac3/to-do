@@ -39,8 +39,9 @@ export default {
     return state;
   },
 
-  setTaskСompleteness(state, {id, completed}) {
-    getTaskById(state, id).completed = completed;
+  toggleTaskСompleteness(state, {id}) {
+    const task = getTaskById(state, id);
+    task.completed = !task.completed;
     return state;
   },
 

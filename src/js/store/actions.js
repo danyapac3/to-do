@@ -39,8 +39,8 @@ export default {
     context.commit('renameList', {title, id});
   },
 
-  setTaskСompleteness(context, payload) {
-    context.commit('setTaskСompleteness', payload)
+  toggleTaskСompleteness(context, payload) {
+    context.commit('toggleTaskСompleteness', payload)
   },
 
   clearProject(context, payload) {

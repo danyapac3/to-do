@@ -12,7 +12,7 @@
 }
 
 
-.breadcrumbs-item {
+.breadcrumbs__item {
   display: flex;
   position: relative; 
   padding: 4px 6px;
@@ -35,7 +35,7 @@
 }
 
 
-.breadcrumbs-item--project {
+.breadcrumbs__item--project {
   &::before {
     content: '#';
     margin-right: 2px;
@@ -43,7 +43,7 @@
 }
 
 
-.breadcrumbs-item--list {
+.breadcrumbs__item--list {
   &::before {
     content: '';
     display: block;

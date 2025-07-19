@@ -9,7 +9,7 @@ export default class Task extends Component {
       props,
       parent,
       element: htmlToNode(template),
-      subscriptions: ['setTaskСompleteness'],
+      subscriptions: ['toggleTaskСompleteness'],
     });
   }
 
@@ -19,7 +19,7 @@ export default class Task extends Component {
     const $checkbox = $task.querySelector('.task__checkbox');
 
     $checkbox.addEventListener('change', () => {
-      this.store.dispatch('setTaskСompleteness', {id, completed: $checkbox.checked});
+      this.store.dispatch('toggleTaskСompleteness', {id});
     });
 
     $title.addEventListener('click', () => {
@@ -35,9 +35,7 @@ export default class Task extends Component {
     
     $task.dataset.id = id;
     
-    if (task.completed) {
-      $checkbox.checked = true;
-    }
+    $checkbox.checked = task.completed;
 
     $title.textContent = task.title;
   }

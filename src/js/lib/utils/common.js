@@ -19,3 +19,7 @@ export const filterObject = (obj, predicate) => {
       return acc;
     }, {});
 }
+
+export const projectById = (state, id) => state.projects.find(p => p.id === id); 
+export const listById = (state, id) => state.lists.find(l => l.id === id); 
+export const taskById = (state, id) => state.tasks.find(t => t.id === id); 
