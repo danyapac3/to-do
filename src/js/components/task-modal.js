@@ -61,11 +61,13 @@ export default class Sidebar extends Component {
     const $title = $modal.querySelector('.task-modal__title');
     const $taskCheckbox = $modal.querySelector('.task-modal__task-checkbox');
     const $breadcrumbs = $modal.querySelector('.task-modal__breadcrumbs');
+    const $descriptionField = $modal.querySelector('.task-modal__description-field');
 
     $title.textContent = task.title;
     $taskCheckbox.checked = task.completed;
+    $descriptionField.value = task.description;
     $breadcrumbs.innerHTML = '';
-
+    
     let currentEntity = task;
     while (currentEntity) {
       const $breadcrumbsItem = renderBreadcrumbsItem(currentEntity);

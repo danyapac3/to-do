@@ -67,7 +67,7 @@
       "title": "page 2",
       "completed": false,
       "subtaskIds": ["t8"],
-      "description": "",
+      "description": "Some ridiculous description",
       "parentId": "l1",
       "parentType": "list"
     },
