@@ -1,12 +1,17 @@
-import { v4 as uuidv4 } from 'uuid';
+import {createTask, createList, createProject} from './entities';
 
 export default {
   addProject(context, {title}) {
-    context.commit('addProject', {title, id: uuidv4()});
+    context.commit('addProject', {title});
   },
 
-  addTask(context, payload) {
-    context.commit('addTask', {id: uuidv4(), ...payload});
+
+  addTask(context, {title, parent}) {
+    const task = createTask({title, parent});
+    context.commit('addTask', {task});
+    if (parent.type === 'list') {
+      context.commit('addTaskToList', {taskId: task.id, listId: parent.id});
+    }
   },
   
   moveTask(context, {oldListId, newListId, oldIndex, newIndex}) {
@@ -15,7 +20,7 @@ export default {
   },
   
   addList(context, {projectId, title}) {
-    context.commit('addList', {projectId, title, id: uuidv4()});
+    context.commit('addList', {title, projectId});
   },
 
   moveListOutside(context, { sourceId, destinationId, listId }) {

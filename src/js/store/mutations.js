@@ -1,10 +1,13 @@
+import {createTask, createList, createProject} from './entities';
+
 const getProjectById = (state, id) => state.projects.find(p => p.id === id);
 const getListById = (state, id) => state.lists.find(l => l.id === id);
 const getTaskById = (state, id) => state.tasks.find(t => t.id === id);
 
 export default {
-  addProject(state, payload) {
-    state.projects.push(payload);
+  addProject(state, {title}) {
+    const project = createProject({title})
+    state.projects.push(project);
     return state;
   },
 
@@ -12,11 +15,14 @@ export default {
     return {currentProjectId: id};
   },
 
+  addTask(state, {task}) {
+    state.tasks.push(task);
+    return state;
+  },
 
-  addTask(state, {id, listId, title}) {
-    state.tasks.push({id, title, listId, completed: false});
+  addTaskToList(state, {taskId, listId}) {
     const list = getListById(state, listId);
-    list.taskIds.push(id);
+    list.taskIds.push(taskId);
     return state;
   },
 
@@ -46,10 +52,12 @@ export default {
   },
 
 
-  addList(state, {id, projectId, title}) {
-    state.lists.push({id, title, taskIds: []});
+  addList(state, {title, projectId}) {
+    console.log(title);
+    const list = createList({title});
+    state.lists.push(list);
     const project = getProjectById(state, projectId);
-    project.listIds.push(id);
+    project.listIds.push(list.id);
     return state;
   },
 

@@ -63,6 +63,7 @@
   ],
   "tasks": [
     {
+      "type": "task",
       "id": "t1",
       "title": "page 2",
       "completed": false,
@@ -72,6 +73,7 @@
       "parentType": "list"
     },
     {
+      "type": "task",
       "id": "t2",
       "title": "page 3",
       "completed": false,
@@ -81,6 +83,7 @@
       "parentType": "list"
     },
     {
+      "type": "task",
       "id": "t3",
       "title": "page 1",
       "completed": true,
@@ -90,6 +93,7 @@
       "parentType": "list"
     },
     {
+      "type": "task",
       "id": "t4",
       "title": "JavaScript Basics",
       "completed": false,
@@ -99,6 +103,7 @@
       "parentType": "list"
     },
     {
+      "type": "task",
       "id": "t5",
       "title": "HTML & CSS",
       "completed": true,
@@ -108,6 +113,7 @@
       "parentType": "list"
     },
     {
+      "type": "task",
       "id": "t6",
       "title": "Leg Day",
       "completed": false,
@@ -117,6 +123,7 @@
       "parentType": "list"
     },
     {
+      "type": "task",
       "id": "t7",
       "title": "Cardio Session",
       "completed": true,
@@ -126,6 +133,7 @@
       "parentType": "list"
     },
     {
+      "type": "task",
       "id": "t8",
       "title": "ex 5",
       "completed": false,
@@ -135,6 +143,7 @@
       "parentType": "task"
     },
     {
+      "type": "task",
       "id": "t9",
       "title": "Variables",
       "completed": true,
@@ -144,6 +153,7 @@
       "parentType": "task"
     },
     {
+      "type": "task",
       "id": "t10",
       "title": "Functions",
       "completed": false,

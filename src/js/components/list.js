@@ -17,7 +17,7 @@ export default class List extends Component {
       store,
       parent,
       element: htmlToNode(template),
-      subscriptions: ['addTask', 'moveTask'],
+      subscriptions: ['addTaskToList', 'moveTask'],
     });
   }
 
@@ -117,10 +117,9 @@ export default class List extends Component {
     const $title = $list.querySelector('.list__title');
     const list = this.store.state.lists.find(l => l.id === id);
     $list.dataset.id = id;
-    
-    if (list) {
-      $title.value = list.title;
-    }
+
+    console.log(list);
+    $title.value = list.title;
 
     list.taskIds.forEach(taskId => {
       const taskElement = new Task({parent: this, props: {id: taskId}}).element;
@@ -132,7 +131,7 @@ export default class List extends Component {
       props: {title: 'Add new task'},
     });
     newTaskForm.on('save', ({text}) => {
-      this.store.dispatch('addTask', {listId: id ,title: text});
+      this.store.dispatch('addTask', {title: text, parent: list});
     });
     
     $footer.appendChild(newTaskForm.element);
