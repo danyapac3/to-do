@@ -37,7 +37,8 @@ export default {
       newList.taskIds.splice(oldIndex, 1);
       newList.taskIds.splice(newIndex, 0, taskId);
     } else {
-      task.listId = newListId;
+      task.parentId = newListId;
+      task.parentType = 'list';
       oldList.taskIds.splice(oldIndex, 1);
       newList.taskIds.splice(newIndex, 0, taskId);
     }
@@ -79,11 +80,13 @@ export default {
   moveListOutside(state, { sourceId, destinationId, listId }) {
     const sourceProject = getProjectById(state, sourceId);
     const destinationProject = getProjectById(state, destinationId);
+    const list = getListById(state, listId);
     const listIdIndex = sourceProject.listIds.indexOf(listId);
     sourceProject.listIds.splice(listIdIndex, 1);
     destinationProject.listIds.splice(0, 0, listId);
-  }
-  ,
+    list.parentId = destinationId;
+    list.parentType = 'project';
+  },
 
   renameList(state, {id, title}) {
     getListById(state, id).title = title;
