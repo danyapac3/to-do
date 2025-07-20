@@ -7,7 +7,8 @@ export default {
 
 
   addTask(context, {title, parent}) {
-    const task = createTask({title, parent});
+    const task = createTask({title});
+    task.setParent(parent);
     context.commit('addTask', {task});
     if (parent.type === 'list') {
       context.commit('addTaskToList', {taskId: task.id, listId: parent.id});

@@ -32,6 +32,20 @@ export const createTask = ({title, parent, completed, description, dueDate}) => 
   };
 
   const methods = {
+    setTitle(title) {
+      data.title = title;
+    },
+    setParent(parent) {
+      data.parentId = parent.id;
+      data.parentType = parent.type;
+    },
+    toggleCompleted() {
+      data.completed = !data.completed;
+    },
+    changeDescription() {
+      
+    }
+    
   };
 
   return createVirtuallyMerged(data, methods)
