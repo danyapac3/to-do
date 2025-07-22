@@ -20,17 +20,7 @@ export default class Store {
       self.actions = params.actions;
     }
 
-    self.state = new Proxy((params.state || {}), {
-      set(state, key, value) {
-        state[key] = value;
-
-        if (self.status !== 'mutation') {
-          console.warn(`You should use a mutation to set ${key}`);
-        };
-
-        return true;
-      }
-    })
+    self.state = params.state || {};
   }
 
   dispatch(actionKey, payload) {
