@@ -1,14 +1,35 @@
 import defineStore from "/js/lib/store";
+import useListsStore from "./listsStore";
 import { v4 as uuid } from 'uuid';
 
-const createProject = (title, id) => ({
-  title: "",
-  id: id,
-  type: "project",
-  listIds: []
+const useProjectsStore = defineStore({
+  state: {
+  },
+  actions: {
+    addProject(title) {
+      const id = uuid();
+      const project = {
+        title: title || '',
+        id,
+        type: 'project',
+        listIds: [],
+        taskIds: [],
+      }
+
+      this[id] = project;
+
+      return project;
+    },
+
+    renameProject(id, title) {
+      const project = this[id];
+      project.title = title;
+    },
+
+    removeProject(id) {
+      const project = this[id];
+    }
+  },
 });
 
-export default defineStore({
-  state: {},
-  actions: {},
-});
+const listsStore = useListsStore();

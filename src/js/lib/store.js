@@ -19,10 +19,11 @@ const createStore = ({state, actions}) => {
     return (...args) => {
       const result = action.apply(state, args);
       if (result instanceof Promise) {
-        result.then(() => {callbacks.forEach(cb => cb(name, store))});
+        result.then(returnValue => {callbacks.forEach(cb => cb({name, store, args, returnValue}))});
         return;
       }
-      callbacks.forEach(cb => cb(name, store));
+      callbacks.forEach(cb => cb({ name, store, args, returnValue: result }));
+      return result;
     }
   }
   

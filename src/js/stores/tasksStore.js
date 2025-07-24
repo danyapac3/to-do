@@ -36,9 +36,6 @@ export default defineStore({
     },
     
     removeTask(id) {
-      if (parentType === 'task') {
-
-      }
       delete this[id];
     },
 
