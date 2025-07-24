@@ -72,7 +72,6 @@ export default class Sidebar extends Component {
     while (currentEntity) {
       const $breadcrumbsItem = renderBreadcrumbsItem(currentEntity);
       if (currentEntity.type === 'task') {
-        console.log(currentEntity);
         $breadcrumbsItem.addEventListener('click', () => {
           this.showWithTask.bind(this, currentEntity.id)
         });

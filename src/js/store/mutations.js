@@ -54,7 +54,6 @@ export default {
 
 
   addList(state, {title, projectId}) {
-    console.log(title);
     const list = createList({title});
     state.lists.push(list);
     const project = getProjectById(state, projectId);

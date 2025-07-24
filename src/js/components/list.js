@@ -118,7 +118,6 @@ export default class List extends Component {
     const list = this.store.state.lists.find(l => l.id === id);
     $list.dataset.id = id;
 
-    console.log(list);
     $title.value = list.title;
 
     list.taskIds.forEach(taskId => {
