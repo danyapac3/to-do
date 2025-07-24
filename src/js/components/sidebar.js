@@ -1,6 +1,7 @@
 import Component from '/js/lib/component';
 import {htmlToNode} from '/js/lib/utils/dom';
 import template from './sidebar.html';
+import useProjectsStore from "/js/stores/projectsStore";
 
 
 const createProject = (project) => {
@@ -12,16 +13,15 @@ const createProject = (project) => {
 }
 
 export default class Sidebar extends Component {
-  constructor({store, parent}) {
+  constructor({parent}) {
     super({
-      store,
       parent,
       element: htmlToNode(template),
-      subscriptions: ['addProject'],
+      subscriptions: [],
     });
   }
 
-  render() {
+  render({id}) {
     const sidebar = this.element;
     const sidebarSectionContent = sidebar.querySelector('.sidebar__section-content');
     const toggleVisibilityButton = this.element.querySelector('.sidebar__toggle-visibility-button');
@@ -30,11 +30,12 @@ export default class Sidebar extends Component {
       this.element.classList.toggle('collapsed');
     });
 
-    const projectElements = this.store.state.projects
+    const projectsStore = useProjectsStore();
+    const projectElements = Object.values(projectsStore.$state)
       .map(project => {
         const elm = createProject(project);
         elm.addEventListener('click', () => {
-          this.store.dispatch('setCurrentProjectId', {id: project.id});
+          this.emit('changeProject', {id: project.id});
         });
         elm.addEventListener('dragenter', (e) => {
           elm.classList.add('drag-over'); 
@@ -68,8 +69,6 @@ export default class Sidebar extends Component {
         return elm;
       });
 
-    if(this.store.state.projects) {
-      sidebarSectionContent.replaceChildren(...projectElements);
-    }
+    sidebarSectionContent.replaceChildren(...projectElements);
   }
 }

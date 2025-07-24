@@ -11,14 +11,3 @@ import useProjectsStore from '/js/stores/projectsStore';
 Sortable.mount( new AutoScroll );
 const pageElement = document.querySelector('.page');
 const page = new Page({element: pageElement, store, parent: null});
-
-const tasksStore = useTasksStore();
-const listsStore = useListsStore();
-
-const list = (listsStore.addList('list'));
-console.log(list);
-// listsStore.addTask(list.id, 'me');
-
-// tasksStore.addTask('hello world');
-// console.log(tasksStore);
-// console.log(listsStore.$state);

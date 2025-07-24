@@ -6,7 +6,7 @@ export default class Component {
     const {
       store,
       element,
-      subscriptions = ['stateChange'],
+      subscriptions = [],
       parent,
       props
     } = params;
@@ -18,18 +18,24 @@ export default class Component {
     this.element = element;
     this.children = [];
     this.subscriptionTokens = [];
-    this.render = this.render ? this.render.bind(this, this.props) : () => {};
+    this._render = this.render;
+    this.render = this.render 
+      ? () => {
+        this.children.forEach(child => child.destroy());
+        this.children = [];
+        this._render(this.props);
+      } 
+      : () => {};
     this.init = this.init ? this.init.bind(this, this.props || {}) : () => {};
     
     if (parent) parent.addChild(this);
 
     const subscriptionHandler = () => {
-      this.children.forEach(child => child.destroy());
-      this.children = [];
       this.render();
     }
 
     subscriptions.forEach(subscription => {
+      console.log(this.store);
       const token = this.store.events.subscribe(subscription, subscriptionHandler);
       this.subscriptionTokens.push(token);
     });

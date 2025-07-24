@@ -4,7 +4,15 @@ import { v4 as uuid } from 'uuid';
 
 const useProjectsStore = defineStore({
   state: {
+    'p-id-1' : {
+      title: 'Hello world',
+      id: 'p-id-1',
+      type: 'project',
+      listIds: [],
+      taskIds: [],
+    }
   },
+
   actions: {
     addProject(title) {
       const id = uuid();
@@ -33,3 +41,5 @@ const useProjectsStore = defineStore({
 });
 
 const listsStore = useListsStore();
+
+export default useProjectsStore;
