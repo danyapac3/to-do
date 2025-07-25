@@ -5,19 +5,22 @@ export default class Component {
   constructor(params) {
     const {
       store,
+      stores = [],
       element,
       subscriptions = [],
       parent,
-      props
+      props,
     } = params;
 
     this.props = props || {};
     this.parent = parent || null;
     this.store = store || ( parent ? parent.store : null ) || null;
+    this.stores = stores;
     this.events = new PubSub();
     this.element = element;
     this.children = [];
     this.subscriptionTokens = [];
+    this.renderPredicate = this.renderPredicate || (() => true);
     this._render = this.render;
     this.render = this.render 
       ? () => {
@@ -35,13 +38,17 @@ export default class Component {
     }
 
     subscriptions.forEach(subscription => {
-      console.log(this.store);
       const token = this.store.events.subscribe(subscription, subscriptionHandler);
       this.subscriptionTokens.push(token);
     });
 
     this.init();
     this.render();
+
+    stores.forEach(store => store.$onAction((data) => {
+      if (!this.renderPredicate(data)) return;
+      this.render();
+    }));
   }
 
   addChild(child) {

@@ -31,6 +31,7 @@ export default class Sidebar extends Component {
     });
 
     const projectsStore = useProjectsStore();
+    console.log(Object.values(projectsStore.$state));
     const projectElements = Object.values(projectsStore.$state)
       .map(project => {
         const elm = createProject(project);

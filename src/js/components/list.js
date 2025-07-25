@@ -9,6 +9,11 @@ import AddItemForm from '/js/components/add-item';
 import { htmlToNode, hideElement, showElement } from '/js/lib/utils/dom';
 import template from './list.html';
 import Sortable from 'sortablejs/modular/sortable.core.esm.js';
+import useListsStore from '/js/stores/listsStore';
+import useProjectsStore from '/js/stores/projectsStore';
+
+const listsStore = useListsStore();
+const projectsStore = useProjectsStore();
 
 export default class List extends Component {
   constructor ({parent, store, props}) {
@@ -17,7 +22,6 @@ export default class List extends Component {
       store,
       parent,
       element: htmlToNode(template),
-      subscriptions: ['addTaskToList', 'moveTask'],
     });
   }
 
@@ -26,14 +30,14 @@ export default class List extends Component {
     const $body = $list.querySelector('.list__body');
     const $actionsButton = $list.querySelector('.list__show-actions-button');
     const $title = $list.querySelector('.list__title');
-    const list = this.store.state.lists.find(l => l.id === id);
-    const project = this.store.state.projects.find(p => p.listIds.includes(list.id));
+    const list = listsStore[id];
+    const project = projectsStore[list.parentId];
     $title.addEventListener('change', (e) => {
       if ($title.value === '') return;
       $title.disabled = true;
 
       if (list.title !== $title.value) {
-        this.store.dispatch('renameList', {id, title: $title.value});
+        listsStore.renameList(id, $title.value)
         return;
       }
     });
@@ -47,15 +51,15 @@ export default class List extends Component {
     });
 
     function moveListTo (projectId) {
-      this.store.dispatch('moveListOutside', {
-        sourceId: project.id,
-        destinationId: projectId,
-        listId: id,
-      });
+      // this.store.dispatch('moveListOutside', {
+      //   sourceId: project.id,
+      //   destinationId: projectId,
+      //   listId: id,
+      // });
     };
 
     const showMoveMenu = (pageX, pageY) => {
-      const availableProjects = this.store.state.projects.filter(p => !p.listIds.includes(id));
+      const availableProjects = Object.values(projectsStore).filter(p => p !== project);
       const items = availableProjects.map(project => ({
         title: project.title,
         callback: moveListTo.bind(this, project.id),
@@ -79,7 +83,7 @@ export default class List extends Component {
           title: 'Remove',
           iconSrc: removeIcon,
           callback: () => {
-            this.store.dispatch('removeList', {id});
+            // this.store.dispatch('removeList', {id});
           }
         },
       ], pageX, pageY, 'Actions');
@@ -105,17 +109,18 @@ export default class List extends Component {
 
         const oldListId = $from.closest('.list').dataset.id;
         const newListId = $to.closest('.list').dataset.id;
-        this.store.dispatch('moveTask', {oldListId, newListId, oldIndex, newIndex});
+        // this.store.dispatch('moveTask', {oldListId, newListId, oldIndex, newIndex});
       }
     });
   }
 
   render({id}) {
+    const listsStore = useListsStore();
+    const list = listsStore[id];
     const $list = this.element;
     const $body = this.element.querySelector('.list__body');
     const $footer = this.element.querySelector('.list__footer');
     const $title = $list.querySelector('.list__title');
-    const list = this.store.state.lists.find(l => l.id === id);
     $list.dataset.id = id;
 
     $title.value = list.title;
@@ -130,7 +135,8 @@ export default class List extends Component {
       props: {title: 'Add new task'},
     });
     newTaskForm.on('save', ({text}) => {
-      this.store.dispatch('addTask', {title: text, parent: list});
+      // change store type
+      // this.store.dispatch('addTask', {title: text, parent: list});
     });
     
     $footer.appendChild(newTaskForm.element);

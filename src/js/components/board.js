@@ -5,7 +5,7 @@ import List from './list';
 import AddItem from './add-item';
 import Sortable from 'sortablejs/modular/sortable.core.esm.js';
 import useProjectsStore from "/js/stores/projectsStore";
-import useListsStore from "/js/stores/projectsStore";
+import useListsStore from "/js/stores/listsStore";
 
 export default class Board extends Component {
 
@@ -13,15 +13,19 @@ export default class Board extends Component {
     super({
       element: htmlToNode(template),
       parent,
-      props
+      props,
+      stores: [useListsStore(), useProjectsStore()],
     });
+
+    this.currentId = null;
   }
 
-  init({id}) {
-    // until fix
-    return; 
+  renderPredicate({name}) {
+    if (name === 'addList') return true;
+  }
 
-    const project = this.store.state.projects.find(p => p.id === currentProjectId);
+  init() {
+    const projectsStore = useProjectsStore();
     const $board = this.element;
     const $content = $board.querySelector('.board__content');
     const sortable = new Sortable($content, {
@@ -36,12 +40,7 @@ export default class Board extends Component {
 
       onEnd: ({ oldIndex, newIndex }) => {
         if (oldIndex === newIndex) return;
-        this.store.dispatch('moveList', { 
-          oldIndex,
-          newIndex,
-          sourceId: project.id,
-          destinationId: project.id,
-        });
+        projectsStore.moveList(this.currentId, oldIndex, newIndex);
       }
     });
   }
@@ -58,16 +57,19 @@ export default class Board extends Component {
     }
 
     const projectsStore = useProjectsStore();
+    const listsStore = useListsStore();
+
     const project = projectsStore[id]
 
     for (let listId of project.listIds) {
+      // break;      
       const list = new List({ parent: this, props: {id: listId} });
       $content.append(list.element);
     }
 
     const addSectionForm = new AddItem({ parent: this, props: {title: 'Add new section'} });
     addSectionForm.on('save', ({text}) => {
-      this.store.dispatch('addList', {title: text, projectId: project.id})
+      projectsStore.addList(id, text);
     });
     $addNewSectionFormPlace.appendChild(addSectionForm.element);
 
@@ -78,6 +80,7 @@ export default class Board extends Component {
 
   changeProject(id) {
     this.props.id = id;
+    this.currentId = id;
     this.render();
   }
 }

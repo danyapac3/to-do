@@ -11,7 +11,6 @@ export default {
     task.setParent(parent);
     context.commit('addTask', {task});
     if (parent.type === 'list') {
-      context.commit('addTaskToList', {taskId: task.id, listId: parent.id});
     }
   },
   

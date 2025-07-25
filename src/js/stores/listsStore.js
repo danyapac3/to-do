@@ -42,6 +42,11 @@ const useListsStore = defineStore({
         useTasksStore().removeTask(taskId);
       });
       delete this[id];
+    },
+
+    changeParent(id, parent) {
+      this[id].parentType = parent.type;
+      this[id].parentId = parent.id;
     }
   },
 });
