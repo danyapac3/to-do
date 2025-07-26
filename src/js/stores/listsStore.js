@@ -29,6 +29,7 @@ const useListsStore = defineStore({
     addTask(id, title) {
       const list = this[id];
       const task = useTasksStore().addTask(title, list);
+      list.taskIds.push(task.id);
     },
 
     removeTask(listId, taskId) {

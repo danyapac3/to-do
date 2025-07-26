@@ -2,6 +2,7 @@ import Component from '/js/lib/component';
 import { contextMenu, taskModal } from '/js/shared/components';
 import { htmlToNode } from '/js/lib/utils/dom';
 import template from './task.html';
+import useTasksStore from '/js/stores/tasksStore';
 
 export default class Task extends Component {
   constructor({parent, props}) {
@@ -9,7 +10,6 @@ export default class Task extends Component {
       props,
       parent,
       element: htmlToNode(template),
-      subscriptions: ['toggleTaskСompleteness'],
     });
   }
 
@@ -18,8 +18,8 @@ export default class Task extends Component {
     const $title = $task.querySelector('.task__title');
     const $checkbox = $task.querySelector('.task__checkbox');
 
-    $checkbox.addEventListener('change', () => {
-      this.store.dispatch('toggleTaskСompleteness', {id});
+    $checkbox.addEventListener('click', () => {
+      useTasksStore().toggleCompleted(id);
     });
 
     $title.addEventListener('click', () => {
@@ -28,7 +28,7 @@ export default class Task extends Component {
   }
 
   render({id}) {
-    const task = this.store.state.tasks.find(t => t.id === id);
+    const task = useTasksStore()[id];
     const $task = this.element;
     const $title = $task.querySelector('.task__title');
     const $checkbox = $task.querySelector('.task__checkbox');

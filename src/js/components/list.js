@@ -22,7 +22,12 @@ export default class List extends Component {
       store,
       parent,
       element: htmlToNode(template),
+      stores: [listsStore]
     });
+  }
+
+  renderPredicate() {
+    return true;
   }
 
   init({id}) {
@@ -136,6 +141,8 @@ export default class List extends Component {
     });
     newTaskForm.on('save', ({text}) => {
       // change store type
+      listsStore.addTask(id, text);
+      console.log(listsStore[id]);
       // this.store.dispatch('addTask', {title: text, parent: list});
     });
     
