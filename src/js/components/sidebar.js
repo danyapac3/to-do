@@ -2,6 +2,7 @@ import Component from '/js/lib/component';
 import {htmlToNode} from '/js/lib/utils/dom';
 import template from './sidebar.html';
 import useProjectsStore from "/js/stores/projectsStore";
+import useListsStore from "/js/stores/listsStore";
 
 
 const createProject = (project) => {
@@ -56,14 +57,10 @@ export default class Sidebar extends Component {
             return;
           }
 
-          const sourceProject = this.store.state.projects.find(p => p.listIds.includes(data.id));
-
           if (data.type === 'list') {
-            this.store.dispatch('moveListOutside', {
-              sourceId: sourceProject.id,
-              destinationId: project.id,
-              listId: data.id,
-            });
+            const list = useListsStore().$state[data.id];
+
+            useProjectsStore().moveListToProject(list.id, list.parentId, project.id);
           }
         });
         return elm;

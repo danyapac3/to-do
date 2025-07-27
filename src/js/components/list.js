@@ -141,9 +141,7 @@ export default class List extends Component {
       props: {title: 'Add new task'},
     });
     newTaskForm.on('save', ({text}) => {
-      // change store type
       listsStore.addTask(id, text);
-      // this.store.dispatch('addTask', {title: text, parent: list});
     });
     
     $footer.appendChild(newTaskForm.element);
