@@ -18,6 +18,10 @@ export default class Task extends Component {
     const $title = $task.querySelector('.task__title');
     const $checkbox = $task.querySelector('.task__checkbox');
 
+    $task.addEventListener('click', () => {
+      useTasksStore().removeTask(id);
+    });
+
     $checkbox.addEventListener('click', () => {
       useTasksStore().toggleCompleted(id);
     });

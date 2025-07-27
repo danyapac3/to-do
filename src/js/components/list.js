@@ -84,7 +84,7 @@ export default class List extends Component {
           title: 'Remove',
           iconSrc: removeIcon,
           callback: () => {
-            // this.store.dispatch('removeList', {id});
+            listsStore.removeList(id);
           }
         },
       ], pageX, pageY, 'Actions');
@@ -143,7 +143,6 @@ export default class List extends Component {
     newTaskForm.on('save', ({text}) => {
       // change store type
       listsStore.addTask(id, text);
-      console.log(listsStore[id]);
       // this.store.dispatch('addTask', {title: text, parent: list});
     });
     

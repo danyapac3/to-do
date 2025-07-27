@@ -45,7 +45,7 @@ export default class Component {
     this.init();
     this.render();
 
-    stores.forEach(store => store.$onAction((data) => {
+    this.unsubscribeStoreFunctions = stores.map(store => store.$onAction((data) => {
       if (!this.renderPredicate(data)) return;
       this.render();
     }));
@@ -58,6 +58,7 @@ export default class Component {
   }
 
   destroy() {
+    this.unsubscribeStoreFunctions.forEach(fn => fn());
     this.children.forEach(child => child.destroy());
     this.element.remove();
     if (this.store) {

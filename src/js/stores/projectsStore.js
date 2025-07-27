@@ -34,8 +34,13 @@ const useProjectsStore = defineStore({
       project.title = title;
     },
 
-    removeProject(id) {
-      const project = this[id];
+    removeProject(projectId) {
+      const project = this[projectId];
+      project.listsIds.forEach(listId => {
+        listsStore.removeList(listId);
+      });
+      delete this[projectId];
+      return project;
     },
 
     addList(projectId, title) {
@@ -43,6 +48,11 @@ const useProjectsStore = defineStore({
       const list = listsStore.addList(title, project);
 
       project.listIds.push(list.id);
+    },
+
+    removeList(projectId, listId) {
+      const project = this[projectId];
+      project.listIds.splice(project.listIds.indexOf(listId), 1);
     },
 
     moveListToProject(listId, sourceId, destinationId, index = 0) {
@@ -64,6 +74,13 @@ const useProjectsStore = defineStore({
       project.listIds.splice(indexTo, 0, listId);
     }
   },
+});
+
+const projectsStore = useProjectsStore();
+listsStore.$onAction(({name, store, returnValue: list}) => {
+  if (name === 'removeList') {
+    projectsStore.removeList(list.parentId, list.id);
+  }
 });
 
 export default useProjectsStore;

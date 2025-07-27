@@ -19,7 +19,6 @@ const useListsStore = defineStore({
   actions: {
     addList(title, parent) {
       const id = uuid();
-
       const list = {
         title: title,
         type: "list",
@@ -28,9 +27,7 @@ const useListsStore = defineStore({
         parentId: parent?.id || null,
         parentType: parent?.type || null,
       };
-
       this[id] = list;
-
       return list;
     },
 
@@ -69,6 +66,7 @@ const useListsStore = defineStore({
         useTasksStore().removeTask(taskId);
       });
       delete this[id];
+      return list; 
     },
 
     setParent(id, parent) {
@@ -79,12 +77,12 @@ const useListsStore = defineStore({
 });
 
 const tasksStore = useTasksStore();
-
-tasksStore.$onAction(({name, args, store, returnValue: task}) => {
-  const listsStore = useListsStore();
-  
-  if (name !== 'removeTask' || !(task.parentId in listsStore) || task.parentType !== 'list') { return; }
-  listsStore.removeTask(task.parentId, task.id);
+const listsStore = useListsStore();
+tasksStore.$onAction(({name, store, returnValue: task}) => {
+  if (name === 'removeTask') {
+    delete listsStore.$state[task.id];
+    listsStore.removeTask(task.parentId, task.id);
+  }
 });
 
 export default useListsStore;
