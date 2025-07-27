@@ -6,27 +6,11 @@ const listsStore = useListsStore();
 
 const useProjectsStore = defineStore({
   state: {
-    'p-id-1' : {
-      title: 'Hello world',
-      id: 'p-id-1',
-      type: 'project',
-      listIds: [],
-      taskIds: [],
-    },
-    'p-id-2' : {
-      title: 'Clown',
-      id: 'p-id-2',
-      type: 'project',
-      listIds: [],
-      taskIds: [],
-    },
-    'p-id-3' : {
-      title: 'Dous',
-      id: 'p-id-3',
-      type: 'project',
-      listIds: [],
-      taskIds: [],
-    }
+    'p1': { id: "p1", title: "Frontend Development", type: "project", listIds: ["l1", "l2"], taskIds: [] },
+    'p2': { id: "p2", title: "Marketing Campaign", type: "project", listIds: ["l3", "l4"], taskIds: [] },
+    'p3': { id: "p3", title: "Personal Goals", type: "project", listIds: ["l5", "l6"], taskIds: [] },
+    'p4': { id: "p4", title: "Travel Planning", type: "project", listIds: ["l7", "l8"], taskIds: [] },
+    'p5': { id: "p5", title: "Learning Plan", type: "project", listIds: ["l9", "l10"], taskIds: [] },
   },
 
   actions: {
@@ -69,7 +53,7 @@ const useProjectsStore = defineStore({
       destinationProject.listIds.splice(index, 0, listId);
 
       if (sourceId !== destinationId) {
-        useListsStore().changeParent(listId, destinationProject)
+        useListsStore().setParent(listId, destinationProject)
       }
     },
 

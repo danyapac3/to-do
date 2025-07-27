@@ -105,7 +105,7 @@ export default class List extends Component {
       chosenClass: 'chosen',
       dragClass: 'drag',
 
-      onStart: (event) => {
+      onStart: () => {
         $body.classList.add('has-dragging');
       },
 
@@ -114,7 +114,12 @@ export default class List extends Component {
 
         const oldListId = $from.closest('.list').dataset.id;
         const newListId = $to.closest('.list').dataset.id;
-        // this.store.dispatch('moveTask', {oldListId, newListId, oldIndex, newIndex});
+        
+        if(oldListId === newListId) {
+          listsStore.moveTask(newListId, oldIndex, newIndex);
+        } else {
+          listsStore.moveTaskToList(oldListId, newListId, oldIndex, newIndex);
+        }
       }
     });
   }

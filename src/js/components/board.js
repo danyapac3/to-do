@@ -62,7 +62,6 @@ export default class Board extends Component {
     const project = projectsStore[id]
 
     for (let listId of project.listIds) {
-      // break;      
       const list = new List({ parent: this, props: {id: listId} });
       $content.append(list.element);
     }
