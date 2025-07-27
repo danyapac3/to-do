@@ -45,9 +45,9 @@ const useProjectsStore = defineStore({
       project.listIds.push(list.id);
     },
 
-    transferList(listId, sourceId, destinationId, index = 0) {
+    moveListToProject(listId, sourceId, destinationId, index = 0) {
       const sourceProject = this[sourceId];
-      const destinationProject = this[projectId];
+      const destinationProject = this[destinationId];
       const listIndex = sourceProject.listIds.indexOf(listId);
       sourceProject.listIds.splice(listIndex, 1);
       destinationProject.listIds.splice(index, 0, listId);

@@ -22,6 +22,7 @@ export default class Board extends Component {
 
   renderPredicate({name}) {
     if (name === 'addList') return true;
+    if (name === 'moveListToProject') return true;
   }
 
   init() {

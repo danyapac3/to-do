@@ -22,7 +22,7 @@ export default class List extends Component {
       store,
       parent,
       element: htmlToNode(template),
-      stores: [listsStore]
+      stores: [listsStore],
     });
   }
 
@@ -55,19 +55,15 @@ export default class List extends Component {
       }
     });
 
-    function moveListTo (projectId) {
-      // this.store.dispatch('moveListOutside', {
-      //   sourceId: project.id,
-      //   destinationId: projectId,
-      //   listId: id,
-      // });
+    function moveListToProject (destinationId) {
+      useProjectsStore().moveListToProject(id, project.id, destinationId);
     };
 
     const showMoveMenu = (pageX, pageY) => {
       const availableProjects = Object.values(projectsStore).filter(p => p !== project);
       const items = availableProjects.map(project => ({
         title: project.title,
-        callback: moveListTo.bind(this, project.id),
+        callback: moveListToProject.bind(this, project.id),
       }));
       contextMenu.showWithItems(items, pageX, pageY, 'Move to');
     };
