@@ -14,7 +14,6 @@ export default class List extends Component {
   constructor () {
     super({
       element: htmlToNode(template),
-      subscriptions: [],
     });
   }
   

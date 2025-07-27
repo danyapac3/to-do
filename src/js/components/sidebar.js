@@ -18,11 +18,10 @@ export default class Sidebar extends Component {
     super({
       parent,
       element: htmlToNode(template),
-      subscriptions: [],
     });
   }
 
-  render({id}) {
+  render() {
     const sidebar = this.element;
     const sidebarSectionContent = sidebar.querySelector('.sidebar__section-content');
     const toggleVisibilityButton = this.element.querySelector('.sidebar__toggle-visibility-button');

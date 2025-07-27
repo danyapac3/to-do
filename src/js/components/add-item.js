@@ -8,7 +8,6 @@ export default class AddItem extends Component {
       parent,
       props,
       element: htmlToNode(template),
-      subscriptions: [],
     });
   }
 

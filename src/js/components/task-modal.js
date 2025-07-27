@@ -1,6 +1,5 @@
 import Component from '/js/lib/component';
 import {htmlToNode} from '/js/lib/utils/dom';
-import {taskById, listById, projectById} from '/js/lib/utils/common';
 import template from './task-modal.html';
 import AddItem from '/js/components/add-item';
 import useTasksStore from '/js/stores/tasksStore';
@@ -30,7 +29,6 @@ export default class TaskModal extends Component {
   constructor() {
     super({
       element: htmlToNode(template),
-      subscriptions: ['toggleTaskСompleteness'],
     });
   }
 
@@ -96,7 +94,7 @@ export default class TaskModal extends Component {
       if (!parentEntity) return;
 
       renderBreadcrumbItem(parentEntity)
-    })()
+    }).call(this);
   }
 
   showWithTask(id) {
