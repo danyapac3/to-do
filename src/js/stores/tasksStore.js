@@ -156,7 +156,6 @@ export default defineStore({
       const task = this[id];
       delete this[id];
       return task;
-      console.log(this, task);
     },
 
     renameTask(id, title) {

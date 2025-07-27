@@ -3,6 +3,14 @@ import {htmlToNode} from '/js/lib/utils/dom';
 import {taskById, listById, projectById} from '/js/lib/utils/common';
 import template from './task-modal.html';
 import AddItem from '/js/components/add-item';
+import useTasksStore from '/js/stores/tasksStore';
+import useListsStore from '/js/stores/listsStore';
+import useProjectsStore from '/js/stores/projectsStore';
+
+
+const tasksStore = useTasksStore();
+const listsStore = useListsStore();
+const projectsStore = useProjectsStore();
 
 
 const renderBreadcrumbsItem = (entity, isCurrent) => {
@@ -18,10 +26,9 @@ const renderBreadcrumbsItem = (entity, isCurrent) => {
 }
 
 
-export default class Sidebar extends Component {
-  constructor({store}) {
+export default class TaskModal extends Component {
+  constructor() {
     super({
-      store,
       element: htmlToNode(template),
       subscriptions: ['toggleTaskСompleteness'],
     });
@@ -36,7 +43,7 @@ export default class Sidebar extends Component {
 
     $taskCheckbox.addEventListener('click', () => {
       if (this.props.id) {
-        this.store.dispatch('toggleTaskСompleteness', {id: this.props.id});
+        tasksStore.toggleCompleted(this.props.id);
       }
     });
     
@@ -49,13 +56,8 @@ export default class Sidebar extends Component {
 
   render({id}) {
     if (!id) return;
-    const findById = (id, type) => ({
-      task: taskById,
-      list: listById,
-      project: projectById
-    })[type](this.store.state, id);
-
-    const task = this.store.state.tasks.find(t => t.id === id);
+    
+    const task = tasksStore[id];
 
     const $modal = this.element;
     const $title = $modal.querySelector('.task-modal__title');
@@ -67,9 +69,18 @@ export default class Sidebar extends Component {
     $taskCheckbox.checked = task.completed;
     $descriptionField.value = task.description;
     $breadcrumbs.innerHTML = '';
-    
-    let currentEntity = task;
-    while (currentEntity) {
+
+    const findEntity = (id, type) => {
+      const store = 
+        type === 'task' ? tasksStore 
+        : type === 'list' ? listsStore
+        : type === 'project' ? projectsStore
+        : null;
+
+      return store[id];
+    };
+
+    (function renderBreadcrumbItem(currentEntity = task) {
       const $breadcrumbsItem = renderBreadcrumbsItem(currentEntity);
       if (currentEntity.type === 'task') {
         $breadcrumbsItem.addEventListener('click', () => {
@@ -77,13 +88,15 @@ export default class Sidebar extends Component {
         });
       }
       $breadcrumbs.prepend($breadcrumbsItem);
-
       
-      if (!currentEntity.parentId) break;
-      
-      currentEntity = findById(currentEntity.parentId, currentEntity.parentType);
-    }
+      if (!currentEntity.parentId) return;
 
+      const parentEntity = findEntity(currentEntity.parentId, currentEntity.parentType);
+
+      if (!parentEntity) return;
+
+      renderBreadcrumbItem(parentEntity)
+    })()
   }
 
   showWithTask(id) {

@@ -42,4 +42,8 @@ $primary-color: #F9F7F8;
   border-radius: 10px;
   width: 320px;
   flex-shrink: 0;
+
+  &:empty {
+    display: none;
+  }
 }

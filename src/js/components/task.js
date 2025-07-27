@@ -10,17 +10,19 @@ export default class Task extends Component {
       props,
       parent,
       element: htmlToNode(template),
+      stores: [useTasksStore()],
     });
+  }
+
+  renderPredicate({name, args}) {
+    if (name === 'addTask' || name === 'removeTask') return false;
+    if (args[0] === this.props.id) return true;
   }
 
   init({id}) {
     const $task = this.element;
     const $title = $task.querySelector('.task__title');
     const $checkbox = $task.querySelector('.task__checkbox');
-
-    $task.addEventListener('click', () => {
-      useTasksStore().removeTask(id);
-    });
 
     $checkbox.addEventListener('click', () => {
       useTasksStore().toggleCompleted(id);
