@@ -13,7 +13,8 @@ const createTask = (title, id) => ({
   dueDate: null,
 });
 
-export default defineStore({
+
+const useTasksStore = defineStore({
   state: {
     t1: {
       id: "t1",
@@ -154,6 +155,9 @@ export default defineStore({
     
     removeTask(id) {
       const task = this[id];
+      if (task.parentType === 'task') {
+        useTasksStore().removeSubtask(task.parentId, task.id);
+      }
       delete this[id];
       return task;
     },
@@ -164,7 +168,7 @@ export default defineStore({
 
     addSubtask(id, title) {
       const task = this[id];
-      const subtask = this.addTask(title, task);
+      const subtask = useTasksStore().addTask(title, task);
       task.subtaskIds.push(subtask.id);
     },
 
@@ -172,7 +176,6 @@ export default defineStore({
       const task = this[id];
       const subtaskId = task.subtaskIds[index];
       task.subtaskIds.splice(index, 1);
-      this.removeTask(subtaskId);
     },
 
     toggleCompleted(id) {
@@ -192,3 +195,5 @@ export default defineStore({
     },
   },
 });
+
+export default useTasksStore;

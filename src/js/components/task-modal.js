@@ -2,6 +2,7 @@ import Component from '/js/lib/component';
 import {htmlToNode} from '/js/lib/utils/dom';
 import template from './task-modal.html';
 import AddItem from '/js/components/add-item';
+import Task from '/js/components/task';
 import useTasksStore from '/js/stores/tasksStore';
 import useListsStore from '/js/stores/listsStore';
 import useProjectsStore from '/js/stores/projectsStore';
@@ -29,7 +30,13 @@ export default class TaskModal extends Component {
   constructor() {
     super({
       element: htmlToNode(template),
+      stores: [useTasksStore()],
     });
+  }
+
+  renderPredicate() {
+    if (!this.props.id) return false
+    return true;
   }
 
   init() {
@@ -47,6 +54,7 @@ export default class TaskModal extends Component {
     
     $exitButton.addEventListener('click', () => {
       $modal.close()
+      this.props.id = null;
     });
 
     $modalPlace.append($modal);
@@ -82,7 +90,7 @@ export default class TaskModal extends Component {
       const $breadcrumbsItem = renderBreadcrumbsItem(currentEntity);
       if (currentEntity.type === 'task') {
         $breadcrumbsItem.addEventListener('click', () => {
-          this.showWithTask.bind(this, currentEntity.id)
+          this.showWithTask.call(this, currentEntity.id)
         });
       }
       $breadcrumbs.prepend($breadcrumbsItem);
@@ -93,8 +101,24 @@ export default class TaskModal extends Component {
 
       if (!parentEntity) return;
 
-      renderBreadcrumbItem(parentEntity)
+      renderBreadcrumbItem.call(this, parentEntity);
     }).call(this);
+
+
+    const $checklist = $modal.querySelector('.task-modal__checklist');
+    const $checklistTasks = $checklist.querySelector('.task-modal__checklist-tasks');
+    const $checklistBody = $checklist.querySelector('.task-modal__checklist-body');
+
+    task.subtaskIds.forEach((taskId) => {
+      const subtask = new Task({parent: this, props: {id: taskId}});
+      $checklistTasks.appendChild(subtask.element);
+    });
+
+    const addSubtaskForm = new AddItem({parent: this, props: {title: 'Add new task'}});
+    $checklistBody.appendChild(addSubtaskForm.element);
+    addSubtaskForm.on('save', ({text: title}) => {
+      tasksStore.addSubtask(task.id, title);
+    });
   }
 
   showWithTask(id) {
