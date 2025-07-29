@@ -18,7 +18,7 @@ const useTasksStore = defineStore({
   state: {
     t1: {
       id: "t1",
-      title: "Design homepage layout",
+      title: "Design homepage layout Design homepage layout Design homepage layout Design homepage layout Design homepage layout",
       type: "task",
       completed: false,
       subtaskIds: [],
@@ -33,7 +33,7 @@ const useTasksStore = defineStore({
       type: "task",
       completed: false,
       subtaskIds: [],
-      description: "Initialize Express app and configure basic routes for API.",
+      description: "",
       parentId: "l2",
       parentType: "list",
       dueDate: "2025-08-03",
@@ -156,7 +156,7 @@ const useTasksStore = defineStore({
     removeTask(id) {
       const task = this[id];
       if (task.parentType === 'task') {
-        useTasksStore().removeSubtask(task.parentId, task.id);
+        useTasksStore().removeSubtask(task.parentId, task.id); 
       }
       delete this[id];
       return task;
@@ -179,7 +179,9 @@ const useTasksStore = defineStore({
     },
 
     toggleCompleted(id) {
-      this[id].completed = !this[id].completed;
+      const task = this[id]; 
+      task.completed = !task.completed;
+      return task;
     },
 
     setDueDate(id, date) {

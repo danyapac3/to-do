@@ -2,28 +2,39 @@
 
 @use '/styles/shared' as *;
 
+$checkbox-size: 16px;
+
+@mixin there-is-chosen {
+  :root:has(.chosen) {
+    @content
+  }
+}
+
 .task {
   background-color: white;
   border-radius: 10px;
   transition: background-color 0.2s;
   padding: 10px;
   
-  *:not(.has-dragging) > & {
-    @include button(white);
-  }
+  @include button(white);
 
   &.drag {
     padding: 8px;
     border: 2px dashed black;
   }
+
   &.ghost {
     background-color: rgb(0 0 0 / .1);
     color: rgb(0 0 0 / 0);
+    & * {
+      transition: none;
+      opacity: 0;
+    }
   }
 }
 
 .task__title-box {
-  align-items: center;
+  align-items: start;
   display: flex;
   gap: 10px;
   
@@ -34,19 +45,34 @@
 }
 
 .task__checkbox {
-  width: 16px;
-  height: 16px;
-  opacity: 0;
+  width: $checkbox-size;
+  height: $checkbox-size;
+  
+  @include has-hover {
+    opacity: 0;
+  }
 
-  .task:hover &, &:checked {
+  :root:not(:has(.chosen)) .task:hover &, &:checked {
     opacity: 1;
   }
 }
 
 .task__title {
+  display: block;
+  display: -webkit-box;
+  line-clamp: 3;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  $line-height: 16px * 1.25;
   transition: margin-left 0.2s;
-  margin-left: -16px - 10px;
-  line-height: 100%;
+  line-height: $line-height;
+  max-height: $line-height * 3;
+  width: calc(100% - $checkbox-size - 10px);
+  
+  @include has-hover() {
+    margin-left: -$checkbox-size - 10px;
+  }
 
   *:not(.has-dragging) > .task:hover & {
     margin-left: 0;
@@ -58,3 +84,42 @@
     opacity: 1;
   }
 }
+
+
+.task__indicators-box {
+  color: $secondary-text-color;
+  display: flex;
+  gap: 10px;
+
+  &:not(:first-child) {
+    margin-top: 10px;
+  }
+}
+
+
+// .task__description-indicator {
+// }
+
+
+.task__description-icon {
+  width: 16px;
+  height: 16px;
+  @include coloredIcon(url('/images/icons/description.svg'), $secondary-text-color);
+}
+
+
+.task__subtasks-indicator {
+  display: flex;
+  gap: 3px;
+}
+
+
+.task__subtasks-icon {
+  width: 16px;
+  height: 16px;
+  @include coloredIcon(url('/images/icons/subtask.svg'), $secondary-text-color);
+}
+
+
+// .task__subtasks-progress {
+// }

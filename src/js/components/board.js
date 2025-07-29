@@ -34,6 +34,8 @@ export default class Board extends Component {
       animation: 200,
       group: 'board',
       ghostClass: 'ghost',
+      dragClass: 'in-drag',
+      chosenClass: 'chosen',
       handle: '.list__header',
 
       setData: (dataTransfer, dragElm) => {

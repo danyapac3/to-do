@@ -99,7 +99,7 @@ export default class List extends Component {
       group: 'list',
       ghostClass: 'ghost',
       chosenClass: 'chosen',
-      dragClass: 'drag',
+      dragClass: 'in-drag',
 
       onStart: () => {
         $body.classList.add('has-dragging');

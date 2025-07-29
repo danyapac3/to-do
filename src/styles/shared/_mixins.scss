@@ -1,17 +1,5 @@
 @use 'sass:color';
 
-@mixin button($color) {
-  cursor: pointer;
-  user-select: none;
-
-  &:hover {
-    background-color: color.mix(black, $color, 5%); 
-  }
-
-  &:active {
-    background-color: color.mix(black, $color, 8%); 
-  }
-}
 
 
 @mixin coloredIcon($url, $color: black) {
@@ -24,4 +12,26 @@
   -webkit-mask-position: center;
   -webkit-mask-size: contain;
   -webkit-mask-repeat: no-repeat;
+}
+
+
+@mixin has-hover() {
+  @media (hover: hover) {
+    @content;
+  }
+}
+
+@mixin button($color) {
+  cursor: pointer;
+  user-select: none;
+
+  @include has-hover {
+    &:hover {
+      background-color: color.mix(black, $color, 5%); 
+    }
+  }
+
+  &:active {
+    background-color: color.mix(black, $color, 8%); 
+  }
 }
