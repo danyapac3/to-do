@@ -63,7 +63,7 @@ export default class Task extends Component {
       return tasksStore[subtaskId].completed ? acc + 1 : acc;
     }, 0);
 
-    $subtasksProgress.textContent = `${task.subtaskIds.length}/${doneNumber}`;
+    $subtasksProgress.textContent = `${doneNumber}/${task.subtaskIds.length}`;
 
     $task.dataset.id = id;
     $checkbox.checked = task.completed;

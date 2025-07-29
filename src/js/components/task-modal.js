@@ -74,6 +74,10 @@ export default class TaskModal extends Component {
     $title.textContent = task.title;
     $taskCheckbox.checked = task.completed;
     $descriptionField.value = task.description;
+    $descriptionField.addEventListener('change', (e) => {
+      tasksStore.setDescription(id, $descriptionField.value.trim());
+    });
+
     $breadcrumbs.innerHTML = '';
 
     const findEntity = (id, type) => {
