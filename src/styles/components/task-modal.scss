@@ -9,11 +9,39 @@ $close-button-size: 30px;
   padding: $modal-padding;
   background-color: $primary-color;
   border: none;
-  width: 578px;
   border-radius: 20px;
-  position: relative;
-
+  position: absolute;
   gap: 20px;
+  width: 1000px;
+  max-height: calc(100% - 5.714286svh * 2);
+  max-width: 100%;
+  margin-top: 5.714286svh;
+  overflow: hidden;
+
+  @include media-to(breakpoint("xl")) {
+    width: 900px;
+  }
+  @include media-to(breakpoint("lg")) {
+    width: 700px;
+  }
+  @include media-to(breakpoint("md")) {
+    width: 520px;
+  }
+  @include media-to(breakpoint("sm")) {
+    width: 380px;
+    padding-inline: 12px;
+  }
+  @include media-to(breakpoint("xs")) {
+    padding-inline: 24px;
+    width: 100%;
+    border-radius: 0;
+    height: 100%;
+    margin: 0;
+    max-height: 100%;
+  }
+  @include media-to(breakpoint("xxs")) {
+    padding-inline: 12px;
+  }
 }
 
 
@@ -43,23 +71,35 @@ $close-button-size: 30px;
   padding-right: $close-button-size + 20px;
   display: flex;
   gap: 10px;
+  align-self: stretch;
+}
+
+.task-modal__title-box {
+  display: flex;
+  gap: 10px;
 }
 
 .task-modal__task-checkbox {
   width: 18px;
   height: 18px;
+  flex-shrink: 0;
 }
 
 .task-modal__title {
   display: flex;
   font-size: 18px;
   gap: 10px;
+  flex-grow: 1;
 }
 
 
 .task-modal__body {
   display: flex;
+  flex-direction: column;
   gap: 30px;
+  overflow: auto;
+  padding-right: 10px;
+  scrollbar-width: thin;
 }
 
 
@@ -73,6 +113,7 @@ $close-button-size: 30px;
 
 .task-modal__sidebar {
   width: 130px;
+  flex-shrink: 0;
 }
 
 

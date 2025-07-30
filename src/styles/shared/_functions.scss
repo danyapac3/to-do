@@ -1,0 +1,26 @@
+@use "sass:map";
+@use 'sass:meta';
+
+@function breakpoint($breakpoint-name) {
+  @if (not meta.type-of($breakpoint-name) == "string") {
+    @error "Breakpoint wasn't specified";
+  }
+
+  $breakpoints: (
+    xxs: 320px,
+    xs: 400px,
+    sm: 576px,
+    md: 768px,
+    lg: 992px,
+    xl: 1200px,
+    xxl: 1400px,
+  );
+
+  $current-breakpoint: map.get($breakpoints, $breakpoint-name);
+
+  @if (not $current-breakpoint) {
+    @error "There is no such a breakpoint";
+  }
+
+  @return $current-breakpoint;
+}

@@ -1,4 +1,5 @@
 @use 'sass:color';
+@use './variables.scss' as *;
 
 
 
@@ -15,12 +16,6 @@
 }
 
 
-@mixin has-hover() {
-  @media (hover: hover) {
-    @content;
-  }
-}
-
 @mixin button($color) {
   cursor: pointer;
   user-select: none;
@@ -33,5 +28,33 @@
 
   &:active {
     background-color: color.mix(black, $color, 8%); 
+  }
+}
+
+
+@mixin has-hover() {
+  @media (hover: hover) {
+    @content;
+  }
+}
+
+
+@mixin media-from($breakpoint-from) {
+  @media (min-width: $breakpoint-from) {
+    @content;
+  }
+}
+
+
+@mixin media-to($breakpoint-to) {
+  @media (max-width: $breakpoint-to) {
+    @content;
+  }
+}
+
+
+@mixin media-from-to($breakpoint-from, $breakpoint-to) {
+  @media (min-width: $breakpoint-from) and (max-width: $breakpoint-to) {
+    @content;
   }
 }
