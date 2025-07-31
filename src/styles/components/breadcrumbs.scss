@@ -3,11 +3,35 @@
 .breadcrumbs {
   font-size: 12px;
   display: flex;
-  gap: 17px;
+  gap: 20px;
   scrollbar-width: none;
   
   &::-webkit-scrollbar { 
     display: none;
+  }
+
+  & > *:not(:last-child)::after {
+    color: black;
+    content: '';
+    width: 12px;
+    height: 12px;
+    display: block;
+    position: absolute;
+    pointer-events: none;
+    right: 0;
+    transform: translateX(calc(100% + 2px));
+
+    @include coloredIcon(url("/images/icons/arrow.svg"));
+  }
+
+  @include media-to(breakpoint("sm")) {
+    gap: 16px
+  }
+  
+  @include media-to(breakpoint("xs")) {
+  }
+
+  @include media-to(breakpoint("xxs")) {
   }
 }
 
@@ -18,19 +42,34 @@
   padding: 4px 6px;
   border-radius: 5px;
   color: $secondary-text-color;
+  max-width: 200px;
+  white-space: nowrap;
+  text-overflow: ellipsis; 
 
   transition: background-color 0.2s;
 
   @include button($primary-color);
 
-  &::after {
-    color: black;
-    content: '/';
-    display: block;
-    position: absolute;
-    pointer-events: none;
-    right: 0;
-    transform: translateX(calc(100% + 6px));
+  @include media-to(breakpoint("lg")) {
+    max-width: 150px;
+  }
+
+  @include media-to(breakpoint("md")) {
+    max-width: 120px;
+  }
+  
+  @include media-to(breakpoint("sm")) {
+    max-width: 100px;
+    padding: 4px;
+  }
+  
+  @include media-to(breakpoint("xs")) {    
+    max-width: 75px;
+    padding: 2px;
+  }
+
+  @include media-to(breakpoint("xxs")) {
+    max-width: 60px;
   }
 }
 
@@ -53,5 +92,9 @@
 
     @include coloredIcon(url('/images/icons/list.svg'), $secondary-text-color);
   }
-  
+}
+
+.breadcrumbs__item-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
 }

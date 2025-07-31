@@ -13,13 +13,12 @@ const listsStore = useListsStore();
 const projectsStore = useProjectsStore();
 
 
-const renderBreadcrumbsItem = (entity, isCurrent) => {
-  const $item = htmlToNode(`<div class="breadcrumbs__item">${entity.title}</div>`);
+const renderBreadcrumbsItem = (entity) => {
+  const $item = htmlToNode(`<div class="breadcrumbs__item"><div class="breadcrumbs__item-text">${entity.title}</div></div>`);
   const modifyerClass = 
     entity.type === 'list' ? 'breadcrumbs__item--list'
     : entity.type === 'project' ? 'breadcrumbs__item--project'
-    : isCurrent ? 'breadcrumbs__item--current':
-    null ; 
+    : null ; 
   
   if (modifyerClass) $item.classList.add(modifyerClass);
   return $item;
@@ -90,7 +89,8 @@ export default class TaskModal extends Component {
       return store[id];
     };
 
-    (function renderBreadcrumbItem(currentEntity = task) {
+    (function renderBreadcrumbItem(currentEntity = task, depth = 1) {
+      if (depth > 3) return;
       const $breadcrumbsItem = renderBreadcrumbsItem(currentEntity);
       if (currentEntity.type === 'task') {
         $breadcrumbsItem.addEventListener('click', () => {
@@ -105,7 +105,7 @@ export default class TaskModal extends Component {
 
       if (!parentEntity) return;
 
-      renderBreadcrumbItem.call(this, parentEntity);
+      renderBreadcrumbItem.call(this, parentEntity, depth + 1);
     }).call(this);
 
 
