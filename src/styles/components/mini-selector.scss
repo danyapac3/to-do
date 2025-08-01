@@ -1,0 +1,39 @@
+@use '@styles/shared' as *;
+
+.mini-selector {
+  display: flex;
+  gap: 6px;
+
+  padding: 8px;
+  border: 1px black solid;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  background-color: rgb(0 0 0 / 0);
+  user-select: none;
+
+  @include has-hover {
+    &:hover {
+      background-color: rgb(0 0 0 / 0.05);
+    }
+  }
+  &:active {
+    background-color: rgb(0 0 0 / 0.08);
+  }
+}
+
+
+.mini-selector__icon {
+  width: 16px;
+  height: 16px;
+}
+
+
+.mini-selector__title {
+  color: $primary-text-color;
+}
+
+
+.mini-selector__selected-option {
+  color: $secondary-text-color;
+}

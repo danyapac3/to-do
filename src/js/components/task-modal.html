@@ -11,6 +11,18 @@
       <input type="checkbox" class="task-modal__task-checkbox checkbox"><div class="task-modal__title"></div>
     </div>
     <div class="task-modal__main">
+      <div class="task-modal__mini-selectors">
+        <div class="mini-selector" data-type="due-date">
+          <img class="mini-selector__icon" src="/images/icons/calendar.svg" alt="">
+          <div class="mini-selector__title">Due Date</div>
+          <div class="mini-selector__selected-option"></div>
+        </div>
+        <div class="mini-selector" data-type="priority">
+          <img class="mini-selector__icon" src="/images/icons/flag.svg" alt="">
+          <div class="mini-selector__title">Priority</div>
+          <div class="mini-selector__selected"></div>
+        </div>
+      </div>
       <div class="task-modal__description">
         <div class="task-modal__description-header">
           <div class="task-modal__description-title"><div class="task-modal__description-icon"></div>Description</div>
@@ -22,7 +34,6 @@
       <div class="task-modal__checklist">
         <div class="task-modal__checklist-header">
           <div class="task-modal__checklist-title"><div class="task-modal__subtask-icon"></div>Checklist</div>
-          <div class="task-modal__checklist-percentage">75%</div>
         </div>
         <div class="task-modal__checklist-body">
           <div class="task-modal__checklist-tasks"></div>

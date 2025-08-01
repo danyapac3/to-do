@@ -111,6 +111,12 @@ $close-button-size: 30px;
 }
 
 
+.task-modal__mini-selectors {
+  display: flex;
+  gap: 20px;
+}
+
+
 .task-modal__sidebar {
   width: 130px;
   flex-shrink: 0;
@@ -266,14 +272,6 @@ $close-button-size: 30px;
   height: 16px;
   @include coloredIcon(url('/images/icons/subtask.svg'), $secondary-text-color);
 }
-
-
-.task-modal__checklist-percentage {
-  color: $secondary-text-color;
-  font-size: 14px;
-  line-height: 1;
-}
-
 
 .task-modal__checklist-tasks {
   display: flex;
