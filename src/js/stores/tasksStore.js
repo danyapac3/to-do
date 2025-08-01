@@ -178,6 +178,12 @@ const useTasksStore = defineStore({
       task.subtaskIds.splice(index, 1);
     },
 
+    moveSubtask(parentTaskId, oldIndex, newIndex) {
+      const task = this[parentTaskId];
+      const [subtaskId] = task.subtaskIds.splice(oldIndex, 1);
+      task.subtaskIds.splice(newIndex, 0, subtaskId);
+    },
+
     toggleCompleted(id) {
       const task = this[id]; 
       task.completed = !task.completed;

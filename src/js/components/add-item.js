@@ -22,6 +22,7 @@ export default class AddItem extends Component {
       hideElement($openFormButton);
       showElement($form);
       $textField.focus();
+      $form.scrollIntoView();
     });
 
     $textField.addEventListener('keydown', (e) => {

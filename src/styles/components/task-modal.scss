@@ -254,8 +254,11 @@ $close-button-size: 30px;
 }
 
 
-// .task-modal__checklist-body {
-// }
+.task-modal__checklist-body {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
 
 
 .task-modal__subtask-icon {
@@ -273,12 +276,11 @@ $close-button-size: 30px;
 
 
 .task-modal__checklist-tasks {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 
   &:empty {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-
     display: none;
   }
 }

@@ -6,6 +6,8 @@ import Task from '/js/components/task';
 import useTasksStore from '/js/stores/tasksStore';
 import useListsStore from '/js/stores/listsStore';
 import useProjectsStore from '/js/stores/projectsStore';
+import Sortable from 'sortablejs/modular/sortable.core.esm.js';
+
 
 
 const tasksStore = useTasksStore();
@@ -33,17 +35,18 @@ export default class TaskModal extends Component {
     });
   }
 
-  renderPredicate() {
-    if (!this.props.id) return false
+  renderPredicate({name, args, returnValue}) {
+    if (!this.props.id) return false;
+    if (name === "toggleCompleted") return false;
     return true;
   }
 
   init() {
     const $modalPlace = document.querySelector('.modal-place');
-
     const $modal = this.element;
     const $exitButton = $modal.querySelector('.task-modal__exit-button');
     const $taskCheckbox = $modal.querySelector('.task-modal__task-checkbox');
+    const $checklistTasks = $modal.querySelector('.task-modal__checklist-tasks');
 
     $taskCheckbox.addEventListener('click', () => {
       if (this.props.id) {
@@ -56,7 +59,20 @@ export default class TaskModal extends Component {
       this.props.id = null;
     });
 
-    $modalPlace.append($modal);
+    const sortable = new Sortable($checklistTasks, {
+      animation: 0,
+      delay: 150,
+      delayOnTouchOnly: true,
+      ghostClass: 'ghost',
+      chosenClass: 'chosen',
+      dragClass: 'in-drag',
+
+      onEnd: ({ oldIndex, newIndex }) => {
+        tasksStore.moveSubtask(this.props.id, oldIndex, newIndex);
+      }
+    });
+
+    $modalPlace.appendChild($modal);
   }
 
   render({id}) {
