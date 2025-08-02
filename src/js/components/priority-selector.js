@@ -26,6 +26,11 @@ export default class Task extends Component {
     const $cancelButton = this.element.querySelector('.mini-selector__cancel-button');
     const task = tasksStore[id];
 
+    $cancelButton.addEventListener('click', (e) => {
+      tasksStore.setPriority(id, 0);
+      e.stopPropagation();
+    }, true);
+
     $selector.addEventListener('click', ({pageX, pageY}) => {
       const {bottom, left} = $selector.getBoundingClientRect();
       contextMenu.showWithItems([
