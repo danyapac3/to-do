@@ -1,13 +1,15 @@
 import Component from '/js/lib/component';
 import {htmlToNode} from '/js/lib/utils/dom';
+import { contextMenu } from '/js/shared/components';
 import template from './task-modal.html';
 import AddItem from '/js/components/add-item';
 import Task from '/js/components/task';
 import useTasksStore from '/js/stores/tasksStore';
 import useListsStore from '/js/stores/listsStore';
 import useProjectsStore from '/js/stores/projectsStore';
-import Sortable from 'sortablejs/modular/sortable.core.esm.js';
 
+import Sortable from 'sortablejs/modular/sortable.core.esm.js';
+import AirDatepicker from 'air-datepicker'
 
 
 const tasksStore = useTasksStore();
@@ -47,6 +49,51 @@ export default class TaskModal extends Component {
     const $exitButton = $modal.querySelector('.task-modal__exit-button');
     const $taskCheckbox = $modal.querySelector('.task-modal__task-checkbox');
     const $checklistTasks = $modal.querySelector('.task-modal__checklist-tasks');
+    const $prioritySelector = $modal.querySelector('.mini-selector[data-type="priority"]');
+    const $descriptionField = $modal.querySelector('.task-modal__description-field');
+    const $dueDateSelector = $modal.querySelector('.mini-selector[data-type="due-date"]');
+    const $input = $dueDateSelector.querySelector('input');
+
+    $dueDateSelector.onclick = () => {
+      $input.focus();
+    }
+
+    $input.onchange = function() {
+      this.style.width = this.scrollWidth + "px";
+    }
+
+    new AirDatepicker($input, {
+      position: "bottom left",
+      visible: false,
+      inline: false,
+    });
+
+    $descriptionField.addEventListener('change', (e) => {
+      tasksStore.setDescription(this.props.id, $descriptionField.value.trim());
+    });
+
+    $prioritySelector.addEventListener('click', ({pageX, pageY}) => {
+      contextMenu.showWithItems([
+        {
+          title: "High",
+          callback: () => {tasksStore.setPriority(this.props.id, 3)},
+        },
+        {
+          title: "Medium",
+          callback: () => {tasksStore.setPriority(this.props.id, 2)},
+        },
+        {
+          title: "Low",
+          callback: () => {tasksStore.setPriority(this.props.id, 1)}
+        },
+        {
+          title: "None",
+          callback: () => {tasksStore.setPriority(this.props.id, 0)}
+        },
+
+
+      ], pageX, pageY, 'Priority');
+    });
 
     $taskCheckbox.addEventListener('click', () => {
       if (this.props.id) {
@@ -76,22 +123,26 @@ export default class TaskModal extends Component {
   }
 
   render({id}) {
-    if (!id) return;
-    
-    const task = tasksStore[id];
+    if (!(this.element.open && id)) return;
 
     const $modal = this.element;
     const $title = $modal.querySelector('.task-modal__title');
     const $taskCheckbox = $modal.querySelector('.task-modal__task-checkbox');
     const $breadcrumbs = $modal.querySelector('.task-modal__breadcrumbs');
+    const $prioritySelectedItem = $modal.querySelector('.mini-selector[data-type="priority"]>.mini-selector__selected-option');
     const $descriptionField = $modal.querySelector('.task-modal__description-field');
+    
+    const task = tasksStore[id];
+
+    $descriptionField.value = task.description;
+    $prioritySelectedItem.textContent = 
+      task.priority === 3 ? "High" 
+      : task.priority === 2 ? "Medium" 
+      : task.priority === 1 ? "Low"
+      : "";
 
     $title.textContent = task.title;
     $taskCheckbox.checked = task.completed;
-    $descriptionField.value = task.description;
-    $descriptionField.addEventListener('change', (e) => {
-      tasksStore.setDescription(id, $descriptionField.value.trim());
-    });
 
     $breadcrumbs.innerHTML = '';
 
@@ -143,7 +194,7 @@ export default class TaskModal extends Component {
 
   showWithTask(id) {
     this.props.id = id;
+    this.element.show();
     this.render();
-    this.element.showModal();
   }
 }

@@ -21,22 +21,22 @@ const useTasksStore = defineStore({
       title: "Design homepage layout Design homepage layout Design homepage layout Design homepage layout Design homepage layout",
       type: "task",
       completed: false,
+      priority: 0,
       subtaskIds: [],
       description: "Create mockups and responsive layout for homepage using Figma and TailwindCSS.",
       parentId: "l1",
       parentType: "list",
-      dueDate: "2025-08-01",
     },
     t2: {
       id: "t2",
       title: "Setup Node.js server",
       type: "task",
       completed: false,
+      priority: 0,
       subtaskIds: [],
       description: "",
       parentId: "l2",
       parentType: "list",
-      dueDate: "2025-08-03",
     },
     t3: {
       id: "t3",
@@ -47,29 +47,28 @@ const useTasksStore = defineStore({
       description: "Write a first version of the email for summer sales campaign.",
       parentId: "l3",
       parentType: "list",
-      dueDate: "2025-07-20",
     },
     t4: {
       id: "t4",
       title: "Schedule posts",
       type: "task",
       completed: false,
+      priority: 0,
       subtaskIds: [],
       description: "Use Buffer to schedule Instagram and Facebook posts for August.",
       parentId: "l4",
       parentType: "list",
-      dueDate: null,
     },
     t5: {
       id: "t5",
       title: "Run 5km",
       type: "task",
       completed: false,
+      priority: 0,
       subtaskIds: [],
       description: "Try to run 5 kilometers in under 30 minutes.",
       parentId: "l5",
       parentType: "list",
-      dueDate: "2025-07-27",
     },
     t6: {
       id: "t6",
@@ -80,51 +79,50 @@ const useTasksStore = defineStore({
       description: "Finish reading chapter 5 and take notes.",
       parentId: "l6",
       parentType: "list",
-      dueDate: null,
     },
     t7: {
       id: "t7",
       title: "Pack clothes",
       type: "task",
       completed: false,
+      priority: 0,
       subtaskIds: [],
       description: "Pack weather-appropriate clothes for 7-day trip.",
       parentId: "l7",
       parentType: "list",
-      dueDate: "2025-08-05",
     },
     t8: {
       id: "t8",
       title: "Research Vienna",
       type: "task",
       completed: false,
+      priority: 0,
       subtaskIds: [],
       description: "Find things to do and food to try in Vienna.",
       parentId: "l8",
       parentType: "list",
-      dueDate: "2025-08-02",
     },
     t9: {
       id: "t9",
       title: "Learn closures",
       type: "task",
       completed: false,
+      priority: 0,
       subtaskIds: [],
       description: "Watch video and complete exercises on JS closures.",
       parentId: "l9",
       parentType: "list",
-      dueDate: "2025-07-30",
     },
     t10: {
       id: "t10",
       title: "Practice speaking",
       type: "task",
       completed: false,
+      priority: 0,
       subtaskIds: [],
       description: "30 minutes of English conversation on iTalki.",
       parentId: "l10",
       parentType: "list",
-      dueDate: "2025-07-28",
     },
   },
   actions: {
@@ -135,6 +133,7 @@ const useTasksStore = defineStore({
         title: title || "",
         type: "task",
         completed: false,
+        priority: 0,
         subtaskIds: [],
         description: "",
         parentId: parent?.id || null,
@@ -145,6 +144,12 @@ const useTasksStore = defineStore({
       this[id] = task
 
       return task;
+    },
+
+    setPriority(id, number) { 
+      if (number < 0 || !Number.isInteger(number)) throw new Error('invalid priority');
+      const task = this[id];
+      task.priority = number;
     },
 
     setParent(id, parent) {
@@ -189,15 +194,7 @@ const useTasksStore = defineStore({
       task.completed = !task.completed;
       return task;
     },
-
-    setDueDate(id, date) {
-      this[id].dueDate = date;
-    },
-
-    removeDueDate(id) {
-      this[id].dueDate = null;
-    },
-
+    
     setDescription(id, description) {
       this[id].description = description;
     },

@@ -2,7 +2,12 @@
 
 @use '/styles/shared' as *;
 
-$checkbox-size: 16px;
+$task-font-size: $normal-font-size;
+$checkbox-size: $task-font-size;
+$task-title-line-height: $task-font-size * 1.25;
+$task-title-lines-number: 3;
+$task-gap: 10px;
+$indicators-size: $task-font-size;
 
 @mixin there-is-chosen {
   :root:has(.chosen) {
@@ -36,7 +41,7 @@ $checkbox-size: 16px;
 .task__title-box {
   align-items: start;
   display: flex;
-  gap: 10px;
+  gap: $task-gap;
   
   &:has(.task__checkbox:checked) {
     text-decoration: line-through;
@@ -45,14 +50,18 @@ $checkbox-size: 16px;
 }
 
 .task__checkbox {
+  margin-top: $checkbox-size * 0.125;
   width: $checkbox-size;
   height: $checkbox-size;
   
   @include has-hover {
     opacity: 0;
+    .task:hover & {
+      opacity: 1;
+    }
   }
-
-  :root:not(:has(.chosen)) .task:hover &, &:checked {
+  
+  &:checked, &:active {
     opacity: 1;
   }
 }
@@ -60,18 +69,17 @@ $checkbox-size: 16px;
 .task__title {
   display: block;
   display: -webkit-box;
-  line-clamp: 3;
-  -webkit-line-clamp: 3;
+  line-clamp: $task-title-lines-number;
+  -webkit-line-clamp: $task-title-lines-number;
   -webkit-box-orient: vertical;
   overflow: hidden;
-  $line-height: 16px * 1.25;
   transition: margin-left 0.2s;
-  line-height: $line-height;
-  max-height: $line-height * 3;
-  width: calc(100% - $checkbox-size - 10px);
+  line-height: $task-title-line-height;
+  max-height: $task-title-line-height * $task-title-lines-number;
+  width: calc(100% - $checkbox-size - $task-gap);
   
   @include has-hover() {
-    margin-left: -$checkbox-size - 10px;
+    margin-left: -$checkbox-size - $task-gap;
   }
 
   *:not(.has-dragging) > .task:hover & {
@@ -102,8 +110,8 @@ $checkbox-size: 16px;
 
 
 .task__description-icon {
-  width: 16px;
-  height: 16px;
+  width: $indicators-size;
+  height: $indicators-size;
   @include coloredIcon(url('/images/icons/description.svg'), $secondary-text-color);
 }
 
@@ -115,11 +123,7 @@ $checkbox-size: 16px;
 
 
 .task__subtasks-icon {
-  width: 16px;
-  height: 16px;
+  width: $indicators-size;
+  height: $indicators-size;
   @include coloredIcon(url('/images/icons/subtask.svg'), $secondary-text-color);
 }
-
-
-// .task__subtasks-progress {
-// }

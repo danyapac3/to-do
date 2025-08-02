@@ -8,5 +8,7 @@
 
   &:has(:open) {
     display: block;
+    background-color: rgb(0 0 0 / 0.5);
+    backdrop-filter: blur(1px);
   }
 }
