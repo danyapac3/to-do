@@ -1,13 +1,16 @@
+// common
 @use "./common/normalize.scss";
 @use "./common/general.scss";
 @use "./common/fonts.scss";
 
+// layout
 @use "./layout/context-menu-place.scss";
 @use "./layout/modal-place.scss";
 @use "./layout/page.scss";
 @use "./layout/sidebar.scss";
 @use "./layout/board.scss";
 
+// components
 @use "./components/breadcrumbs.scss";
 @use "./components/context-menu.scss";
 @use "./components/list.scss";
@@ -16,4 +19,5 @@
 @use "./components/task-modal.scss";
 @use "./components/mini-selector.scss";
 
+// libraries
 @use "air-datepicker/air-datepicker.css"

@@ -4,6 +4,7 @@ import { contextMenu } from '/js/shared/components';
 import template from './task-modal.html';
 import AddItem from '/js/components/add-item';
 import Task from '/js/components/task';
+import PrioritySelector from '/js/components/priority-selector';
 import useTasksStore from '/js/stores/tasksStore';
 import useListsStore from '/js/stores/listsStore';
 import useProjectsStore from '/js/stores/projectsStore';
@@ -40,6 +41,8 @@ export default class TaskModal extends Component {
   renderPredicate({name, args, returnValue}) {
     if (!this.props.id) return false;
     if (name === "toggleCompleted") return false;
+    if (name === "changePriority") return false;
+    if (!this.element.open) return false;
     return true;
   }
 
@@ -72,29 +75,6 @@ export default class TaskModal extends Component {
       tasksStore.setDescription(this.props.id, $descriptionField.value.trim());
     });
 
-    $prioritySelector.addEventListener('click', ({pageX, pageY}) => {
-      contextMenu.showWithItems([
-        {
-          title: "High",
-          callback: () => {tasksStore.setPriority(this.props.id, 3)},
-        },
-        {
-          title: "Medium",
-          callback: () => {tasksStore.setPriority(this.props.id, 2)},
-        },
-        {
-          title: "Low",
-          callback: () => {tasksStore.setPriority(this.props.id, 1)}
-        },
-        {
-          title: "None",
-          callback: () => {tasksStore.setPriority(this.props.id, 0)}
-        },
-
-
-      ], pageX, pageY, 'Priority');
-    });
-
     $taskCheckbox.addEventListener('click', () => {
       if (this.props.id) {
         tasksStore.toggleCompleted(this.props.id);
@@ -123,23 +103,21 @@ export default class TaskModal extends Component {
   }
 
   render({id}) {
-    if (!(this.element.open && id)) return;
+    if (!id) return;
 
     const $modal = this.element;
     const $title = $modal.querySelector('.task-modal__title');
     const $taskCheckbox = $modal.querySelector('.task-modal__task-checkbox');
     const $breadcrumbs = $modal.querySelector('.task-modal__breadcrumbs');
-    const $prioritySelectedItem = $modal.querySelector('.mini-selector[data-type="priority"]>.mini-selector__selected-option');
     const $descriptionField = $modal.querySelector('.task-modal__description-field');
-    
+    const $miniSelectorsPlace = $modal.querySelector('.task-modal__mini-selectors');
+
     const task = tasksStore[id];
 
+    const prioritySelector = new PrioritySelector({parent: this, props: {id}});
+    $miniSelectorsPlace.appendChild(prioritySelector.element);
+
     $descriptionField.value = task.description;
-    $prioritySelectedItem.textContent = 
-      task.priority === 3 ? "High" 
-      : task.priority === 2 ? "Medium" 
-      : task.priority === 1 ? "Low"
-      : "";
 
     $title.textContent = task.title;
     $taskCheckbox.checked = task.completed;
