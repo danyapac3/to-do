@@ -20,11 +20,7 @@ export default class Task extends Component {
 
   init({id}) {
     const $selector = this.element;
-    const $icon = this.element.querySelector('.mini-selector__icon');
-    const $title = this.element.querySelector('.mini-selector__title');
-    const $selectedOption = this.element.querySelector('.mini-selector__selected-option');
     const $cancelButton = this.element.querySelector('.mini-selector__cancel-button');
-    const task = tasksStore[id];
 
     $cancelButton.addEventListener('click', (e) => {
       tasksStore.setPriority(id, 0);
@@ -46,20 +42,12 @@ export default class Task extends Component {
           title: "Low",
           callback: () => {tasksStore.setPriority(id, 1)}
         },
-        {
-          title: "None",
-          callback: () => {tasksStore.setPriority(id, 0)}
-        },
       ], left, bottom + 10, 'Priority');
     });
   }
 
-  render({title, id}) {
-    const $selector = this.element;
-    const $icon = this.element.querySelector('.mini-selector__icon');
-    const $title = this.element.querySelector('.mini-selector__title');
+  render({id}) {
     const $selectedOption = this.element.querySelector('.mini-selector__selected-option');
-    const $cancelButton = this.element.querySelector('.mini-selector__cancel-button');
     const task = tasksStore[id];
 
     $selectedOption.textContent = (['', 'Low', 'Normal', 'High'])[task.priority];
