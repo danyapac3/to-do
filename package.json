@@ -30,6 +30,7 @@
   },
   "dependencies": {
     "air-datepicker": "^3.6.0",
+    "date-fns": "^4.1.0",
     "interactjs": "^1.10.27",
     "sortablejs": "^1.15.6",
     "uuid": "^11.1.0"

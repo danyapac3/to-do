@@ -26,6 +26,7 @@ const useTasksStore = defineStore({
       description: "Create mockups and responsive layout for homepage using Figma and TailwindCSS.",
       parentId: "l1",
       parentType: "list",
+      dueDate: null,
     },
     t2: {
       id: "t2",
@@ -37,6 +38,7 @@ const useTasksStore = defineStore({
       description: "",
       parentId: "l2",
       parentType: "list",
+      dueDate: null,
     },
     t3: {
       id: "t3",
@@ -47,6 +49,7 @@ const useTasksStore = defineStore({
       description: "Write a first version of the email for summer sales campaign.",
       parentId: "l3",
       parentType: "list",
+      dueDate: null,
     },
     t4: {
       id: "t4",
@@ -58,6 +61,7 @@ const useTasksStore = defineStore({
       description: "Use Buffer to schedule Instagram and Facebook posts for August.",
       parentId: "l4",
       parentType: "list",
+      dueDate: null,
     },
     t5: {
       id: "t5",
@@ -69,6 +73,7 @@ const useTasksStore = defineStore({
       description: "Try to run 5 kilometers in under 30 minutes.",
       parentId: "l5",
       parentType: "list",
+      dueDate: null,
     },
     t6: {
       id: "t6",
@@ -79,6 +84,7 @@ const useTasksStore = defineStore({
       description: "Finish reading chapter 5 and take notes.",
       parentId: "l6",
       parentType: "list",
+      dueDate: null,
     },
     t7: {
       id: "t7",
@@ -90,6 +96,7 @@ const useTasksStore = defineStore({
       description: "Pack weather-appropriate clothes for 7-day trip.",
       parentId: "l7",
       parentType: "list",
+      dueDate: null,
     },
     t8: {
       id: "t8",
@@ -101,6 +108,7 @@ const useTasksStore = defineStore({
       description: "Find things to do and food to try in Vienna.",
       parentId: "l8",
       parentType: "list",
+      dueDate: null,
     },
     t9: {
       id: "t9",
@@ -112,6 +120,7 @@ const useTasksStore = defineStore({
       description: "Watch video and complete exercises on JS closures.",
       parentId: "l9",
       parentType: "list",
+      dueDate: null,
     },
     t10: {
       id: "t10",
@@ -123,6 +132,7 @@ const useTasksStore = defineStore({
       description: "30 minutes of English conversation on iTalki.",
       parentId: "l10",
       parentType: "list",
+      dueDate: null,
     },
   },
   actions: {
@@ -198,6 +208,16 @@ const useTasksStore = defineStore({
     setDescription(id, description) {
       this[id].description = description;
     },
+
+    setDueDate(id, dueDateIsoString) {
+      const task = this[id];
+      task.dueDate = dueDateIsoString;
+    },
+
+    clearDueDate(id) {
+      const task = this[id];
+      task.dueDate = null;
+    }
   },
 });
 

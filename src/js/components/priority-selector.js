@@ -8,7 +8,7 @@ import template from './priority-selector.html';
 
 const tasksStore = useTasksStore();
 
-export default class Task extends Component {
+export default class PrioritySelector extends Component {
   constructor({parent, props}) {
     super({
       props,
@@ -16,6 +16,10 @@ export default class Task extends Component {
       element: htmlToNode(template),
       stores: [tasksStore],
     });
+  }
+
+  renderPredicate({name}) {
+    return (name === "setPriority");
   }
 
   init({id}) {
@@ -27,7 +31,7 @@ export default class Task extends Component {
       e.stopPropagation();
     }, true);
 
-    $selector.addEventListener('click', ({pageX, pageY}) => {
+    $selector.addEventListener('click', () => {
       const {bottom, left} = $selector.getBoundingClientRect();
       contextMenu.showWithItems([
         {

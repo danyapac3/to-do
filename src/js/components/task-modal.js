@@ -1,16 +1,15 @@
 import Component from '/js/lib/component';
 import {htmlToNode} from '/js/lib/utils/dom';
-import { contextMenu } from '/js/shared/components';
 import template from './task-modal.html';
 import AddItem from '/js/components/add-item';
 import Task from '/js/components/task';
+import DueDateSelector from '/js/components/due-date-selector';
 import PrioritySelector from '/js/components/priority-selector';
 import useTasksStore from '/js/stores/tasksStore';
 import useListsStore from '/js/stores/listsStore';
 import useProjectsStore from '/js/stores/projectsStore';
 
 import Sortable from 'sortablejs/modular/sortable.core.esm.js';
-import AirDatepicker from 'air-datepicker'
 
 
 const tasksStore = useTasksStore();
@@ -41,7 +40,9 @@ export default class TaskModal extends Component {
   renderPredicate({name, args, returnValue}) {
     if (!this.props.id) return false;
     if (name === "toggleCompleted") return false;
-    if (name === "changePriority") return false;
+    if (name === "setPriority") return false;
+    if (name === "setDueDate") return false;
+    if (name === "clearDueDate") return false; 
     if (!this.element.open) return false;
     return true;
   }
@@ -52,24 +53,7 @@ export default class TaskModal extends Component {
     const $exitButton = $modal.querySelector('.task-modal__exit-button');
     const $taskCheckbox = $modal.querySelector('.task-modal__task-checkbox');
     const $checklistTasks = $modal.querySelector('.task-modal__checklist-tasks');
-    const $prioritySelector = $modal.querySelector('.mini-selector[data-type="priority"]');
     const $descriptionField = $modal.querySelector('.task-modal__description-field');
-    const $dueDateSelector = $modal.querySelector('.mini-selector[data-type="due-date"]');
-    const $input = $dueDateSelector.querySelector('input');
-
-    $dueDateSelector.onclick = () => {
-      $input.focus();
-    }
-
-    $input.onchange = function() {
-      this.style.width = this.scrollWidth + "px";
-    }
-
-    new AirDatepicker($input, {
-      position: "bottom left",
-      visible: false,
-      inline: false,
-    });
 
     $descriptionField.addEventListener('change', (e) => {
       tasksStore.setDescription(this.props.id, $descriptionField.value.trim());
@@ -114,7 +98,9 @@ export default class TaskModal extends Component {
 
     const task = tasksStore[id];
 
+    const dueDateSelector = new DueDateSelector({parent: this, props: {id}});
     const prioritySelector = new PrioritySelector({parent: this, props: {id}});
+    $miniSelectorsPlace.appendChild(dueDateSelector.element);
     $miniSelectorsPlace.appendChild(prioritySelector.element);
 
     $descriptionField.value = task.description;
