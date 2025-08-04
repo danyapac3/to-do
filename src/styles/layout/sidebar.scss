@@ -16,8 +16,8 @@ $sidebar-padding:
   $sidebar-padding-bottom
   $sidebar-padding-left;
 
-
 .sidebar {
+  border-right: 1px solid $secondary-text-color;
   width: $sidebar-width;
   padding: $sidebar-padding;
   background-color: $primary-color;
@@ -44,6 +44,11 @@ $sidebar-padding:
 }
 
 .sidebar__toggle-visibility-button {
+  border-top: $secondary-text-color 1px solid;
+  border-right: $secondary-text-color 1px solid;
+  border-bottom: $primary-color 1px solid;
+  border-left: $primary-color 1px solid;
+
   border-radius: 9999px;
   width: $toggle-visibility-button-size;
   height: $toggle-visibility-button-size;
@@ -51,7 +56,7 @@ $sidebar-padding:
   top: 50%;
   right: -(math.div($toggle-visibility-button-size, 2));
   background-color: $primary-color;
-  transform: translateY(-50%);
+  transform: translateY(-50%) rotate(45deg);
 
   transition: background-color 0.2s, right 0.2s;
 
@@ -70,12 +75,12 @@ $sidebar-padding:
     background-size: 16px 16px;
     background-repeat: no-repeat;
     background-position: center;
-    transform: scale(-1, 1);
+    transform: scale(-1, 1) rotate(45deg);
     transition: transform 0.2s;
   }
 
   .sidebar.collapsed &::after {
-    transform: scale(1, 1);
+    transform: scale(1, 1) rotate(-45deg);
   }
 }
 
@@ -104,19 +109,19 @@ $sidebar-padding:
 }
 
 
-.sidebar__project {
-  
+.sidebar__item {
   overflow: hidden;
   padding: 10px;
   border-radius: 5px;
   display: flex;
-  gap: 5px;
+  gap: 8px;
+  align-items: center;
 
   transition: background-color 0.2s;
 
-  @include button($primary-color);
+  @include transparent-button();
 
-  &.user-created {
+  &--project {
     &::before {
       content: '#';
       color: $secondary-color;
@@ -124,7 +129,18 @@ $sidebar-padding:
   }
 
   &.drag-over {
-    border: 2px solid gray;
     background-color: white;
   }
+}
+
+.sidebar__item-icon {
+  width: 24px;
+  height: 24px;
+  align-self: center;
+}
+.sidebar__item-icon-image {
+  width: 100%;
+  height: 100%;
+}
+.sidebar__item-title {
 }

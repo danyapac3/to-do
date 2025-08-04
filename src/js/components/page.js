@@ -12,13 +12,20 @@ export default class Page extends Component {
 
   render() {
     const sidebar = new Sidebar({ parent: this });
-    const board = new Board({ parent: this, props: {id: null} });
+
+    const changeBoard = (() => {
+      let currentBoard = null;
+      return (board) => {
+        currentBoard?.destroy();
+        currentBoard = board;
+        this.element.appendChild(currentBoard.element);
+      }
+    })()
 
     sidebar.on('changeProject', ({id}) => {
-      board.changeProject(id);
+      changeBoard(new Board({parent: this, props: {id}}));
     });
 
     this.element.appendChild(sidebar.element);
-    this.element.appendChild(board.element);
   }
 }

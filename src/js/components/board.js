@@ -26,7 +26,7 @@ export default class Board extends Component {
     if (name === 'removeList') return true;
   }
 
-  init() {
+  init({id}) {
     const projectsStore = useProjectsStore();
     const $board = this.element;
     const $content = $board.querySelector('.board__content');
@@ -44,7 +44,7 @@ export default class Board extends Component {
 
       onEnd: ({ oldIndex, newIndex }) => {
         if (oldIndex === newIndex) return;
-        projectsStore.moveList(this.currentId, oldIndex, newIndex);
+        projectsStore.moveList(id, oldIndex, newIndex);
       }
     });
   }
@@ -61,7 +61,6 @@ export default class Board extends Component {
     }
 
     const projectsStore = useProjectsStore();
-    const listsStore = useListsStore();
 
     const project = projectsStore[id]
 
@@ -79,11 +78,5 @@ export default class Board extends Component {
     if (project && project.title) {
       $title.textContent = project.title;
     }
-  }
-
-  changeProject(id) {
-    this.props.id = id;
-    this.currentId = id;
-    this.render();
   }
 }

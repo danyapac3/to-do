@@ -7,7 +7,7 @@ import useListsStore from "/js/stores/listsStore";
 
 const createProject = (project) => {
   const element = document.createElement('div');
-  element.classList.add('sidebar__project', 'user-created');
+  element.classList.add('sidebar__item',  'sidebar__item--project');
   element.dataset.id = project.id;
   element.textContent = project.title;
   return element;
@@ -22,12 +22,13 @@ export default class Sidebar extends Component {
   }
 
   render() {
-    const sidebar = this.element;
-    const sidebarSectionContent = sidebar.querySelector('.sidebar__section-content');
-    const toggleVisibilityButton = this.element.querySelector('.sidebar__toggle-visibility-button');
+    const $sidebar = this.element;
+    const $toggleVisibilityButton = this.element.querySelector('.sidebar__toggle-visibility-button');
+    const $sidebarProjects = $sidebar.querySelector('.sidebar__section[data-type="projects"]');
+    const $sidebarProjectsContent = $sidebarProjects.querySelector('.sidebar__section-content');
 
-    toggleVisibilityButton.addEventListener('click', () => {
-      this.element.classList.toggle('collapsed');
+    $toggleVisibilityButton.addEventListener('click', () => {
+      $sidebar.classList.toggle('collapsed');
     });
 
     const projectsStore = useProjectsStore();
@@ -65,6 +66,6 @@ export default class Sidebar extends Component {
         return elm;
       });
 
-    sidebarSectionContent.replaceChildren(...projectElements);
+    $sidebarProjectsContent.replaceChildren(...projectElements);
   }
 }
