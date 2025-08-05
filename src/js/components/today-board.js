@@ -1,13 +1,9 @@
 import Component from '/js/lib/component';
-import {htmlToNode} from '/js/lib/utils/dom';
+import DateList from "/js/components/date-list";
 import template from './today-board.html';
-import List from './list';
-import AddItem from './add-item';
-import Sortable from 'sortablejs/modular/sortable.core.esm.js';
-import useProjectsStore from "/js/stores/projectsStore";
-import useListsStore from "/js/stores/listsStore";
+import {htmlToNode} from '/js/lib/utils/dom';
 
-export default class Board extends Component {
+export default class TodayBoard extends Component {
 
   constructor ({parent, props}) {
     super({
@@ -25,7 +21,6 @@ export default class Board extends Component {
   }
 
   init() {
-    const projectsStore = useProjectsStore();
     const $board = this.element;
     const $content = $board.querySelector('.board__content');
   }
@@ -36,7 +31,7 @@ export default class Board extends Component {
     const $content = $board.querySelector('.board__content');
     const $addNewSectionFormPlace = $board.querySelector('.board__add-new-section-form-place');
 
-    const projectsStore = useProjectsStore();
-
+    const todayList = new DateList({parent: this});
+    $content.appendChild(todayList.element);
   }
 }

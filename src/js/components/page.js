@@ -24,15 +24,17 @@ export default class Page extends Component {
         currentBoard = board;
         $boardPlace.appendChild(currentBoard.element);
       }
-    })()
+    })();
 
     sidebar.on('selectProject', ({id}) => {
       setBoard(new Board({parent: this, props: {id}}));
     });
 
     sidebar.on('selectToday', () => {
-      setBoard(new TodayBoard({parent: this}))
+      setBoard(new TodayBoard({parent: this}));
     });
+
+    setBoard(new TodayBoard({parent: this}));
 
     $sidebarPlace.appendChild(sidebar.element);
   }
