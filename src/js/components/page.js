@@ -11,6 +11,9 @@ export default class Page extends Component {
   }
 
   render() {
+    const $page = this.element;
+    const $sidebarPlace = $page.querySelector('.page__sidebar-place');
+    const $boardPlace = $page.querySelector('.page__board-place');
     const sidebar = new Sidebar({ parent: this });
 
     const changeBoard = (() => {
@@ -18,7 +21,7 @@ export default class Page extends Component {
       return (board) => {
         currentBoard?.destroy();
         currentBoard = board;
-        this.element.appendChild(currentBoard.element);
+        $boardPlace.appendChild(currentBoard.element);
       }
     })()
 
@@ -26,6 +29,6 @@ export default class Page extends Component {
       changeBoard(new Board({parent: this, props: {id}}));
     });
 
-    this.element.appendChild(sidebar.element);
+    $sidebarPlace.appendChild(sidebar.element);
   }
 }

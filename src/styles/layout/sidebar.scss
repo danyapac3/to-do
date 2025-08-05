@@ -22,6 +22,7 @@ $sidebar-padding:
   padding: $sidebar-padding;
   background-color: $primary-color;
   position: relative;
+  height: 100%;
 
   display: flex;
   flex-direction: column;
@@ -75,7 +76,7 @@ $sidebar-padding:
     background-size: 16px 16px;
     background-repeat: no-repeat;
     background-position: center;
-    transform: scale(-1, 1) rotate(45deg);
+    transform: scale(-1, -1) rotate(-45deg);
     transition: transform 0.2s;
   }
 
@@ -142,5 +143,5 @@ $sidebar-padding:
   width: 100%;
   height: 100%;
 }
-.sidebar__item-title {
-}
+// .sidebar__item-title {
+// }
