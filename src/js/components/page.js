@@ -1,6 +1,7 @@
 import Component from '/js/lib/component';
 import Sidebar from '/js/components/sidebar';
 import Board from '/js/components/board';
+import TodayBoard from '/js/components/today-board';
 
 export default class Page extends Component {
   constructor({parent, element}) {
@@ -16,7 +17,7 @@ export default class Page extends Component {
     const $boardPlace = $page.querySelector('.page__board-place');
     const sidebar = new Sidebar({ parent: this });
 
-    const changeBoard = (() => {
+    const setBoard = (() => {
       let currentBoard = null;
       return (board) => {
         currentBoard?.destroy();
@@ -25,8 +26,12 @@ export default class Page extends Component {
       }
     })()
 
-    sidebar.on('changeProject', ({id}) => {
-      changeBoard(new Board({parent: this, props: {id}}));
+    sidebar.on('selectProject', ({id}) => {
+      setBoard(new Board({parent: this, props: {id}}));
+    });
+
+    sidebar.on('selectToday', () => {
+      setBoard(new TodayBoard({parent: this}))
     });
 
     $sidebarPlace.appendChild(sidebar.element);

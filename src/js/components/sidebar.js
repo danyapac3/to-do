@@ -26,6 +26,11 @@ export default class Sidebar extends Component {
     const $toggleVisibilityButton = this.element.querySelector('.sidebar__toggle-visibility-button');
     const $sidebarProjects = $sidebar.querySelector('.sidebar__section[data-type="projects"]');
     const $sidebarProjectsContent = $sidebarProjects.querySelector('.sidebar__section-content');
+    const $todayButton = $sidebar.querySelector('.sidebar__item[data-filtered-for="today"]');
+
+    $todayButton.addEventListener('click', () => {
+      this.emit('selectToday');
+    });
 
     $toggleVisibilityButton.addEventListener('click', () => {
       $sidebar.classList.toggle('collapsed');
@@ -36,7 +41,7 @@ export default class Sidebar extends Component {
       .map(project => {
         const elm = createProject(project);
         elm.addEventListener('click', () => {
-          this.emit('changeProject', {id: project.id});
+          this.emit('selectProject', {id: project.id});
         });
         elm.addEventListener('dragenter', (e) => {
           elm.classList.add('drag-over'); 
