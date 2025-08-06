@@ -1,6 +1,7 @@
-$primary-color: #F9F7F8;
+@use "/styles/shared" as *;
 
 .board {
+  background-color: hsl(45, 30%, 88%);
   display: flex;
   flex-direction: column;
   flex: 1;

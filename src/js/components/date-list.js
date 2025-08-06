@@ -5,6 +5,8 @@ import template from './list.html';
 import Sortable from 'sortablejs/modular/sortable.core.esm.js';
 import { contextMenu } from '/js/shared/components';
 import Task from '/js/components/task';
+import useTasksStore from '/js/stores/tasksStore';
+import {format} from 'date-fns';
 
 
 export default class DateList extends Component {
@@ -14,15 +16,11 @@ export default class DateList extends Component {
       store,
       parent,
       element: htmlToNode(template),
-      stores: [],
+      stores: [useTasksStore()],
     });
   }
 
-  renderPredicate() {
-    return true;
-  }
-
-  init({id}) {
+  init() {
     const $list = this.element;
     const $body = $list.querySelector('.list__body');
 
@@ -55,12 +53,13 @@ export default class DateList extends Component {
     });
   }
 
-  render({dateRange, customTitle}) {
+  render({ startDate, endDate }) {
+
     const $list = this.element;
     const $body = this.element.querySelector('.list__body');
     const $footer = this.element.querySelector('.list__footer');
     const $title = $list.querySelector('.list__title');
-    $list.dataset.dateRange = dateRange;
+    $list.dataset.startDate
 
     $title.value = "23 Aug - Today";
 

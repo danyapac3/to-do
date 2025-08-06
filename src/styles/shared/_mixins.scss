@@ -2,7 +2,6 @@
 @use './variables.scss' as *;
 
 
-
 @mixin coloredIcon($url, $color: black) {
   background-color: $color;
   mask-image: $url;

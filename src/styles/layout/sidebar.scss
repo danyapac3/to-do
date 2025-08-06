@@ -1,8 +1,8 @@
 @use 'sass:math';
+@use 'sass:color';
 @use '@styles/shared' as *;
 
 
-$primary-color: #F9F7F8;
 $secondary-color: #767676;
 $toggle-visibility-button-size: 32px;
 $sidebar-width: 250px;
@@ -111,16 +111,17 @@ $sidebar-padding:
 
 
 .sidebar__item {
+  $default-active-color: color.scale($primary-color, $lightness: -8%);
+  --hsl: hsl(var(--hue), 60%, 92%);
   overflow: hidden;
   padding: 10px;
   border-radius: 5px;
   display: flex;
-  gap: 8px;
+  gap: 12px;
   align-items: center;
-
   transition: background-color 0.2s;
-
-  @include transparent-button();
+  cursor: pointer;
+  user-select: none;
 
   &--project {
     &::before {
@@ -129,14 +130,29 @@ $sidebar-padding:
     }
   }
 
+  @include has-hover {
+    &:hover {
+      background-color: hsl(from var(--hsl, $default-active-color) h s calc(l + 1));
+    }
+  }
+
+  &:active {
+    background-color: hsl(from var(--hsl, $default-active-color) h s calc(l - 1));
+  }
+
+  &--active {
+    --hsl: hsl(var(--hue), 60%, 92%);
+    background-color: hsl(from var(--hsl, $default-active-color) h s l);
+  }
+
   &.drag-over {
     background-color: white;
   }
 }
 
 .sidebar__item-icon {
-  width: 24px;
-  height: 24px;
+  width: 16px;
+  height: 16px;
   align-self: center;
 }
 .sidebar__item-icon-image {

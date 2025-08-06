@@ -7,8 +7,12 @@ import useListsStore from "/js/stores/listsStore";
 
 const createProject = (project) => {
   const element = document.createElement('div');
+
   element.classList.add('sidebar__item',  'sidebar__item--project');
   element.dataset.id = project.id;
+  if (project.hue) {
+    element.style.setProperty('--hue', project.hue);
+  }
   element.textContent = project.title;
   return element;
 }
@@ -19,6 +23,18 @@ export default class Sidebar extends Component {
       parent,
       element: htmlToNode(template),
     });
+  }
+
+  init() {
+    const $sidebar = this.element;
+    $sidebar.addEventListener('click', ({target}) => {
+      if (![...target.classList].includes('sidebar__item')) return;
+      const item = target;
+      $sidebar.querySelectorAll('.sidebar__item--active').forEach(elm => {
+        elm.classList.remove('sidebar__item--active');
+      });
+      item.classList.add('sidebar__item--active');
+    }) 
   }
 
   render() {

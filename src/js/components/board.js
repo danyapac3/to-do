@@ -64,6 +64,10 @@ export default class Board extends Component {
 
     const project = projectsStore[id]
 
+    if (project.hue) {
+      $board.style.backgroundColor = `hsl(${project.hue}, 60%, 85%)`;
+    }
+
     for (let listId of project.listIds) {
       const list = new List({ parent: this, props: {id: listId} });
       $content.append(list.element);
