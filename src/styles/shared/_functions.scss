@@ -28,13 +28,11 @@
 }
 
 @function hue-gradient($saturation: 100%, $lightness: 50) {
-  $steps: 360;
+  $steps: 30;
   $step: math.div(360, $steps);
-  $result: "";
+  $result: "90deg";
   @for $i from 0 to $steps {
-    @if ($i != 0) {
-      $result: $result + ",";
-    }
+    $result: $result + ",";
     $result: $result + "hsl(#{$i * $step} #{$saturation} #{$lightness})"
   }
   @return linear-gradient(string.unquote($result));

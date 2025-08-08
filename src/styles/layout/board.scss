@@ -18,7 +18,22 @@
 
 .board__title {
   font-size: 24px;
+  margin-right: auto;
 }
+
+
+.board__hue-picker {
+  width: 32px;
+  height: 32px;
+  border-radius: 32px;
+  border: none;
+  background-color: white;
+  transition: background-color 0.2s;
+  border: 2px solid black;
+
+  @include button(white);
+}
+
 
 .board__body {
   display: flex;

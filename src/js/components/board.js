@@ -6,6 +6,7 @@ import AddItem from './add-item';
 import Sortable from 'sortablejs/modular/sortable.core.esm.js';
 import useProjectsStore from "/js/stores/projectsStore";
 import useListsStore from "/js/stores/listsStore";
+import { huePicker } from "/js/shared/components";
 
 export default class Board extends Component {
 
@@ -30,6 +31,21 @@ export default class Board extends Component {
     const projectsStore = useProjectsStore();
     const $board = this.element;
     const $content = $board.querySelector('.board__content');
+    const $huePicker = $board.querySelector('.board__hue-picker');
+
+    $huePicker.addEventListener('click', ({pageX, pageY}) => {
+      huePicker.show({
+        x: pageX,
+        y: pageY,
+        onChange: () => {},
+        onUpdate: (hue) => {
+          console.log(`hsl(${hue} 100% 50%)`);
+          $huePicker.style.backgroundColor = `hsl(${hue} 100%, 50%)`;
+          $board.style.backgroundColor = `hsl(${hue} 60%, 85%)`;
+        },
+      });
+    });
+
     const sortable = new Sortable($content, {
       animation: 200,
       group: 'board',
