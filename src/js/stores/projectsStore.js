@@ -72,6 +72,10 @@ const useProjectsStore = defineStore({
       const listId = project.listIds[indexFrom];
       project.listIds.splice(indexFrom, 1);
       project.listIds.splice(indexTo, 0, listId);
+    },
+
+    setHue(id, hue) {
+      this[id].hue = hue;
     }
   },
 });

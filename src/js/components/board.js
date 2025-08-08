@@ -37,9 +37,10 @@ export default class Board extends Component {
       huePicker.show({
         x: pageX,
         y: pageY,
-        onChange: () => {},
+        onChange: (hue) => {
+          projectsStore.setHue(id, hue);
+        },
         onUpdate: (hue) => {
-          console.log(`hsl(${hue} 100% 50%)`);
           $huePicker.style.backgroundColor = `hsl(${hue} 100%, 50%)`;
           $board.style.backgroundColor = `hsl(${hue} 60%, 85%)`;
         },
