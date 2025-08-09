@@ -20,14 +20,23 @@ export default class HuePicker extends ActionModal {
 
     $thumb.style.backgroundColor = `hsl(${currentHue} 100% 50%)`;
 
-    const moveHandler = (pageX) => {
+    const setCurrentHue = (pageX) => {
       const {left, width} = $line.getBoundingClientRect();
       const relativeX = clamp(pageX - left, 0, width);
       const relativePercent = relativeX / width;
       currentHue = relativePercent * 360;
       $thumb.style.backgroundColor = `hsl(${currentHue} 100% 50%)`;
       $thumb.style.left = relativeX + 'px';
+    }
+
+    const moveHandler = (pageX) => {
+      setCurrentHue(pageX);
       onUpdate(currentHue);
+    };
+
+    const clickOnLineHandler = ({pageX}) => {
+      setCurrentHue(pageX);
+      onChange(currentHue);
     };
 
     const mouseMoveHandler = ({pageX}) => moveHandler(pageX);
@@ -56,5 +65,7 @@ export default class HuePicker extends ActionModal {
     $thumb.oncontextmenu = (e) => {
       e.preventDefault();
     }
+
+    $line.onclick = clickOnLineHandler;
   }
 }

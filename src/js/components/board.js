@@ -39,6 +39,8 @@ export default class Board extends Component {
         y: pageY,
         onChange: (hue) => {
           projectsStore.setHue(id, hue);
+          $huePicker.style.backgroundColor = `hsl(${hue} 100%, 50%)`;
+          $board.style.backgroundColor = `hsl(${hue} 60%, 85%)`;
         },
         onUpdate: (hue) => {
           $huePicker.style.backgroundColor = `hsl(${hue} 100%, 50%)`;
@@ -71,6 +73,7 @@ export default class Board extends Component {
     const $title = $board.querySelector('.board__title');
     const $content = $board.querySelector('.board__content');
     const $addNewSectionFormPlace = $board.querySelector('.board__add-new-section-form-place');
+    const $huePicker = $board.querySelector('.board__hue-picker');
 
     if (id === null) {
       $title.textContent = 'there is no selected project';
@@ -83,6 +86,7 @@ export default class Board extends Component {
 
     if (project.hue) {
       $board.style.backgroundColor = `hsl(${project.hue}, 60%, 85%)`;
+      $huePicker.style.backgroundColor = `hsl(${project.hue}, 100%, 50%)`;
     }
 
     for (let listId of project.listIds) {
