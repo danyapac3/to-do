@@ -7,7 +7,7 @@ const useAppStore = defineStore({
   },
 
   actions: {
-    setCurrentBoard(id) {
+    setCurrentProject(id) {
       const projectsStore = useProjectsStore();
       const possibleIds = [
         'system.today',

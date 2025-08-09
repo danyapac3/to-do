@@ -1,6 +1,6 @@
 import Component from '/js/lib/component';
 import {htmlToNode} from '/js/lib/utils/dom';
-import template from './board.html';
+import template from './project-board.html';
 import List from './list';
 import AddItem from './add-item';
 import Sortable from 'sortablejs/modular/sortable.core.esm.js';
@@ -8,8 +8,7 @@ import useProjectsStore from "/js/stores/projectsStore";
 import useListsStore from "/js/stores/listsStore";
 import { huePicker } from "/js/shared/components";
 
-export default class Board extends Component {
-
+export default class ProjectBoard extends Component {
   constructor ({parent, props}) {
     super({
       element: htmlToNode(template),

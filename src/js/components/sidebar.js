@@ -3,15 +3,27 @@ import {htmlToNode} from '/js/lib/utils/dom';
 import template from './sidebar.html';
 import useProjectsStore from "/js/stores/projectsStore";
 import useListsStore from "/js/stores/listsStore";
+import useAppStore from "/js/stores/appStore";
 
 const projectsStore = useProjectsStore();
-
+const appStore = useAppStore();
 
 const matchProjectElm = (elm) => elm.classList.contains('sidebar__item--project');
 
+const setActiveItem = ($sidebarElm) => {
+  const $activeItems = $sidebarElm.querySelectorAll('.sidebar__item--active');
+  $activeItems.forEach(($item) => {
+    $item.classList.remove('sidebar__item--active');
+  });
+  console.log(appStore.currentProject);
+  $sidebarElm.querySelector(`.sidebar__item[data-id="${appStore.currentProject}"]`).classList.add('sidebar__item--active');
+}
+
 const createProject = (project) => {
   const element = document.createElement('div');
-
+  if (appStore.currentProject === project.id) {
+    element.classList.add('sidebar__item--active');
+  }
   element.classList.add('sidebar__item',  'sidebar__item--project');
   element.dataset.id = project.id;
   if (project.hue) element.style.setProperty('--hue', project.hue);
@@ -25,12 +37,12 @@ export default class Sidebar extends Component {
     super({
       parent,
       element: htmlToNode(template),
-      stores: [useProjectsStore()],
+      stores: [projectsStore],
     });
   }
 
-  renderPredicate() {
-    return false;
+  renderPredicate({name}) {
+    return name === 'setHue'
   }
 
   init() {
@@ -38,16 +50,8 @@ export default class Sidebar extends Component {
     const $todayButton = $sidebar.querySelector('.sidebar__item[data-filtered-for="today"]');
 
     $todayButton.addEventListener('click', () => {
-      this.emit('selectToday');
-    });
-
-    $sidebar.addEventListener('click', ({target}) => {
-      if (![...target.classList].includes('sidebar__item')) return;
-      const item = target;
-      $sidebar.querySelectorAll('.sidebar__item--active').forEach(elm => {
-        elm.classList.remove('sidebar__item--active');
-      });
-      item.classList.add('sidebar__item--active');
+      appStore.setCurrentProject('system.today');
+      setActiveItem($sidebar);
     });
 
     const $toggleVisibilityButton = this.element.querySelector('.sidebar__toggle-visibility-button');
@@ -66,7 +70,8 @@ export default class Sidebar extends Component {
 
     $sidebar.addEventListener('click', ({target}) => {
       if (!matchProjectElm(target)) return;
-      this.emit('selectProject', {id: target.dataset.id});
+      appStore.setCurrentProject(target.dataset.id);
+      setActiveItem($sidebar);
     });
 
     $sidebar.addEventListener('dragleave', ({target}) => {
@@ -95,6 +100,8 @@ export default class Sidebar extends Component {
     const $sidebar = this.element;
     const $sidebarProjects = $sidebar.querySelector('.sidebar__section[data-type="projects"]');
     const $sidebarProjectsContent = $sidebarProjects.querySelector('.sidebar__section-content');
+
+    setActiveItem($sidebar);
 
     const projectElements = Object.values(projectsStore.$state).map(project => {
       const elm = createProject(project);

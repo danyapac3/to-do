@@ -1,41 +1,25 @@
 import Component from '/js/lib/component';
 import Sidebar from '/js/components/sidebar';
-import Board from '/js/components/board';
-import TodayBoard from '/js/components/today-board';
+import AppContent from '/js/components/app-content';
 
 export default class Page extends Component {
   constructor({parent, element}) {
     super({
       parent,
       element,
+      stores: [],
     })
   }
 
   render() {
     const $page = this.element;
     const $sidebarPlace = $page.querySelector('.page__sidebar-place');
-    const $boardPlace = $page.querySelector('.page__board-place');
+    
     const sidebar = new Sidebar({ parent: this });
-
-    const setBoard = (() => {
-      let currentBoard = null;
-      return (board) => {
-        currentBoard?.destroy();
-        currentBoard = board;
-        $boardPlace.appendChild(currentBoard.element);
-      }
-    })();
-
-    sidebar.on('selectProject', ({id}) => {
-      setBoard(new Board({parent: this, props: {id}}));
-    });
-
-    sidebar.on('selectToday', () => {
-      setBoard(new TodayBoard({parent: this}));
-    });
-
-    setBoard(new TodayBoard({parent: this}));
-
     $sidebarPlace.appendChild(sidebar.element);
+
+    const appContent = new AppContent({ parent: this });
+    appContent.element.classList.add('page__content');
+    $page.appendChild(appContent.element); 
   }
 }
