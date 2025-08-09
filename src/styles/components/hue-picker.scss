@@ -16,7 +16,7 @@ $picker-height: 20px;
 .hue-picker__picker {
   border-radius: 99px;
   min-width: 240px;
-  height: 20px;
+  height: 15px;
   background: hue-gradient();
 }
 
@@ -24,10 +24,10 @@ $picker-height: 20px;
   position: relative;
   height: 100%;
   aspect-ratio: 1 / 1;
-  transform: translateX(-10px) scale(1.2);
+  transform: translateX(-10px) scale(1.7);
   cursor: pointer;
 
-  border: 2px solid black;
+  border: 2px solid rgb(255, 255, 255);
   background-color: blue;
   border-radius: 999px;
 }

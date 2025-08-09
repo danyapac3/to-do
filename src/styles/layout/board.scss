@@ -29,7 +29,7 @@
   border: none;
   background-color: white;
   transition: background-color 0.2s;
-  border: 2px solid black;
+  border: 2px solid rgb(255, 255, 255);
 
   @include button(white);
 }
