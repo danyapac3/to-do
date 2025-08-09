@@ -22,6 +22,7 @@ const useProjectsStore = defineStore({
         type: 'project',
         listIds: [],
         taskIds: [],
+        hue: Math.floor(Math.random() * 360),
       }
 
       this[id] = project;
