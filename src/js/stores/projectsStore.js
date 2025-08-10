@@ -6,11 +6,12 @@ const listsStore = useListsStore();
 
 const useProjectsStore = defineStore({
   state: {
-    'p1': { id: "p1", title: "Frontend Development", type: "project", listIds: ["l1", "l2"], taskIds: [], hue: 200 },
-    'p2': { id: "p2", title: "Marketing Campaign", type: "project", listIds: ["l3", "l4"], taskIds: [], hue: 100 },
-    'p3': { id: "p3", title: "Personal Goals", type: "project", listIds: ["l5", "l6"], taskIds: [], hue: 11 },
-    'p4': { id: "p4", title: "Travel Planning", type: "project", listIds: ["l7", "l8"], taskIds: [], hue: 54 },
-    'p5': { id: "p5", title: "Learning Plan", type: "project", listIds: ["l9", "l10"], taskIds: [], hue: 23 },
+    'inbox': { id: 'inbox', title: "Inbox", type: "project", listIds: [], hue: 1, createdBy: "system"},
+    'p1': { id: "p1", title: "Frontend Development", type: "project", listIds: ["l1", "l2"], taskIds: [], hue: 200, createdBy: "user"},
+    'p2': { id: "p2", title: "Marketing Campaign", type: "project", listIds: ["l3", "l4"], taskIds: [], hue: 100, createdBy: "user"},
+    'p3': { id: "p3", title: "Personal Goals", type: "project", listIds: ["l5", "l6"], taskIds: [], hue: 11, createdBy: "user"},
+    'p4': { id: "p4", title: "Travel Planning", type: "project", listIds: ["l7", "l8"], taskIds: [], hue: 54, createdBy: "user"},
+    'p5': { id: "p5", title: "Learning Plan", type: "project", listIds: ["l9", "l10"], taskIds: [], hue: 23, createdBy: "user"},
   },
 
   actions: {
@@ -23,6 +24,7 @@ const useProjectsStore = defineStore({
         listIds: [],
         taskIds: [],
         hue: Math.floor(Math.random() * 360),
+        createdBy: 'user',
       }
 
       this[id] = project;

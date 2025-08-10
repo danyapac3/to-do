@@ -8,7 +8,9 @@ import useAppStore from "/js/stores/appStore";
 const projectsStore = useProjectsStore();
 const appStore = useAppStore();
 
-const matchProjectElm = (elm) => elm.classList.contains('sidebar__item--project');
+const matchProjectElm = (elm) => {
+  return elm.dataset.type === 'project';
+}
 
 const setActiveItem = ($sidebarElm) => {
   const $activeItems = $sidebarElm.querySelectorAll('.sidebar__item--active');
@@ -26,6 +28,7 @@ const createProject = (project) => {
   }
   element.classList.add('sidebar__item',  'sidebar__item--project');
   element.dataset.id = project.id;
+  element.dataset.type = 'project';
   if (project.hue) element.style.setProperty('--hue', project.hue);
   element.textContent = project.title;
   return element;
@@ -47,9 +50,10 @@ export default class Sidebar extends Component {
 
   init() {
     const $sidebar = this.element;
-    const $todayButton = $sidebar.querySelector('.sidebar__item[data-filtered-for="today"]');
+    const $todayItem = $sidebar.querySelector('.sidebar__item[data-filtered-for="today"]');
+    const $inboxItem = $sidebar.querySelector('.sidebar__item[data-id="inbox"]');;
 
-    $todayButton.addEventListener('click', () => {
+    $todayItem.addEventListener('click', () => {
       appStore.setCurrentProject('system.today');
       setActiveItem($sidebar);
     });
@@ -69,8 +73,10 @@ export default class Sidebar extends Component {
     });
 
     $sidebar.addEventListener('click', ({target}) => {
-      if (!matchProjectElm(target)) return;
-      appStore.setCurrentProject(target.dataset.id);
+      const closest = target.closest('.sidebar__item');
+      if (!closest) return;
+      if (!matchProjectElm(closest)) return;
+      appStore.setCurrentProject(closest.dataset.id);
       setActiveItem($sidebar);
     });
 
@@ -103,10 +109,12 @@ export default class Sidebar extends Component {
 
     setActiveItem($sidebar);
 
-    const projectElements = Object.values(projectsStore.$state).map(project => {
-      const elm = createProject(project);
-      return elm;
-    });
+    const projectElements = Object.values(projectsStore.$state)
+      .filter(project => project.createdBy === 'user')
+      .map(project => {
+        const elm = createProject(project);
+        return elm;
+      });
 
     $sidebarProjectsContent.replaceChildren(...projectElements);
   }
