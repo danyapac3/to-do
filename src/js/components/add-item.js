@@ -18,6 +18,14 @@ export default class AddItem extends Component {
     const $saveButton = this.element.querySelector('.add-item__save-button');
     const $cancelButton = this.element.querySelector('.add-item__cancel-button');
 
+    const save = () => {
+      const trimmed = $textField.textContent.trim();
+      $textField.textContent = '';
+      if (trimmed) {
+        this.emit('save', {text: trimmed});
+      }
+    }
+
     $openFormButton.addEventListener('click', () => {
       hideElement($openFormButton);
       showElement($form);
@@ -28,6 +36,7 @@ export default class AddItem extends Component {
     $textField.addEventListener('keydown', (e) => {
       if (e.key === 'Enter') {
         e.preventDefault();
+        save();
       } else if (e.key === ' ' && $textField.textContent.at(-1) === ' ') {
         e.preventDefault();
       }
@@ -55,11 +64,7 @@ export default class AddItem extends Component {
       
       hideElement($form);
       showElement($openFormButton);
-      const trimmed = $textField.textContent.trim();
-      $textField.textContent = '';
-      if (trimmed) {
-        this.emit('save', {text: trimmed});
-      }
+      save()
     });
 
     $cancelButton.addEventListener('click', () => {
@@ -69,15 +74,8 @@ export default class AddItem extends Component {
     });
 
     $saveButton.addEventListener('click', () => {
-      const trimmed = $textField.textContent.trim();
-      $textField.textContent = '';
-      if (trimmed) {
-        this.emit('save', {text: trimmed});
-        hideElement($form);
-        showElement($openFormButton);
-        return;
-      }
       $textField.focus();
+      save();
     });
 
     $openFormButton.textContent = props.title;
