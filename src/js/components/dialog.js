@@ -4,9 +4,10 @@ import template from './dialog.html';
 
 
 export default class ActionModal extends Component {
-  constructor () {
+  constructor ({props}) {
     const {parent = null} = arguments.length ? arguments[0] : {};
     super({
+      props,
       element: htmlToNode(template),
       parent: parent || null,
     });
@@ -43,12 +44,20 @@ export default class ActionModal extends Component {
     });
   }
 
+  render({ContentComponent}) {
+    if (!this.element.open) return;
+    const $dialog = this.element;
+    const $content = $dialog.querySelector('.dialog__content');
+    const contentComponent = new ContentComponent({parent: this, props: this.contentProps});
+    $content.appendChild(contentComponent.element);
+  }
+
   show(props) {
     const {x, y} = props;
-    this.props = props;
-    this.render();
+    this.contentProps = props;
     const $dialog = this.element;
     $dialog.showModal();
+    this.render();
 
     const { width, height } = $dialog.getBoundingClientRect();
 
@@ -63,7 +72,6 @@ export default class ActionModal extends Component {
 
   close() {
     this.element.close();
-    const $content = this.element.querySelector('.dialog__content');
-    $content.replaceChildren();
+    this.render();
   }
 }

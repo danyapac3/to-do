@@ -1,4 +1,5 @@
 import Dialog from "/js/components/dialog";
+import Component from "/js/lib/component"
 import template from "/js/components/hue-picker.html";
 import { htmlToNode } from '/js/lib/utils/dom';
 
@@ -6,14 +7,20 @@ const clamp = (value, min, max) => {
   return Math.max(min, Math.min(value, max));
 }
 
-export default class HuePicker extends Dialog {
+class HuePicker extends Component {
+
+  constructor ({parent, props}) {
+    super({
+      props,
+      parent,
+      element: htmlToNode(template),
+    });
+  }
+
   render({hue, onUpdate, onChange}) {
     let currentHue = hue || 0;
-    const $dialog = this.element;
-    const $content = $dialog.querySelector('.dialog__content');
 
-    const $picker = htmlToNode(template);
-    $content.replaceChildren($picker);
+    const $picker = this.element;
 
     const $line = $picker.querySelector('.hue-picker__picker');
     const $thumb = $picker.querySelector('.hue-picker__thumb');
@@ -69,4 +76,12 @@ export default class HuePicker extends Dialog {
 
     $line.onclick = clickOnLineHandler;
   }
+}
+
+export default function (options) {
+  if (!new.target) {
+    throw new TypeError("calling Foo constructor without new is invalid");
+  }
+  
+  return new Dialog({props: {ContentComponent: HuePicker}});
 }

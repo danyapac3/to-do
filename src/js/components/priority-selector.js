@@ -1,5 +1,5 @@
 import Component from '/js/lib/component';
-import { contextMenu } from '/js/shared/components';
+import { actionMenu } from '/js/shared/components';
 import { htmlToNode } from '/js/lib/utils/dom';
 import useTasksStore from '/js/stores/tasksStore';
 
@@ -33,7 +33,7 @@ export default class PrioritySelector extends Component {
 
     $selector.addEventListener('click', () => {
       const {bottom, left} = $selector.getBoundingClientRect();
-      contextMenu.showWithItems([
+      actionMenu.show({items: [
         {
           title: "High",
           callback: () => {tasksStore.setPriority(id, 3)}
@@ -46,7 +46,7 @@ export default class PrioritySelector extends Component {
           title: "Low",
           callback: () => {tasksStore.setPriority(id, 1)}
         },
-      ], left, bottom + 10, 'Priority');
+      ], x: left, y: bottom + 10, title: 'Priority'});
     });
   }
 

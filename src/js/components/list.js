@@ -2,7 +2,7 @@ import editIcon from '/images/icons/edit.svg';
 import moveIcon from '/images/icons/move-to.svg';
 import removeIcon from '/images/icons/bin.svg';
 
-import { contextMenu } from '/js/shared/components';
+import { actionMenu } from '/js/shared/components';
 import Component from '/js/lib/component';
 import Task from '/js/components/task';
 import AddItemForm from '/js/components/add-item';
@@ -65,11 +65,11 @@ export default class List extends Component {
         title: project.title,
         callback: moveListToProject.bind(this, project.id),
       }));
-      contextMenu.showWithItems(items, pageX, pageY, 'Move to');
+      actionMenu.show({items, x: pageX, y: pageY, title: 'Move to'});
     };
 
     const showActionMenu = ({pageX, pageY}) => {
-      contextMenu.showWithItems([
+      actionMenu.show({items: [
         {
           title: 'Rename',
           iconSrc: editIcon,
@@ -87,7 +87,7 @@ export default class List extends Component {
             listsStore.removeList(id);
           }
         },
-      ], pageX, pageY, 'Actions');
+      ], x: pageX, y: pageY, title: 'Actions'});
     };
     
     $actionsButton.addEventListener('click', showActionMenu);
