@@ -33,7 +33,7 @@
   $result: "90deg";
   @for $i from 0 to $steps {
     $result: $result + ",";
-    $result: $result + "hsl(#{$i * $step} #{$saturation} #{$lightness})"
+    $result: $result + "hsl(#{$i * $step} #{$saturation} #{$lightness})";
   }
   @return linear-gradient(string.unquote($result));
 }

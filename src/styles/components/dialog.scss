@@ -1,7 +1,7 @@
 @use "/styles/shared" as *;
 
 
-.action-modal[open] {
+.dialog[open] {
   animation: fadein 0.2s ease-out forwards;
 }
 
@@ -14,7 +14,7 @@
   }
 }
 
-.action-modal {
+.dialog {
 
   border: none;
   min-width: 0;
@@ -28,11 +28,11 @@
     opacity: 0;
   }
 
-  .action-modal[open] & {
+  .dialog[open] & {
     animation: fadein 0.2s ease-in forward;
   }
 }
 
-.action-modal__content {
+.dialog__content {
   overflow: visible;
 }

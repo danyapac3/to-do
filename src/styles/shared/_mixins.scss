@@ -18,14 +18,15 @@
 @mixin button($color) {
   cursor: pointer;
   user-select: none;
+  background-color: $color;
 
   @include has-hover {
     &:hover {
-      background-color: color.mix(black, $color, 5%); 
+      background-color: hsl(from $color h s calc(l - 2));
     }
   }
   &:active {
-    background-color: color.mix(black, $color, 8%); 
+    background-color: hsl(from $color h s calc(l - 4));
   }
 }
 

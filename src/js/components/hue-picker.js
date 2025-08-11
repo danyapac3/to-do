@@ -1,4 +1,4 @@
-import ActionModal from "/js/components/action-modal";
+import Dialog from "/js/components/dialog";
 import template from "/js/components/hue-picker.html";
 import { htmlToNode } from '/js/lib/utils/dom';
 
@@ -6,11 +6,11 @@ const clamp = (value, min, max) => {
   return Math.max(min, Math.min(value, max));
 }
 
-export default class HuePicker extends ActionModal {
+export default class HuePicker extends Dialog {
   render({hue, onUpdate, onChange}) {
     let currentHue = hue || 0;
-    const $modal = this.element;
-    const $content = $modal.querySelector('.action-modal__content');
+    const $dialog = this.element;
+    const $content = $dialog.querySelector('.dialog__content');
 
     const $picker = htmlToNode(template);
     $content.replaceChildren($picker);
@@ -47,6 +47,7 @@ export default class HuePicker extends ActionModal {
       document.removeEventListener('mousemove', mouseMoveHandler);
       document.removeEventListener('touchmove', touchMoveHandler);
       document.removeEventListener('mouseup', upHandler);
+      document.removeEventListener('touchend', upHandler);
       e.stopPropagation();
       onChange(currentHue);
     };

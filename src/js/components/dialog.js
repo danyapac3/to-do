@@ -1,6 +1,6 @@
 import Component from '/js/lib/component';
 import { htmlToNode } from '/js/lib/utils/dom';
-import template from './action-modal.html';
+import template from './dialog.html';
 
 
 export default class ActionModal extends Component {
@@ -13,23 +13,23 @@ export default class ActionModal extends Component {
   }
   
   init() {
-    const $modal = this.element;
+    const $dialog = this.element;
     const $modalPlace = document.querySelector('.modal-place');
-    $modalPlace.appendChild($modal);
-    const $content = $modal.querySelector('.action-modal__content');
+    $modalPlace.appendChild($dialog);
+    const $content = $dialog.querySelector('.dialog__content');
 
     let startedOnChildren = false;
 
-    $modal.addEventListener('click', (e) => {
+    $dialog.addEventListener('click', (e) => {
       if (startedOnChildren) {
         startedOnChildren = true;
         return;
       }
-      $modal.close();
+      this.close();
       e.stopPropagation();
     });
 
-    $modal.addEventListener('mousedown', (e) => {
+    $dialog.addEventListener('mousedown', (e) => {
       startedOnChildren = false;
     });
 
@@ -47,10 +47,10 @@ export default class ActionModal extends Component {
     const {x, y} = props;
     this.props = props;
     this.render();
-    const $modal = this.element;
-    $modal.showModal();
+    const $dialog = this.element;
+    $dialog.showModal();
 
-    const { width, height } = $modal.getBoundingClientRect();
+    const { width, height } = $dialog.getBoundingClientRect();
 
     const right = x + width;
     const bottom = y + height;
@@ -58,6 +58,12 @@ export default class ActionModal extends Component {
     const windowBottomShift = window.innerHeight - bottom;
     const realX = windowRightShift < 0 ? x - width : x;
     const realY = windowBottomShift < 0 ? y - height : y;
-    $modal.style.transform = `translate(${realX}px, ${realY}px)`;
+    $dialog.style.transform = `translate(${realX}px, ${realY}px)`;
+  }
+
+  close() {
+    this.element.close();
+    const $content = this.element.querySelector('.dialog__content');
+    $content.replaceChildren();
   }
 }

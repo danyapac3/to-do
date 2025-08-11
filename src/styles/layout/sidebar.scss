@@ -16,6 +16,8 @@ $sidebar-padding:
   $sidebar-padding-bottom
   $sidebar-padding-left;
 
+$sidebar-item-padding: 10px;
+
 .sidebar {
   border-right: 1px solid $secondary-text-color;
   width: $sidebar-width;
@@ -114,7 +116,7 @@ $sidebar-padding:
   $default-active-color: color.scale($primary-color, $lightness: -8%);
   --hsl: hsl(var(--hue), 60%, 92%);
   overflow: hidden;
-  padding: 10px;
+  padding: $sidebar-item-padding;
   border-radius: 5px;
   display: flex;
   gap: 12px;
@@ -122,6 +124,7 @@ $sidebar-padding:
   transition: background-color 0.2s;
   cursor: pointer;
   user-select: none;
+  position: relative;
 
   &--project {
     &::before {
@@ -155,9 +158,49 @@ $sidebar-padding:
   height: 16px;
   align-self: center;
 }
+
 .sidebar__item-icon-image {
   width: 100%;
   height: 100%;
 }
-// .sidebar__item-title {
-// }
+
+.sidebar__item-title {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  padding-right: 24px + 10px;
+
+  @include has-hover {
+    padding: 0;
+  }
+}
+
+.sidebar__item-action-button {
+  width: 24px;
+  height: 24px;
+  position: absolute;
+  right: $sidebar-item-padding;
+  top: 50%;
+  transform: translateY(-50%);
+  transition: background-color 0.2s;
+  border-radius: 5px;
+
+  &::after {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 100%;
+    @include coloredIcon(url("/images/icons/actions.svg"));
+  }
+
+  @include transparent-button;
+  
+  @include has-hover {
+    opacity: 0;
+    
+    @include button(var(--hsl, $primary-color));
+    .sidebar__item:hover & {
+      opacity: 1;
+    }
+  }
+}
