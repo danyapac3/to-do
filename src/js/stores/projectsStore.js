@@ -39,7 +39,7 @@ const useProjectsStore = defineStore({
 
     removeProject(projectId) {
       const project = this[projectId];
-      project.listsIds.forEach(listId => {
+      project.listIds.forEach(listId => {
         listsStore.removeList(listId);
       });
       delete this[projectId];

@@ -17,7 +17,7 @@ export default class Component {
     this.children = [];
     this.renderPredicate = this.renderPredicate || (() => true);
     this._render = this.render;
-    this.render = this.render 
+    this.render = this.render
       ? () => {
         this.children.forEach(child => child.destroy());
         this.children = [];
@@ -25,6 +25,7 @@ export default class Component {
       } 
       : () => {};
     this.init = this.init ? this.init.bind(this, this.props || {}) : () => {};
+    this.cleanUp = this.cleanUp ? this.cleanUp.bind(this, this.props || {}) : () => {};
     
     if (parent) parent.addChild(this);
 
@@ -44,8 +45,10 @@ export default class Component {
   }
 
   destroy() {
+    this.cleanUp();
     this.unsubscribeStoreFunctions.forEach(fn => fn());
     this.children.forEach(child => child.destroy());
+    this.parent = null;
     this.element.remove();
   }
 

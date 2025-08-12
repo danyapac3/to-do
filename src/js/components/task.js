@@ -1,5 +1,5 @@
 import Component from '/js/lib/component';
-import { contextMenu, taskModal } from '/js/shared/components';
+// import TaskModal from '/js/shared/components';
 import { htmlToNode } from '/js/lib/utils/dom';
 import template from './task.html';
 import useTasksStore from '/js/stores/tasksStore';
@@ -17,15 +17,7 @@ export default class Task extends Component {
   }
 
   renderPredicate({name, args, returnValue}) {
-    if (
-      (name === 'addTask' 
-      || name === 'removeTask'
-      || name === 'toggleCompleted')
-      && returnValue.parentId === this.props.id
-    ) {
-      return true;
-    } 
-    if (args[0] === this.props.id) return true;
+    return false;
   }
 
   init({id}) {
@@ -38,7 +30,7 @@ export default class Task extends Component {
     });
 
     $title.addEventListener('click', () => {
-      taskModal.showWithTask(id);
+      // taskModal.showWithTask(id);
     });
   }
 

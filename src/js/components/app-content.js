@@ -8,7 +8,7 @@ import template from './app-content.html';
 
 const appStore = useAppStore(); 
 
-export default class Page extends Component {
+export default class AppContent extends Component {
   constructor({parent}) {
     super({
       parent,

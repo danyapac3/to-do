@@ -3,9 +3,8 @@ import { htmlToNode } from '/js/lib/utils/dom';
 import template from './dialog.html';
 
 
-export default class ActionModal extends Component {
-  constructor ({props}) {
-    const {parent = null} = arguments.length ? arguments[0] : {};
+export default class Dialog extends Component {
+  constructor ({parent, props}) {
     super({
       props,
       element: htmlToNode(template),
@@ -13,7 +12,7 @@ export default class ActionModal extends Component {
     });
   }
   
-  init() {
+  init({props}) {
     const $dialog = this.element;
     const $modalPlace = document.querySelector('.modal-place');
     $modalPlace.appendChild($dialog);
@@ -44,20 +43,18 @@ export default class ActionModal extends Component {
     });
   }
 
-  render({ContentComponent}) {
-    if (!this.element.open) return;
+  render({ContentComponent, innerProps}) {
     const $dialog = this.element;
     const $content = $dialog.querySelector('.dialog__content');
-    const contentComponent = new ContentComponent({parent: this, props: this.contentProps});
+    const contentComponent = new ContentComponent({parent: this, props: innerProps});
     $content.appendChild(contentComponent.element);
+
+    this.show(innerProps.x, innerProps.y);
   }
 
-  show(props) {
-    const {x, y} = props;
-    this.contentProps = props;
+  show(x, y) {
     const $dialog = this.element;
     $dialog.showModal();
-    this.render();
 
     const { width, height } = $dialog.getBoundingClientRect();
 
@@ -71,7 +68,6 @@ export default class ActionModal extends Component {
   }
 
   close() {
-    this.element.close();
-    this.render();
+    this.destroy();
   }
 }

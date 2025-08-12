@@ -1,6 +1,5 @@
 import "/styles/index.scss";
 
-import '/js/shared/components';
 import Page from '/js/components/page';
 import Sortable, { AutoScroll } from 'sortablejs/modular/sortable.core.esm';
 

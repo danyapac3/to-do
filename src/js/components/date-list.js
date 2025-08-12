@@ -3,7 +3,6 @@ import AddItemForm from '/js/components/add-item';
 import { htmlToNode } from '/js/lib/utils/dom';
 import template from './list.html';
 import Sortable from 'sortablejs/modular/sortable.core.esm.js';
-import { contextMenu } from '/js/shared/components';
 import Task from '/js/components/task';
 import useTasksStore from '/js/stores/tasksStore';
 import {format} from 'date-fns';
@@ -24,7 +23,7 @@ export default class DateList extends Component {
     const $list = this.element;
     const $body = $list.querySelector('.list__body');
 
-    const sortable = new Sortable($body, {
+    this.sortable = new Sortable($body, {
       sort: false,
       animation: 0,
       delay: 150,
@@ -54,7 +53,6 @@ export default class DateList extends Component {
   }
 
   render({ startDate, endDate }) {
-
     const $list = this.element;
     const $body = this.element.querySelector('.list__body');
     const $footer = this.element.querySelector('.list__footer');
@@ -71,5 +69,9 @@ export default class DateList extends Component {
     });
     
     $footer.appendChild(newTaskForm.element);
+  }
+
+  cleanUp() {
+    this.sortable.destroy();
   }
 }

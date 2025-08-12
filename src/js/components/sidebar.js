@@ -1,3 +1,6 @@
+import editIcon from '/images/icons/edit.svg';
+import removeIcon from '/images/icons/bin.svg';
+
 import Component from '/js/lib/component';
 import AddItemForm from '/js/components/add-item';
 import {htmlToNode} from '/js/lib/utils/dom';
@@ -18,7 +21,6 @@ const setActiveItem = ($sidebarElm) => {
   $activeItems.forEach(($item) => {
     $item.classList.remove('sidebar__item--active');
   });
-  console.log(appStore.currentProject);
   $sidebarElm.querySelector(`.sidebar__item[data-id="${appStore.currentProject}"]`).classList.add('sidebar__item--active');
 }
 
@@ -35,6 +37,28 @@ const createProject = (project) => {
   return element;
 }
 
+const showProjectActionMenu = (projectId, x, y) => {
+  const actionMenu = new ActionMenu({
+    parent: this, 
+    props: {
+      items: [
+        {
+          title: 'Rename',
+          iconSrc: editIcon,
+          callback: () => { alert('Rename') },
+        },
+        { 
+          title: 'Remove',
+          iconSrc: removeIcon,
+          callback: () => { alert('Remove') }
+        }
+      ], 
+      x: pageX,
+      y: pageY,
+      title: 'Actions'
+    }
+  });
+}
 
 export default class Sidebar extends Component {
   constructor({parent}) {
@@ -46,7 +70,7 @@ export default class Sidebar extends Component {
   }
 
   renderPredicate({name}) {
-    return name === 'setHue' || name === 'addProject';
+    return name === 'setHue' || name === 'addProject' || name === 'removeProject';
   }
 
   init() {
@@ -73,7 +97,11 @@ export default class Sidebar extends Component {
       target.classList.add('drag-over');
     });
 
-    $sidebar.addEventListener('click', ({target}) => {
+    $sidebar.addEventListener('click', ({target, pageX, pageY, stopPropagation}) => {
+      if (target.classList.contains('sidebar__item-action-button')) {
+        showProjectActionMenu('p1', pageX, pageY);
+        return;
+      }
       const closest = target.closest('.sidebar__item');
       if (!closest) return;
       if (!matchProjectElm(closest)) return;

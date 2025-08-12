@@ -23,4 +23,14 @@ const useAppStore = defineStore({
   },
 });
 
+const appStore = useAppStore();
+
+useProjectsStore().$onAction(({name, returnValue}) => {
+  if (name !== 'removeProject') return ;
+  if (name === 'removeProject' && returnValue.id === appStore.$state.currentProject) {
+    appStore.setCurrentProject('system.inbox');
+  }
+}, true);
+
+
 export default useAppStore;

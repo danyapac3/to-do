@@ -70,7 +70,7 @@ export default class TaskModal extends Component {
       this.props.id = null;
     });
 
-    const sortable = new Sortable($checklistTasks, {
+    this.sortable = new Sortable($checklistTasks, {
       animation: 0,
       delay: 150,
       delayOnTouchOnly: true,
@@ -160,5 +160,9 @@ export default class TaskModal extends Component {
     this.props.id = id;
     this.element.show();
     this.render();
+  }
+
+  cleanUp() {
+    this.sortable.destroy();
   }
 }

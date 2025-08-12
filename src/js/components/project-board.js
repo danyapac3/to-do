@@ -6,7 +6,7 @@ import AddItem from './add-item';
 import Sortable from 'sortablejs/modular/sortable.core.esm.js';
 import useProjectsStore from "/js/stores/projectsStore";
 import useListsStore from "/js/stores/listsStore";
-import { huePicker } from "/js/shared/components";
+import HuePicker from "/js/components/hue-picker";
 
 export default class ProjectBoard extends Component {
   constructor ({parent, props}) {
@@ -33,9 +33,8 @@ export default class ProjectBoard extends Component {
     const $huePicker = $board.querySelector('.board__hue-picker');
 
     $huePicker.addEventListener('click', ({pageX, pageY}) => {
-      huePicker.show({
-        x: pageX,
-        y: pageY,
+      const huePicker = new HuePicker({parent: this, props: {
+        x: pageX, y: pageY,
         onChange: (hue) => {
           projectsStore.setHue(id, hue);
           $huePicker.style.backgroundColor = `hsl(${hue} 100%, 50%)`;
@@ -45,10 +44,10 @@ export default class ProjectBoard extends Component {
           $huePicker.style.backgroundColor = `hsl(${hue} 100%, 50%)`;
           $board.style.backgroundColor = `hsl(${hue} 60%, 85%)`;
         },
-      });
+      }});
     });
 
-    const sortable = new Sortable($content, {
+    this.sortable = new Sortable($content, {
       animation: 200,
       group: 'board',
       ghostClass: 'ghost',
@@ -103,4 +102,6 @@ export default class ProjectBoard extends Component {
       $title.textContent = project.title;
     }
   }
+
+  cleanUp() { this.sortable.destroy(); }
 }

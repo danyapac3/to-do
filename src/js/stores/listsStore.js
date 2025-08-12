@@ -83,6 +83,6 @@ tasksStore.$onAction(({name, store, returnValue: task}) => {
     delete listsStore.$state[task.id];
     listsStore.removeTask(task.parentId, task.id);
   }
-});
+}, true);
 
 export default useListsStore;

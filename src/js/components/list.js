@@ -2,7 +2,7 @@ import editIcon from '/images/icons/edit.svg';
 import moveIcon from '/images/icons/move-to.svg';
 import removeIcon from '/images/icons/bin.svg';
 
-import { actionMenu } from '/js/shared/components';
+import ActionMenu from '/js/components/action-menu';
 import Component from '/js/lib/component';
 import Task from '/js/components/task';
 import AddItemForm from '/js/components/add-item';
@@ -26,8 +26,8 @@ export default class List extends Component {
     });
   }
 
-  renderPredicate() {
-    return true;
+  renderPredicate({name, args, store, returnValue}) {
+    return name === 'addTask' && args[0] === this.props.id;
   }
 
   init({id}) {
@@ -65,34 +65,47 @@ export default class List extends Component {
         title: project.title,
         callback: moveListToProject.bind(this, project.id),
       }));
+      const actionMenu = new ActionMenu({
+        parent: this, 
+        props: { items, x: pageX, y: pageY, title: 'moveTo' },
+      });
+
       actionMenu.show({items, x: pageX, y: pageY, title: 'Move to'});
     };
 
     const showActionMenu = ({pageX, pageY}) => {
-      actionMenu.show({items: [
-        {
-          title: 'Rename',
-          iconSrc: editIcon,
-          callback: () => { $title.disabled = false; $title.focus(); },
-        },
-        { 
-          title: 'Move to',
-          iconSrc: moveIcon,
-          callback: () => showMoveMenu(pageX, pageY),
-        },
-        { 
-          title: 'Remove',
-          iconSrc: removeIcon,
-          callback: () => {
-            listsStore.removeList(id);
-          }
-        },
-      ], x: pageX, y: pageY, title: 'Actions'});
+      const actionMenu = new ActionMenu({
+        parent: this, 
+        props: {
+          items: [
+            {
+              title: 'Rename',
+              iconSrc: editIcon,
+              callback: () => { $title.disabled = false; $title.focus(); },
+            },
+            { 
+              title: 'Move to',
+              iconSrc: moveIcon,
+              callback: () => showMoveMenu(pageX, pageY),
+            },
+            { 
+              title: 'Remove',
+              iconSrc: removeIcon,
+              callback: () => {
+                listsStore.removeList(id);
+              }
+            }
+          ], 
+          x: pageX,
+          y: pageY,
+          title: 'Actions'
+        }
+      });
     };
     
     $actionsButton.addEventListener('click', showActionMenu);
 
-    const sortable = new Sortable($body, {
+    this.sortable = new Sortable($body, {
       animation: 0,
       delay: 150,
       delayOnTouchOnly: true,
@@ -145,5 +158,9 @@ export default class List extends Component {
     });
     
     $footer.appendChild(newTaskForm.element);
+  }
+
+  cleanUp() {
+    this.sortable.destroy();
   }
 }

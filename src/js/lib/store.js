@@ -4,9 +4,12 @@ const createStore = ({state, actions}) => {
 
   const storeBuiltIns = {
     $state: state,
-    $onAction(callback) {
-      callbacks.push(callback);
-      
+    $onAction(callback, addStart) {
+      if (addStart) {
+        callbacks.unshift(callback);
+      } else {
+        callbacks.push(callback);
+      }
       // unsubscribe function
       return () => {
         const index = callbacks.indexOf(callback);
