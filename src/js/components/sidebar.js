@@ -23,7 +23,7 @@ const setActiveItem = ($sidebarElm) => {
   $activeItems.forEach(($item) => {
     $item.classList.remove('sidebar__item--active');
   });
-  $sidebarElm.querySelector(`.sidebar__item[data-id="${appStore.currentProject}"]`).classList.add('sidebar__item--active');
+  $sidebarElm.querySelector(`.sidebar__item[data-id="${appStore.currentProject}"]`)?.classList?.add('sidebar__item--active');
 }
 
 const createProject = (project) => {
@@ -80,7 +80,7 @@ export default class Sidebar extends Component {
   init() {
     const $sidebar = this.element;
     const $todayItem = $sidebar.querySelector('.sidebar__item[data-filtered-for="today"]');
-    const $inboxItem = $sidebar.querySelector('.sidebar__item[data-id="inbox"]');;
+    const $inboxItem = $sidebar.querySelector('.sidebar__item[data-id="system.inbox"]');;
 
     $todayItem.addEventListener('click', () => {
       appStore.setCurrentProject('system.today');

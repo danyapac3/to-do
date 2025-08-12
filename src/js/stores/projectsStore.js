@@ -6,7 +6,7 @@ const listsStore = useListsStore();
 
 const useProjectsStore = defineStore({
   state: {
-    'inbox': { id: 'inbox', title: "Inbox", type: "project", listIds: [], hue: 1, createdBy: "system"},
+    'system.inbox': { id: 'system.inbox', title: "Inbox", type: "project", listIds: [], hue: 1, createdBy: "system"},
     'p1': { id: "p1", title: "Frontend Development", type: "project", listIds: ["l1", "l2"], taskIds: [], hue: 200, createdBy: "user"},
     'p2': { id: "p2", title: "Marketing Campaign", type: "project", listIds: ["l3", "l4"], taskIds: [], hue: 100, createdBy: "user"},
     'p3': { id: "p3", title: "Personal Goals", type: "project", listIds: ["l5", "l6"], taskIds: [], hue: 11, createdBy: "user"},
@@ -40,7 +40,7 @@ const useProjectsStore = defineStore({
     removeProject(projectId) {
       const project = this[projectId];
       project.listIds.forEach(listId => {
-        listsStore.removeList(listId);
+        delete listsStore.$state
       });
       delete this[projectId];
       return project;

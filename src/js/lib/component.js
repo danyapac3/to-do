@@ -48,6 +48,7 @@ export default class Component {
     this.cleanUp();
     this.unsubscribeStoreFunctions.forEach(fn => fn());
     this.children.forEach(child => child.destroy());
+    this.children = [];
     this.parent = null;
     this.element.remove();
   }
