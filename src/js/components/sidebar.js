@@ -3,6 +3,8 @@ import removeIcon from '/images/icons/bin.svg';
 
 import Component from '/js/lib/component';
 import AddItemForm from '/js/components/add-item';
+import ActionMenu from '/js/components/action-menu';
+
 import {htmlToNode} from '/js/lib/utils/dom';
 import template from './sidebar.html';
 import useProjectsStore from "/js/stores/projectsStore";
@@ -53,8 +55,8 @@ const showProjectActionMenu = (projectId, x, y) => {
           callback: () => { alert('Remove') }
         }
       ], 
-      x: pageX,
-      y: pageY,
+      x: x,
+      y: y,
       title: 'Actions'
     }
   });

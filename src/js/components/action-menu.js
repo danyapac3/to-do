@@ -38,9 +38,10 @@ class ActionMenu extends Component {
   }
 }
 
-export default function (options) {
+export default function ({parent, props}) {
   if (!new.target) {
     throw new TypeError("calling Foo constructor without new is invalid");
   }
-  return new Dialog({props: {ContentComponent: ActionMenu}});
+  
+  return new Dialog({parent, props: {innerProps: props, ContentComponent: ActionMenu}});
 }
