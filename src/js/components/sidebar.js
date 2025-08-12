@@ -52,7 +52,9 @@ const showProjectActionMenu = (projectId, x, y) => {
         { 
           title: 'Remove',
           iconSrc: removeIcon,
-          callback: () => { alert('Remove') }
+          callback: () => { 
+            projectsStore.removeProject(projectId);
+          }
         }
       ], 
       x: x,
@@ -99,9 +101,10 @@ export default class Sidebar extends Component {
       target.classList.add('drag-over');
     });
 
-    $sidebar.addEventListener('click', ({target, pageX, pageY, stopPropagation}) => {
+    $sidebar.addEventListener('click', ({target, pageX, pageY}) => {
       if (target.classList.contains('sidebar__item-action-button')) {
-        showProjectActionMenu('p1', pageX, pageY);
+        const projectId = target.closest('.sidebar__item').dataset.id;
+        showProjectActionMenu(projectId, pageX, pageY);
         return;
       }
       const closest = target.closest('.sidebar__item');
