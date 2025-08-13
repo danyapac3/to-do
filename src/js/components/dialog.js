@@ -71,3 +71,13 @@ export default class Dialog extends Component {
     this.destroy();
   }
 }
+
+export function extendDialog (Component) {
+  return function ({parent, props}) {
+    if (!new.target) {
+      throw new TypeError("calling Foo constructor without new is invalid");
+    }
+    
+    return new Dialog({parent, props: {innerProps: props, ContentComponent: Component}});
+  }
+}

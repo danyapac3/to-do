@@ -1,4 +1,4 @@
-import Dialog from "/js/components/dialog";
+import {extendDialog} from "/js/components/dialog";
 import Component from "/js/lib/component"
 import template from "/js/components/action-menu.html";
 import { htmlToNode } from '/js/lib/utils/dom';
@@ -38,10 +38,4 @@ class ActionMenu extends Component {
   }
 }
 
-export default function ({parent, props}) {
-  if (!new.target) {
-    throw new TypeError("calling Foo constructor without new is invalid");
-  }
-  
-  return new Dialog({parent, props: {innerProps: props, ContentComponent: ActionMenu}});
-}
+export default extendDialog(ActionMenu);

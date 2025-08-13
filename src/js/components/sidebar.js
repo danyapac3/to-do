@@ -30,16 +30,29 @@ const createProject = (project) => {
   const template = 
     /*html*/ `
     <div class="sidebar__item sidebar__item--project" data-type="project" data-id="${project.id}">
-      <div class="sidebar__item-title">${project.title}</div>
+      <input class="sidebar__item-title" value="${project.title}" disabled>
       <div class="sidebar__item-action-button"></div>
     </div>`;
-
   const element = htmlToNode(template);
   if (project.hue) element.style.setProperty('--hue', project.hue);
+
+  const $title = element.querySelector('.sidebar__item-title');
+  let prevValue = project.title
+
+  $title.onchange = () => {
+    $title.disabled = true;
+    const trimmed = $title.value.trim();
+    if (trimmed === "" || trimmed === prevValue) {
+      $title.value = prevValue;
+      return;
+    }
+    prevValue = trimmed;
+    projectsStore.renameProject(project.id, trimmed);
+  };
   return element;
 }
 
-const showProjectActionMenu = (projectId, x, y) => {
+const showProjectActionMenu = (projectId, x, y, $sidebar) => {
   const actionMenu = new ActionMenu({
     parent: this, 
     props: {
@@ -47,7 +60,11 @@ const showProjectActionMenu = (projectId, x, y) => {
         {
           title: 'Rename',
           iconSrc: editIcon,
-          callback: () => { alert('Rename') },
+          callback: () => { 
+            const $title = $sidebar.querySelector(`.sidebar__item--project[data-id="${projectId}"] .sidebar__item-title`);
+            $title.disabled = false;
+            $title.focus();
+          },
         },
         { 
           title: 'Remove',
@@ -104,7 +121,7 @@ export default class Sidebar extends Component {
     $sidebar.addEventListener('click', ({target, pageX, pageY}) => {
       if (target.classList.contains('sidebar__item-action-button')) {
         const projectId = target.closest('.sidebar__item').dataset.id;
-        showProjectActionMenu(projectId, pageX, pageY);
+        showProjectActionMenu(projectId, pageX, pageY, $sidebar);
         return;
       }
       const closest = target.closest('.sidebar__item');

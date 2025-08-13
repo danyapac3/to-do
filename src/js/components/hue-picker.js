@@ -1,4 +1,4 @@
-import Dialog from "/js/components/dialog";
+import {extendDialog} from "/js/components/dialog";
 import Component from "/js/lib/component"
 import template from "/js/components/hue-picker.html";
 import { htmlToNode } from '/js/lib/utils/dom';
@@ -78,10 +78,4 @@ class HuePicker extends Component {
   }
 }
 
-export default function ({parent, props}) {
-  if (!new.target) {
-    throw new TypeError("calling Foo constructor without new is invalid");
-  }
-  
-  return new Dialog({parent, props: {innerProps: props, ContentComponent: HuePicker}});
-}
+export default extendDialog(HuePicker);
