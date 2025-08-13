@@ -126,6 +126,20 @@ $sidebar-item-padding: 10px;
   user-select: none;
   position: relative;
 
+  &:has(input:not(:disabled)) {
+    border: 2px solid black;
+    background:white;
+    gap: 0;
+
+    & .sidebar__item-action-button {
+      display: none;
+    }
+
+    &::before {
+      content: '';
+    }
+  }
+
   &--project {
     &::before {
       content: '#';

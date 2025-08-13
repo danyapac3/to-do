@@ -21,9 +21,10 @@ export default class ProjectBoard extends Component {
   }
 
   renderPredicate({name}) {
-    if (name === 'addList') return true;
-    if (name === 'moveListToProject') return true;
-    if (name === 'removeList') return true;
+    return (name === 'addList')
+    || (name === 'moveListToProject')
+    || (name === 'removeList')
+    || (name === 'renameProject');
   }
 
   init({id}) {

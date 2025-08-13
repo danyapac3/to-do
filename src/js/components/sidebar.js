@@ -39,7 +39,7 @@ const createProject = (project) => {
   const $title = element.querySelector('.sidebar__item-title');
   let prevValue = project.title
 
-  $title.onchange = () => {
+  const save = () => {
     $title.disabled = true;
     const trimmed = $title.value.trim();
     if (trimmed === "" || trimmed === prevValue) {
@@ -49,12 +49,15 @@ const createProject = (project) => {
     prevValue = trimmed;
     projectsStore.renameProject(project.id, trimmed);
   };
+
+  $title.onchange = save;
+  $title.onblur = save; 
   return element;
 }
 
 const showProjectActionMenu = (projectId, x, y, $sidebar) => {
   const actionMenu = new ActionMenu({
-    parent: this, 
+    parent: this,
     props: {
       items: [
         {

@@ -27,7 +27,10 @@ export default class List extends Component {
   }
 
   renderPredicate({name, args, store, returnValue}) {
-    return name === 'addTask' && args[0] === this.props.id;
+    return (
+      (name === 'addTask' && args[0] === this.props.id)
+      || (name === 'moveTaskToList') && (this.props.id === args[0] || this.props.id === args[1])
+    );
   }
 
   init({id}) {
