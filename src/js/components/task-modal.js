@@ -8,9 +8,9 @@ import PrioritySelector from '/js/components/priority-selector';
 import useTasksStore from '/js/stores/tasksStore';
 import useListsStore from '/js/stores/listsStore';
 import useProjectsStore from '/js/stores/projectsStore';
+import {extendDialog} from '/js/components/dialog';
 
 import Sortable from 'sortablejs/modular/sortable.core.esm.js';
-
 
 const tasksStore = useTasksStore();
 const listsStore = useListsStore();
@@ -29,9 +29,11 @@ const renderBreadcrumbsItem = (entity) => {
 }
 
 
-export default class TaskModal extends Component {
-  constructor() {
+class TaskModal extends Component {
+  constructor({parent, props}) {
     super({
+      props,
+      parent,
       element: htmlToNode(template),
       stores: [useTasksStore()],
     });
@@ -43,7 +45,6 @@ export default class TaskModal extends Component {
     if (name === "setPriority") return false;
     if (name === "setDueDate") return false;
     if (name === "clearDueDate") return false; 
-    if (!this.element.open) return false;
     return true;
   }
 
@@ -66,8 +67,8 @@ export default class TaskModal extends Component {
     });
     
     $exitButton.addEventListener('click', () => {
-      $modal.close()
-      this.props.id = null;
+      console.log(this.parent);
+      this.parent.close();
     });
 
     this.sortable = new Sortable($checklistTasks, {
@@ -156,13 +157,9 @@ export default class TaskModal extends Component {
     });
   }
 
-  showWithTask(id) {
-    this.props.id = id;
-    this.element.show();
-    this.render();
-  }
-
   cleanUp() {
     this.sortable.destroy();
   }
 }
+
+export default extendDialog(TaskModal);

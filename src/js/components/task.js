@@ -1,5 +1,5 @@
 import Component from '/js/lib/component';
-// import TaskModal from '/js/shared/components';
+import TaskModal from '/js/components/task-modal';
 import { htmlToNode } from '/js/lib/utils/dom';
 import template from './task.html';
 import useTasksStore from '/js/stores/tasksStore';
@@ -17,7 +17,7 @@ export default class Task extends Component {
   }
 
   renderPredicate({name, args, returnValue}) {
-    return false;
+    return this.props.id === args[0];
   }
 
   init({id}) {
@@ -30,7 +30,7 @@ export default class Task extends Component {
     });
 
     $title.addEventListener('click', () => {
-      // taskModal.showWithTask(id);
+      new TaskModal({props: {id, hasBackdrop: true}});
     });
   }
 

@@ -4,19 +4,21 @@ import template from './dialog.html';
 
 
 export default class Dialog extends Component {
-  constructor ({parent, props}) {
+  constructor ({props}) {
     super({
       props,
       element: htmlToNode(template),
-      parent: parent || null,
+      parent: null
     });
   }
   
-  init({props}) {
+  init({hasBackdrop}) {
     const $dialog = this.element;
     const $modalPlace = document.querySelector('.modal-place');
     $modalPlace.appendChild($dialog);
     const $content = $dialog.querySelector('.dialog__content');
+
+    $dialog.classList.toggle('dialog--backdrop', !!hasBackdrop);
 
     let startedOnChildren = false;
 
@@ -43,20 +45,27 @@ export default class Dialog extends Component {
     });
   }
 
-  render({ContentComponent, innerProps}) {
+  render(props) {
+    const {ControlledComponent, hasBackdrop, ...otherProps} = props;
     const $dialog = this.element;
     const $content = $dialog.querySelector('.dialog__content');
-    const contentComponent = new ContentComponent({parent: this, props: innerProps});
-    $content.appendChild(contentComponent.element);
+    const controlledComponent = new ControlledComponent({parent: this, props: otherProps});
+    $content.appendChild(controlledComponent.element);
 
-    this.show(innerProps.x, innerProps.y);
+    this.show(props.x, props.y);
   }
 
   show(x, y) {
     const $dialog = this.element;
+    const $content = this.element.querySelector('.dialog__content');
     $dialog.showModal();
 
-    const { width, height } = $dialog.getBoundingClientRect();
+    if(!(x && y)) {
+      $dialog.classList.add('dialog--centered');
+      return;
+    }
+
+    const { width, height } = $content.getBoundingClientRect();
 
     const right = x + width;
     const bottom = y + height;
@@ -64,7 +73,7 @@ export default class Dialog extends Component {
     const windowBottomShift = window.innerHeight - bottom;
     const realX = windowRightShift < 0 ? x - width : x;
     const realY = windowBottomShift < 0 ? y - height : y;
-    $dialog.style.transform = `translate(${realX}px, ${realY}px)`;
+    $content.style.transform = `translate(${realX}px, ${realY}px)`;
   }
 
   close() {
@@ -73,11 +82,11 @@ export default class Dialog extends Component {
 }
 
 export function extendDialog (Component) {
-  return function ({parent, props}) {
+  return function ({props}) {
     if (!new.target) {
       throw new TypeError("calling Foo constructor without new is invalid");
     }
     
-    return new Dialog({parent, props: {innerProps: props, ContentComponent: Component}});
+    return new Dialog({props: {...props, ControlledComponent: Component}});
   }
 }
