@@ -51,10 +51,26 @@ class TaskModal extends Component {
   init() {
     const $modalPlace = document.querySelector('.modal-place');
     const $modal = this.element;
+    const $body = $modal.querySelector('.task-modal__body');
     const $exitButton = $modal.querySelector('.task-modal__exit-button');
     const $taskCheckbox = $modal.querySelector('.task-modal__task-checkbox');
     const $checklistTasks = $modal.querySelector('.task-modal__checklist-tasks');
     const $descriptionField = $modal.querySelector('.task-modal__description-field');
+
+    let previousKnownScrollPosition = 0;
+    let isWaitingForFrame = false;
+
+    $body.addEventListener('scroll', (e) => {
+      previousKnownScrollPosition = $body.scrollTop;
+      if (!isWaitingForFrame) {
+        window.requestAnimationFrame(() => {
+          $body.classList.toggle('task-modal__body--scrolled', previousKnownScrollPosition > 0);
+          isWaitingForFrame = false;
+        });
+
+        isWaitingForFrame = true;
+      }
+    });
 
     $descriptionField.addEventListener('change', (e) => {
       tasksStore.setDescription(this.props.id, $descriptionField.value.trim());
@@ -65,7 +81,7 @@ class TaskModal extends Component {
         tasksStore.toggleCompleted(this.props.id);
       }
     });
-    
+
     $exitButton.addEventListener('click', () => {
       console.log(this.parent);
       this.parent.close();
@@ -126,7 +142,8 @@ class TaskModal extends Component {
       const $breadcrumbsItem = renderBreadcrumbsItem(currentEntity);
       if (currentEntity.type === 'task') {
         $breadcrumbsItem.addEventListener('click', () => {
-          this.showWithTask.call(this, currentEntity.id)
+          this.props.id = currentEntity.id;
+          this.render();
         });
       }
       $breadcrumbs.prepend($breadcrumbsItem);
@@ -147,6 +164,9 @@ class TaskModal extends Component {
 
     task.subtaskIds.forEach((taskId) => {
       const subtask = new Task({parent: this, props: {id: taskId}});
+      subtask.on('openDetails', ({id}) => {
+        this.parent.close();
+      });
       $checklistTasks.appendChild(subtask.element);
     });
 

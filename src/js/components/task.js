@@ -29,7 +29,8 @@ export default class Task extends Component {
       tasksStore.toggleCompleted(id);
     });
 
-    $title.addEventListener('click', () => {
+    $task.addEventListener('click', () => {
+      this.emit('openDetails', {id});
       new TaskModal({props: {id, hasBackdrop: true}});
     });
   }
