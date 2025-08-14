@@ -1,6 +1,7 @@
 import Component from '/js/lib/component';
 import { htmlToNode } from '/js/lib/utils/dom';
 import useTasksStore from '/js/stores/tasksStore';
+import ActionMenu from '/js/components/action-menu';
 
 import template from './priority-selector.html';
 
@@ -32,20 +33,27 @@ export default class PrioritySelector extends Component {
 
     $selector.addEventListener('click', () => {
       const {bottom, left} = $selector.getBoundingClientRect();
-      actionMenu.show({items: [
-        {
-          title: "High",
-          callback: () => {tasksStore.setPriority(id, 3)}
-        },
-        {
-          title: "Medium",
-          callback: () => {tasksStore.setPriority(id, 2)}
-        },
-        {
-          title: "Low",
-          callback: () => {tasksStore.setPriority(id, 1)}
-        },
-      ], x: left, y: bottom + 10, title: 'Priority'});
+      new ActionMenu({
+        props: {
+          items: [
+            {
+              title: "High",
+              callback: () => {tasksStore.setPriority(id, 3)}
+            },
+            {
+              title: "Medium",
+              callback: () => {tasksStore.setPriority(id, 2)}
+            },
+            {
+              title: "Low",
+              callback: () => {tasksStore.setPriority(id, 1)}
+            },
+          ],
+          x: left,
+          y: bottom + 10,
+          title: 'Priority'
+        }
+      });
     });
   }
 
