@@ -72,8 +72,6 @@ export default class List extends Component {
         parent: this, 
         props: { items, x: pageX, y: pageY, title: 'moveTo' },
       });
-
-      actionMenu.show({items, x: pageX, y: pageY, title: 'Move to'});
     };
 
     const showActionMenu = ({pageX, pageY}) => {

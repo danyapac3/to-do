@@ -3,8 +3,8 @@
 $secondary-color: white;
 
 .list {
-  max-height: 100%;
   width: 320px;
+  max-height: 100%;
   padding: 15px;
   background-color: $primary-color;
   flex-shrink: 0;
@@ -12,6 +12,10 @@ $secondary-color: white;
   display: flex;
   flex-direction: column;
   gap: 10px;
+
+  .board__content--vertical & {
+    width: 100%;
+  }
 
   &.ghost {
     background-color: black;
@@ -22,6 +26,7 @@ $secondary-color: white;
   }
 }
 
+
 .list__header {
   height: 32px;
   gap: 10px;
@@ -31,7 +36,8 @@ $secondary-color: white;
 
 
 .list__title {
-  display: block;
+  display: flex;
+  align-items: center;
   position: relative;
   padding-inline: 10px;
   appearance: none;
@@ -78,7 +84,15 @@ $secondary-color: white;
   gap: 10px;
   overflow: auto;
   scrollbar-width: thin;
+
+  &:has(+ .list__footer:empty) {
+    display: none;
+  }
 }
 
-// .list__footer {
-// }
+
+.list__footer {
+  &:empty {
+    display: none;
+  }
+}

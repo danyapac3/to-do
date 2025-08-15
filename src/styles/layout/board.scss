@@ -51,7 +51,14 @@
   align-items: start;
   gap: 10px;
   display: flex;
+
+  &--vertical {
+    width: 100%;
+    gap: 20px;
+    flex-direction: column;
+  }
 }
+
 
 .board__add-new-section-form-place {
   background-color: $primary-color;
