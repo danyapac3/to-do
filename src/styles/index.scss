@@ -11,6 +11,7 @@
 @use "./layout/board.scss";
 
 // components
+@use "./components/date-picker.scss";
 @use "./components/breadcrumbs.scss";
 @use "./components/context-menu.scss";
 @use "./components/action-menu.scss";

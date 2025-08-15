@@ -1,8 +1,8 @@
 import Component from '/js/lib/component';
 import { htmlToNode } from '/js/lib/utils/dom';
+import DatePicker from '/js/components/date-picker';
 import useTasksStore from '/js/stores/tasksStore';
-import AirDatepicker from 'air-datepicker';
-import localeEn from 'air-datepicker/locale/en';
+
 import { format } from 'date-fns';
 
 
@@ -27,29 +27,23 @@ export default class DueDateSelector extends Component {
 
   init({id}) {
     const $selector = this.element;
-    const $cancelButton = this.element.querySelector('.mini-selector__cancel-button');
-    const $input = this.element.querySelector('.mini-selector__invisible-input');
+    const $clearButton = this.element.querySelector('.mini-selector__clear-button');
 
-    $cancelButton.addEventListener('click', (e) => {
-      this.datePicker.clear({ silent: true });
-      tasksStore.clearDueDate(id);
-      e.stopPropagation();
-    }, true);
+    
+    $selector.onclick = ({pageX, pageY}) => {
+      const {left, bottom} = $selector.getBoundingClientRect();
+      const datePicker = new DatePicker({props: {
+        x: left,
+        y: bottom + 10,
+        hasTimepicker: true,
+        isTodayShown: true,
+        isTomorrowShown: true,
+      }});
 
-    $selector.addEventListener('click', (e) => {
-      $input.focus();
-    });
-
-    this.datePicker = new AirDatepicker($input, {
-      position: "bottom left",
-      inline: false,
-      locale: localeEn,
-      dateFormat: dateFormat,
-      onSelect: ({date}) => {
-        if (date) tasksStore.setDueDate(id, date.toISOString());
-        else tasksStore.clearDueDate(id);
-      }
-    });
+      datePicker.on('submit', (date) => {
+        console.log(date);
+      });
+    };
   }
 
   render({id}) {
@@ -59,7 +53,6 @@ export default class DueDateSelector extends Component {
     if (task.dueDate) {
       const date = new Date(task.dueDate);
       const formatedDate = format(date, dateFormat);
-      this.datePicker.selectDate(date, { silent: true });
       $selectedOption.textContent = formatedDate;
       return;
     }

@@ -24,9 +24,9 @@ export default class PrioritySelector extends Component {
 
   init({id}) {
     const $selector = this.element;
-    const $cancelButton = this.element.querySelector('.mini-selector__cancel-button');
+    const $clearButton = this.element.querySelector('.mini-selector__clear-button');
 
-    $cancelButton.addEventListener('click', (e) => {
+    $clearButton.addEventListener('click', (e) => {
       tasksStore.setPriority(id, 0);
       e.stopPropagation();
     }, true);
