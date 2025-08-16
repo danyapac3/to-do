@@ -251,8 +251,8 @@ $close-button-size: 30px;
 
 .task-modal__description-field-wrapper {
   overflow: hidden;
-  border-radius: 10px;
-  border: 1px solid $secondary-text-color;
+  border-radius: 12px;
+  // border: 1px solid $secondary-text-color;
   height: 150px;
 
   &:has(:disabled) {
