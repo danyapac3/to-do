@@ -4,8 +4,13 @@ import Component from "/js/lib/component"
 import { htmlToNode } from '/js/lib/utils/dom';
 import AirDatePicker from "air-datepicker";
 import localeEn from 'air-datepicker/locale/en';
-import { endOfDay, addDays} from "date-fns";
+import { endOfDay, addDays, getMinutes, getHours } from "date-fns";
 
+const ceilEndOfDay = (date) => {
+  return getMinutes(date) === 59 && getHours(date) === 23
+    ? endOfDay(date)
+    : date
+}
 
 class DataPicker extends Component {
   constructor ({parent, props}) {
@@ -33,7 +38,7 @@ class DataPicker extends Component {
       className: 'air-datapicker__today-button',
       
       onClick: () => {
-        this.emit('submit', today);
+        this.parent.emit('submit', today);
         this.parent.close();
       }
     }
@@ -43,7 +48,7 @@ class DataPicker extends Component {
       className: 'air-datapicker__today-button',
       
       onClick: () => {
-        this.emit('submit', tomorrow);
+        this.parent.emit('submit', tomorrow);
         this.parent.close();
       }
     }
@@ -55,7 +60,7 @@ class DataPicker extends Component {
       onClick: (dp) => {
         if (!dp.selectedDates.length) return;
 
-        this.emit('submit', dp.selectedDates[0]);
+        this.parent.emit('submit', ceilEndOfDay(dp.selectedDates[0]));
         this.parent.close();
       }
     }
@@ -72,7 +77,7 @@ class DataPicker extends Component {
       timeFormat: 'HH:mm',
 
       onSelect: (date) => {
-        this.emit('select', date);
+        this.parent.emit('select', ceilEndOfDay(date));
       },
     });
 

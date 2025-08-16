@@ -1,19 +1,6 @@
 import defineStore from "/js/lib/store";
 import { v4 as uuid } from 'uuid';
 
-const createTask = (title, id) => ({
-  title: title || "",
-  type: "task",
-  id: id,
-  completed: false,
-  subtaskIds: [],
-  description: "",
-  parentId: null,
-  parentType: null,
-  dueDate: null,
-});
-
-
 const useTasksStore = defineStore({
   state: {
     t1: {
@@ -209,9 +196,9 @@ const useTasksStore = defineStore({
       this[id].description = description;
     },
 
-    setDueDate(id, dueDateIsoString) {
+    setDueDate(id, timestamp) {
       const task = this[id];
-      task.dueDate = dueDateIsoString;
+      task.dueDate = timestamp;
     },
 
     clearDueDate(id) {
