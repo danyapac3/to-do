@@ -7,6 +7,7 @@ import TaskModal from '/js/components/task-modal';
 import { formatDate } from '/js/lib/utils/common';
 
 const tasksStore = useTasksStore();
+const tasksStoreState = tasksStore.$state;
 
 export default class Task extends Component {
   constructor({parent, props}) {
@@ -19,6 +20,8 @@ export default class Task extends Component {
   }
 
   renderPredicate({name, args, returnValue}) {
+    const id = args[0];
+    if (name === 'toggleCompleted' && tasksStoreState[id].parentId === this.props.id) return true;
     return this.props.id === args[0];
   }
 
