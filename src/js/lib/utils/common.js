@@ -1,3 +1,5 @@
+import { format, endOfDay, isEqual, getYear, addDays, subDays} from 'date-fns';
+
 /**
  * @callback Predicate
  * @param {string} - key
@@ -20,6 +22,24 @@ export const filterObject = (obj, predicate) => {
     }, {});
 }
 
-export const projectById = (state, id) => state.projects.find(p => p.id === id); 
-export const listById = (state, id) => state.lists.find(l => l.id === id); 
-export const taskById = (state, id) => state.tasks.find(t => t.id === id); 
+export const formatDate = (date) => {
+  const endOfDate = endOfDay(date);
+  const now = new Date(Date.now());
+  const today = endOfDay(now);
+  const tomorrow = addDays(today, 1);
+  const yesterday = subDays(today, 1);
+
+  const isTimeShown = !isEqual(endOfDay(date), date);
+  const isYearShown = getYear(date) !== getYear(now);
+
+  let result = 
+    isEqual(endOfDate, today) ? "Today"
+    : isEqual(endOfDate, tomorrow) ? "Tomorrow"
+    : isEqual(endOfDate, yesterday) ? "Yesterday"
+    : format(date, "d MMM")
+
+  result += isYearShown ? format(date, " yyyy") : "";
+  result += isTimeShown ? format(date, " HH:mm") : "";
+
+  return result;
+}

@@ -95,7 +95,9 @@ $indicators-size: $task-font-size;
 
 
 .task__indicators-box {
-  color: $secondary-text-color;
+  --indicator-size: 13px;
+  --indicator-color: #{$secondary-text-color};
+
   display: flex;
   gap: 10px;
 
@@ -105,25 +107,30 @@ $indicators-size: $task-font-size;
 }
 
 
-// .task__description-indicator {
-// }
-
-
-.task__description-icon {
-  width: $indicators-size;
-  height: $indicators-size;
-  @include coloredIcon(url('/images/icons/description.svg'), $secondary-text-color);
-}
-
-
-.task__subtasks-indicator {
+.task__indicator {
+  color: var(--indicator-color);
+  font-size: var(--indicator-size);
   display: flex;
   gap: 3px;
 }
 
+.task__indicator-icon {
+  width: var(--indicator-size);
+  height: var(--indicator-size);
 
-.task__subtasks-icon {
-  width: $indicators-size;
-  height: $indicators-size;
-  @include coloredIcon(url('/images/icons/subtask.svg'), $secondary-text-color);
+  .task__indicator--description & {
+    @include coloredIcon(url('/images/icons/description.svg'), var(--indicator-color));
+  }
+
+  .task__indicator--subtasks & {
+    @include coloredIcon(url('/images/icons/subtask.svg'), var(--indicator-color));
+  }
+
+  .task__indicator--due-date & {
+    @include coloredIcon(url('/images/icons/calendar.svg'), var(--indicator-color));
+  }
+
+  .task__indicator--priority & {
+    @include coloredIcon(url('/images/icons/flag.svg'), var(--indicator-color));
+  }
 }
