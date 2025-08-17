@@ -27,8 +27,9 @@ export default class Task extends Component {
     const $title = $task.querySelector('.task__title');
     const $checkbox = $task.querySelector('.task__checkbox');
 
-    $checkbox.addEventListener('click', () => {
+    $checkbox.addEventListener('click', (e) => {
       tasksStore.toggleCompleted(id);
+      e.stopPropagation();
     });
 
     $task.addEventListener('click', () => {
