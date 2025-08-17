@@ -6,7 +6,7 @@ import ActionMenu from '/js/components/action-menu';
 import Component from '/js/lib/component';
 import Task from '/js/components/task';
 import AddItemForm from '/js/components/add-item';
-import { htmlToNode, hideElement, showElement } from '/js/lib/utils/dom';
+import { htmlToNode } from '/js/lib/utils/dom';
 import template from './list.html';
 import Sortable from 'sortablejs/modular/sortable.core.esm.js';
 import useListsStore from '/js/stores/listsStore';
@@ -130,7 +130,11 @@ export default class List extends Component {
         } else {
           listsStore.moveTaskToList(oldListId, newListId, oldIndex, newIndex);
         }
-      }
+      },
+
+      onAdd: () => {
+
+      },
     });
   }
 

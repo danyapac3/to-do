@@ -85,7 +85,7 @@ $secondary-color: white;
   overflow: auto;
   scrollbar-width: thin;
 
-  &:has(+ .list__footer:empty) {
+  &:empty:has(+ .list__footer:empty) {
     display: none;
   }
 }

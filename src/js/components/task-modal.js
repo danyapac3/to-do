@@ -83,7 +83,6 @@ class TaskModal extends Component {
     });
 
     $exitButton.addEventListener('click', () => {
-      console.log(this.parent);
       this.parent.close();
     });
 

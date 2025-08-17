@@ -27,7 +27,6 @@ export default class Task extends Component {
 
   init({id}) {
     const $task = this.element;
-    const $title = $task.querySelector('.task__title');
     const $checkbox = $task.querySelector('.task__checkbox');
 
     $checkbox.addEventListener('click', (e) => {
@@ -53,7 +52,6 @@ export default class Task extends Component {
     const $dueDateIndicator = $task.querySelector('.task__indicator--due-date');
     const $dueDateInfo = $dueDateIndicator.querySelector('.task__indicator-info');
     const $priorityIndicator = $task.querySelector('.task__indicator--priority');
-    const $priorityIndicatorIcon = $priorityIndicator.querySelector('.task__indicator-icon'); 
 
     const hasDescription = !!task.description;
     const hasSubtasks = !!task.subtaskIds.length;
