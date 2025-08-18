@@ -16,10 +16,9 @@ const listsStore = useListsStore();
 const projectsStore = useProjectsStore();
 
 export default class List extends Component {
-  constructor ({parent, store, props}) {
+  constructor ({parent, props}) {
     super({
       props,
-      store,
       parent,
       element: htmlToNode(template),
       stores: [listsStore],

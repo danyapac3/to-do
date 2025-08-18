@@ -11,7 +11,6 @@ $secondary-color: white;
   border-radius: 10px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
 
   .board__content--vertical & {
     width: 100%;
@@ -85,14 +84,20 @@ $secondary-color: white;
   overflow: auto;
   scrollbar-width: thin;
 
-  &:empty:has(+ .list__footer:empty) {
-    display: none;
+  &:not(:first-child) {
+    margin-top: 10px;
+  }
+  &:empty {
+    margin-top: 0px;
   }
 }
 
 
 .list__footer {
+  &:not(:first-child) {
+    margin-top: 10px;
+  }
   &:empty {
-    display: none;
+    margin-top: 0px;
   }
 }

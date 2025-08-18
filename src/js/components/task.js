@@ -40,7 +40,7 @@ export default class Task extends Component {
     });
   }
 
-  render({id}) {
+  render({id, hiddenDueDate = false}) {
     const task = tasksStore[id];
     const $task = this.element;
     const $title = $task.querySelector('.task__title');
@@ -55,7 +55,7 @@ export default class Task extends Component {
 
     const hasDescription = !!task.description;
     const hasSubtasks = !!task.subtaskIds.length;
-    const hasDueDate = !!task.dueDate;
+    const hasDueDate = !hiddenDueDate && !!task.dueDate;
     const hasPriority = !!task.priority;
 
     $indicatorBox.hidden = !(hasDescription || hasSubtasks || hasDueDate || hasPriority);
