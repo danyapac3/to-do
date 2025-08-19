@@ -2,8 +2,8 @@ import defineStore from "/js/lib/store";
 import useProjectsStore from "./projectsStore";
 
 const useAppStore = defineStore({
-  state: {
-    currentProject: "system.today",
+  initState: () => {
+    return { currentProject: "system.today" }
   },
 
   actions: {

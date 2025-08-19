@@ -1,17 +1,55 @@
 import defineStore from "/js/lib/store";
+import storage from "/js/lib/storage";
 import useListsStore from "./listsStore";
 import { v4 as uuid } from 'uuid';
 
 const listsStore = useListsStore();
+const inboxId = 'system.inbox';
+const storageKey = "projectsStore";
+const tasksStorageKey = 'tasksStore';
+const listsStorageKey = 'listsStore';
+
+const isCorrectId = (entityId, state) => !!state[entityId];
 
 const useProjectsStore = defineStore({
-  state: {
-    'system.inbox': { id: 'system.inbox', title: "Inbox", type: "project", listIds: [], hue: 1, createdBy: "system"},
-    'p1': { id: "p1", title: "Frontend Development", type: "project", listIds: ["l1", "l2"], taskIds: [], hue: 200, createdBy: "user"},
-    'p2': { id: "p2", title: "Marketing Campaign", type: "project", listIds: ["l3", "l4"], taskIds: [], hue: 100, createdBy: "user"},
-    'p3': { id: "p3", title: "Personal Goals", type: "project", listIds: ["l5", "l6"], taskIds: [], hue: 11, createdBy: "user"},
-    'p4': { id: "p4", title: "Travel Planning", type: "project", listIds: ["l7", "l8"], taskIds: [], hue: 54, createdBy: "user"},
-    'p5': { id: "p5", title: "Learning Plan", type: "project", listIds: ["l9", "l10"], taskIds: [], hue: 23, createdBy: "user"},
+  initState: () => {
+    const fallbackState = {
+      [inboxId]: {
+        taskIds: [],
+        listIds: [],
+        id: inboxId,
+        title: "Inbox",
+        type: "project",
+        hue: 1,
+        createdBy: "system",
+      }
+    };
+
+    const state = storage.load(storageKey);
+    const tasksState = storage.load(tasksStorageKey);
+    const listsState = storage.load(listsStorageKey);
+
+    if (!state) return fallbackState;
+
+    Object.values(state).forEach(project => {
+      project.taskIds = tasksState 
+        ? project.taskIds.filter(taskId => isCorrectId(taskId, tasksState))
+        : []
+      project.listIds = listsState 
+        ? project.listIds.filter(listId => isCorrectId(listId, listsState))
+        : []
+    });
+
+
+    if (state && inboxId in state) {
+      return state;
+    }
+
+    return fallbackState;
+  },
+
+  onAction: ({state}) => {
+    storage.save(storageKey, state);
   },
 
   actions: {

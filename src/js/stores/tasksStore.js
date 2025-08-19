@@ -1,127 +1,43 @@
 import defineStore from "/js/lib/store";
 import { v4 as uuid } from 'uuid';
+import {filterObject} from '/js/lib/utils/common';
+import storage from "/js/lib/storage";
+
+const storageKey = 'tasksStore';
+const listsStorageKey = 'listsStore';
+const projectsStorageKey = 'projectsStore';
 
 const useTasksStore = defineStore({
-  state: {
-    t1: {
-      id: "t1",
-      title: "Design homepage layout Design homepage layout Design homepage layout Design homepage layout Design homepage layout",
-      type: "task",
-      completed: false,
-      priority: 0,
-      subtaskIds: [],
-      description: "Create mockups and responsive layout for homepage using Figma and TailwindCSS.",
-      parentId: "l1",
-      parentType: "list",
-      dueDate: null,
-    },
-    t2: {
-      id: "t2",
-      title: "Setup Node.js server",
-      type: "task",
-      completed: false,
-      priority: 0,
-      subtaskIds: [],
-      description: "",
-      parentId: "l2",
-      parentType: "list",
-      dueDate: null,
-    },
-    t3: {
-      id: "t3",
-      title: "Draft email template",
-      type: "task",
-      completed: true,
-      subtaskIds: [],
-      description: "Write a first version of the email for summer sales campaign.",
-      parentId: "l3",
-      parentType: "list",
-      dueDate: null,
-    },
-    t4: {
-      id: "t4",
-      title: "Schedule posts",
-      type: "task",
-      completed: false,
-      priority: 0,
-      subtaskIds: [],
-      description: "Use Buffer to schedule Instagram and Facebook posts for August.",
-      parentId: "l4",
-      parentType: "list",
-      dueDate: null,
-    },
-    t5: {
-      id: "t5",
-      title: "Run 5km",
-      type: "task",
-      completed: false,
-      priority: 0,
-      subtaskIds: [],
-      description: "Try to run 5 kilometers in under 30 minutes.",
-      parentId: "l5",
-      parentType: "list",
-      dueDate: null,
-    },
-    t6: {
-      id: "t6",
-      title: "Read 'Atomic Habits'",
-      type: "task",
-      completed: true,
-      subtaskIds: [],
-      description: "Finish reading chapter 5 and take notes.",
-      parentId: "l6",
-      parentType: "list",
-      dueDate: null,
-    },
-    t7: {
-      id: "t7",
-      title: "Pack clothes",
-      type: "task",
-      completed: false,
-      priority: 0,
-      subtaskIds: [],
-      description: "Pack weather-appropriate clothes for 7-day trip.",
-      parentId: "l7",
-      parentType: "list",
-      dueDate: null,
-    },
-    t8: {
-      id: "t8",
-      title: "Research Vienna",
-      type: "task",
-      completed: false,
-      priority: 0,
-      subtaskIds: [],
-      description: "Find things to do and food to try in Vienna.",
-      parentId: "l8",
-      parentType: "list",
-      dueDate: null,
-    },
-    t9: {
-      id: "t9",
-      title: "Learn closures",
-      type: "task",
-      completed: false,
-      priority: 0,
-      subtaskIds: [],
-      description: "Watch video and complete exercises on JS closures.",
-      parentId: "l9",
-      parentType: "list",
-      dueDate: null,
-    },
-    t10: {
-      id: "t10",
-      title: "Practice speaking",
-      type: "task",
-      completed: false,
-      priority: 0,
-      subtaskIds: [],
-      description: "30 minutes of English conversation on iTalki.",
-      parentId: "l10",
-      parentType: "list",
-      dueDate: null,
-    },
+  initState: () => {
+    const fallbackState = {};
+
+    let state = storage.load(storageKey);
+    const listsState = storage.load(listsStorageKey);
+    const projectsState = storage.load(projectsStorageKey);
+
+    if (!state || !projectsState) return fallbackState;
+
+    state = filterObject(state, (_, task) => {
+      const parentState = {
+        'task': state,
+        'list': listsState,
+        'project': projectsState,
+      }[task.parentType];
+
+      return (!!parentState && task.parentId in parentState);
+    });
+
+    Object.values(state).forEach(task => {
+      task.taskIds = task.taskIds.filter(t => (t.id in state));
+    });
+
+    return state;
   },
+
+  onAction: ({state}) => {
+    storage.save(storageKey, state);
+  },
+
   actions: {
     addTask(title, parent) {
       const id = uuid();
@@ -131,7 +47,7 @@ const useTasksStore = defineStore({
         type: "task",
         completed: false,
         priority: 0,
-        subtaskIds: [],
+        taskIds: [],
         description: "",
         parentId: parent?.id || null,
         parentType: parent?.type || null,
@@ -171,19 +87,19 @@ const useTasksStore = defineStore({
     addSubtask(id, title) {
       const task = this[id];
       const subtask = useTasksStore().addTask(title, task);
-      task.subtaskIds.push(subtask.id);
+      task.taskIds.push(subtask.id);
     },
 
     removeSubtask(id, index) {
       const task = this[id];
-      const subtaskId = task.subtaskIds[index];
-      task.subtaskIds.splice(index, 1);
+      const subtaskId = task.taskIds[index];
+      task.taskIds.splice(index, 1);
     },
 
     moveSubtask(parentTaskId, oldIndex, newIndex) {
       const task = this[parentTaskId];
-      const [subtaskId] = task.subtaskIds.splice(oldIndex, 1);
-      task.subtaskIds.splice(newIndex, 0, subtaskId);
+      const [subtaskId] = task.taskIds.splice(oldIndex, 1);
+      task.taskIds.splice(newIndex, 0, subtaskId);
     },
 
     toggleCompleted(id) {

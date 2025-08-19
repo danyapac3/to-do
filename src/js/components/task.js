@@ -54,7 +54,7 @@ export default class Task extends Component {
     const $priorityIndicator = $task.querySelector('.task__indicator--priority');
 
     const hasDescription = !!task.description;
-    const hasSubtasks = !!task.subtaskIds.length;
+    const hasSubtasks = !!task.taskIds.length;
     const hasDueDate = !hiddenDueDate && !!task.dueDate;
     const hasPriority = !!task.priority;
 
@@ -64,12 +64,12 @@ export default class Task extends Component {
     $dueDateIndicator.hidden = !hasDueDate;
     $priorityIndicator.hidden = !hasPriority;
 
-    const doneNumber = task.subtaskIds.reduce((acc, subtaskId) => {
+    const doneNumber = task.taskIds.reduce((acc, subtaskId) => {
       return tasksStore[subtaskId].completed ? acc + 1 : acc;
     }, 0);
 
     if (hasSubtasks) {
-      $subtasksProgress.textContent = `${doneNumber}/${task.subtaskIds.length}`;
+      $subtasksProgress.textContent = `${doneNumber}/${task.taskIds.length}`;
     }
     if (hasDueDate) {
       $dueDateInfo.textContent = formatDate(new Date(task.dueDate));

@@ -161,7 +161,7 @@ class TaskModal extends Component {
     const $checklistTasks = $checklist.querySelector('.task-modal__checklist-tasks');
     const $checklistBody = $checklist.querySelector('.task-modal__checklist-body');
 
-    task.subtaskIds.forEach((taskId) => {
+    task.taskIds.forEach((taskId) => {
       const subtask = new Task({parent: this, props: {id: taskId}});
       subtask.on('openDetails', ({id}) => {
         this.parent.close();

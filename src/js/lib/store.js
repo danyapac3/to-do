@@ -1,9 +1,15 @@
-const createStore = ({state, actions}) => {
-  const callbacks = [];
+const createStore = ({initState, actions, onAction}) => {
+  const state = initState();
 
+  if (typeof(state) !== 'object' || state === null ) {
+    throw new Error('State has to be an object');
+  }
+
+  const callbacks = [];
 
   const storeBuiltIns = {
     $state: state,
+
     $onAction(callback, addStart) {
       if (addStart) {
         callbacks.unshift(callback);
@@ -26,6 +32,7 @@ const createStore = ({state, actions}) => {
         return;
       }
       callbacks.forEach(cb => cb({ name, store, args, returnValue: result }));
+      onAction?.({name, state});
       return result;
     }
   }
@@ -58,7 +65,7 @@ const createStore = ({state, actions}) => {
   return store;
 }
 
-export default ({state, actions}) => {
-  const store = createStore({state, actions});
+export default ({initState, actions, onAction}) => {
+  const store = createStore({initState, actions, onAction});
   return () => store;
 };

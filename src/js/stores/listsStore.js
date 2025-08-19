@@ -1,19 +1,50 @@
 import defineStore from "/js/lib/store";
 import useTasksStore from "./tasksStore";
+import storage from '/js/lib/storage';
+import {filterObject} from '/js/lib/utils/common';
 import { v4 as uuid } from 'uuid';
 
+// const hasParent = (entity) => !!stateByType[entity.parentType][entity.parentId];
+
+// const removeParentlessEntities = (state) => {
+//   for (const [key, entity] of Object.entries(state)) {
+//     if (hasParent(entity)) continue;
+//     delete state[key];
+//   }
+// };
+
+
+const storageKey = 'listsStore';
+const projectsStorageKey = 'projectsStore';
+const tasksStorageKey = 'tasksStore';
+
+const isCorrectId = (entityId, state) => !!state[entityId];
+
 const useListsStore = defineStore({
-  state: {
-    l1: { id: "l1", title: "UI Tasks", type: "list", taskIds: ["t1"], parentId: "p1", parentType: "project" },
-    l2: { id: "l2", title: "Backend Tasks", type: "list", taskIds: ["t2"], parentId: "p1", parentType: "project" },
-    l3: { id: "l3", title: "Email Strategy", type: "list", taskIds: ["t3"], parentId: "p2", parentType: "project" },
-    l4: { id: "l4", title: "Social Media", type: "list", taskIds: ["t4"], parentId: "p2", parentType: "project" },
-    l5: { id: "l5", title: "Fitness", type: "list", taskIds: ["t5"], parentId: "p3", parentType: "project" },
-    l6: { id: "l6", title: "Reading List", type: "list", taskIds: ["t6"], parentId: "p3", parentType: "project" },
-    l7: { id: "l7", title: "Packing List", type: "list", taskIds: ["t7"], parentId: "p4", parentType: "project" },
-    l8: { id: "l8", title: "Destinations", type: "list", taskIds: ["t8"], parentId: "p4", parentType: "project" },
-    l9: { id: "l9", title: "JavaScript", type: "list", taskIds: ["t9"], parentId: "p5", parentType: "project" },
-    l10: { id: "l10", title: "English", type: "list", taskIds: ["t10"], parentId: "p5", parentType: "project" },
+  initState: () => {
+    const fallbackState = {};
+    
+    let state = storage.load(storageKey);
+    const tasksState = storage.load(tasksStorageKey);
+    const projectsState = storage.load(projectsStorageKey);
+
+    if (!state || !projectsState) return fallbackState;
+
+    state = filterObject(state, (_, list) => {
+      return !!projectsState[list.parentId];
+    });
+
+    Object.values(state).forEach(list => {
+      list.taskIds = tasksState 
+        ? list.taskIds.filter(taskId => isCorrectId(taskId, tasksState))
+        : []
+    });
+
+    return state || fallbackState;
+  },
+
+  onAction: ({state}) => {
+    storage.save(storageKey, state);
   },
 
   actions: {
