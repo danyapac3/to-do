@@ -40,10 +40,10 @@ class TaskModal extends Component {
   }
 
   renderPredicate({name, args, returnValue}) {
-    if (!this.props.id) return false;
     if (name === "toggleCompleted") return false;
     if (name === "setPriority") return false;
     if (name === "setDueDate") return false;
+    if (name === "setDueDates") return false;
     if (name === "clearDueDate") return false; 
     return true;
   }

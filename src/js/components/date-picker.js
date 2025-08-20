@@ -23,9 +23,9 @@ class DataPicker extends Component {
 
   init(props) {
     const {
-      hasTimepicker = false,
-      isTodayShown = false,
-      isTomorrowShown = false
+      hasTimepicker = true,
+      isTodayShown = true,
+      isTomorrowShown = true
     } = props;
 
     const $datePicker = this.element;

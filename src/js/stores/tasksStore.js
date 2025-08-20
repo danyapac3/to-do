@@ -117,6 +117,11 @@ const useTasksStore = defineStore({
       task.dueDate = timestamp;
     },
 
+    setDueDates(ids, timestamp) {
+      const tasks = ids.map(id => this[id]);
+      tasks.forEach(task => task.dueDate = timestamp);
+    },
+
     clearDueDate(id) {
       const task = this[id];
       task.dueDate = null;

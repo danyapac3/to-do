@@ -20,6 +20,8 @@ export default class Task extends Component {
   }
 
   renderPredicate({name, args, returnValue}) {
+    if (name === 'setDueDates' && args[0].includes[this.props.id]) return true;
+    
     const id = args[0];
     if (name === 'toggleCompleted' && tasksStoreState[id].parentId === this.props.id) return true;
     return this.props.id === args[0];

@@ -3,35 +3,23 @@
     <div class="board__title">Today</div>
   </div>
   <div class="board__body">
-    <div class="board__content ">
-      <div tabindex="0" class="board__list list" data-type="in-progress">
-        <div class="list__header">
-          <div class="list__title">In Progress</div>
-          <div class="list__hide-button"></div>
-          <div class="list__show-actions-button"></div>
+    <div class="board__content board__content--vertical">
+      <div class="simple-list" data-type="overdue">
+        <div class="simple-list__header">
+          <div class="simple-list__collapse-button"></div>
+          <div class="simple-list__title">Overdue</div>
+          <div class="simple-list__reschedule-button">Reschedule</div>
         </div>
-        <div class="list__body"></div>
-        <div class="list__footer"></div>
+        <div class="simple-list__tasks"></div>
       </div>
 
-      <div tabindex="0" class="board__list list" data-type="completed">
-        <div class="list__header">
-          <div class="list__title">Completed</div>
-          <div class="list__hide-button"></div>
-          <div class="list__show-actions-button"></div>
+      <div class="simple-list" data-type="today">
+        <div class="simple-list__header">
+          <div class="simple-list__collapse-button"></div>
+          <div class="simple-list__title">Today</div>
         </div>
-        <div class="list__body"></div>
-        <div class="list__footer"></div>
-      </div>
-
-      <div tabindex="0" class="board__list list" data-type="overdue">
-        <div class="list__header">
-          <div class="list__title">Overdue</div>
-          <div class="list__hide-button"></div>
-          <div class="list__show-actions-button"></div>
-        </div>
-        <div class="list__body"></div>
-        <div class="list__footer"></div>
+        <div class="simple-list__tasks"></div>
+        <div class="simple-list__footer"></div>
       </div>
     </div>
   </div>
