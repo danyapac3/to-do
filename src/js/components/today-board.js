@@ -55,6 +55,18 @@ export default class TodayBoard extends Component {
         target.closest('.simple-list').classList.toggle('simple-list--collapsed');
     });
 
+    $board.addEventListener('scroll', (() => {
+      let lastKnownScrollPosition = 0;
+      
+      return (e) => {
+        const {scrollTop} = $board;
+        if (scrollTop === lastKnownScrollPosition) return;
+
+        lastKnownScrollPosition = scrollTop;
+        $board.classList.toggle('board--scrolled', scrollTop > 0)
+      };
+    })());
+
     $rescheduleButton.addEventListener('click', (e) => {
       if (!$overdueTasks.children.length) return;
 

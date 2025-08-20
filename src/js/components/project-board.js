@@ -39,11 +39,11 @@ export default class ProjectBoard extends Component {
         onChange: (hue) => {
           projectsStore.setHue(id, hue);
           $huePicker.style.backgroundColor = `hsl(${hue} 100%, 50%)`;
-          $board.style.backgroundColor = `hsl(${hue} 60%, 85%)`;
+          $board.style.setProperty('--hue', hue);
         },
         onUpdate: (hue) => {
           $huePicker.style.backgroundColor = `hsl(${hue} 100%, 50%)`;
-          $board.style.backgroundColor = `hsl(${hue} 60%, 85%)`;
+          $board.style.setProperty('--hue', hue);
         },
       }});
     });
@@ -84,7 +84,7 @@ export default class ProjectBoard extends Component {
     const project = projectsStore[id]
 
     if (project.hue) {
-      $board.style.backgroundColor = `hsl(${project.hue}, 60%, 85%)`;
+      $board.style.setProperty('--hue', project.hue)
       $huePicker.style.backgroundColor = `hsl(${project.hue}, 100%, 50%)`;
     }
 

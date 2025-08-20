@@ -1,19 +1,36 @@
 @use "/styles/shared" as *;
 
 .board {
-  background-color: hsl(115, 61%, 92%);
+  background-color: hsl(var(--hue, 75), 61%, 92%);
   display: flex;
   flex-direction: column;
   flex: 1;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
+  
   height: 100%;
+
+  &--vertical {
+    scrollbar-width: thin;
+    overflow: y
+  }
 }
 
 .board__header {
-  height: 48px;
+  background-color: hsl(var(--hue, 75), 61%, 92%);
   display: flex;
   padding: 16px;
   padding-left: 24px;
+  border-bottom: rgb(0 0 0 / .0) 1.5px solid;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+
+  transition: background-color 0.5s, border-bottom 0.5s;
+
+  .board--scrolled & {
+    border-bottom: $secondary-text-color 1.5px solid;    
+  }
 }
 
 .board__title {
@@ -44,6 +61,10 @@
   overflow-x: auto;
   overflow-y: hidden;
   flex: 1;
+
+  .board--vertical & {
+    overflow: unset;
+  }
 }
 
 .board__content {
