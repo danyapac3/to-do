@@ -26,10 +26,10 @@
   top: 0;
   z-index: 1;
 
-  transition: background-color 0.5s, border-bottom 0.5s;
+  transition: border-bottom 0.5s;
 
   .board--scrolled & {
-    border-bottom: $secondary-text-color 1.5px solid;    
+    border-bottom: $secondary-text-color 1.5px solid;
   }
 }
 
