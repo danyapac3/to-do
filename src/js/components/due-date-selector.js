@@ -26,8 +26,12 @@ export default class DueDateSelector extends Component {
     const $selector = this.element;
     const $clearButton = this.element.querySelector('.mini-selector__clear-button');
 
-    
-    $selector.onclick = ({pageX, pageY}) => {
+    $clearButton.onclick = (e) => {
+      tasksStore.clearDueDate(id);
+      e.stopPropagation();
+    }
+
+    $selector.onclick = () => {
       const {left, bottom} = $selector.getBoundingClientRect();
       const datePicker = new DatePicker({props: {
         x: left,
