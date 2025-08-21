@@ -25,6 +25,7 @@
       background-color: hsl(from $color h s calc(l - 2));
     }
   }
+
   &:active {
     background-color: hsl(from $color h s calc(l - 4));
   }
@@ -40,7 +41,8 @@
       background-color: rgb(0 0 0 / 0.05);
     }
   }
-  &:active {
+
+  &:active() {
     background-color: rgb(0 0 0 / 0.08);
   }
 }

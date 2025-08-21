@@ -96,16 +96,10 @@ const useProjectsStore = defineStore({
       project.listIds.splice(project.listIds.indexOf(listId), 1);
     },
 
-    moveListToProject(listId, sourceId, destinationId, index = 0) {
-      const sourceProject = this[sourceId];
-      const destinationProject = this[destinationId];
-      const listIndex = sourceProject.listIds.indexOf(listId);
-      sourceProject.listIds.splice(listIndex, 1);
-      destinationProject.listIds.splice(index, 0, listId);
-
-      if (sourceId !== destinationId) {
-        useListsStore().setParent(listId, destinationProject)
-      }
+    insertList(projectId, listId, index = 0) {
+      const project = this[projectId];
+      project.listIds.splice(index, 0, listId);
+      useListsStore().setParent(listId, project);
     },
 
     moveList(projectId, indexFrom, indexTo) {

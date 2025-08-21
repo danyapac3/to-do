@@ -42,6 +42,7 @@ $indicators-size: $task-font-size;
   align-items: start;
   display: flex;
   gap: $task-gap;
+  position: relative;
   
   &:has(.task__checkbox:checked) {
     text-decoration: line-through;
@@ -90,6 +91,25 @@ $indicators-size: $task-font-size;
   .task:has(.task__checkbox:checked) & {
     margin-left: 0;
     opacity: 1;
+  }
+}
+
+
+.task__action-button {
+  padding: 4px;
+  border-radius: 5px;
+  transition: background-color 0.2s;
+  position: absolute;
+  right: 0;
+
+  @include transparent-button();
+
+  &:after {
+    content: '';
+    display: block;
+    width: 16px;
+    height: 16px;
+    @include coloredIcon(url('/images/icons/actions.svg'));
   }
 }
 

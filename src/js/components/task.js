@@ -1,7 +1,14 @@
+import removeIcon from '/images/icons/bin.svg';
+import renameIcon from '/images/icons/edit.svg';
+import detailsIcon from '/images/icons/details.svg';
+import moveIcon from '/images/icons/move-to.svg'
+
 import Component from '/js/lib/component';
 import template from './task.html';
 import { htmlToNode } from '/js/lib/utils/dom';
 import useTasksStore from '/js/stores/tasksStore';
+import ActionMenu from '/js/components/action-menu';
+import DatePicker from '/js/components/date-picker';
 
 import TaskModal from '/js/components/task-modal';
 import { formatDate } from '/js/lib/utils/common';
@@ -30,16 +37,61 @@ export default class Task extends Component {
   init({id}) {
     const $task = this.element;
     const $checkbox = $task.querySelector('.task__checkbox');
+    const $actionButton = $task.querySelector('.task__action-button');
+
+    const openDetails = () => {
+      this.emit('openDetails', {id});
+      new TaskModal({props: {id, hasBackdrop: true}});
+    }
+
+    const renameTask = () => {
+
+    }
+
+    const removeTask = () => { tasksStore.removeTask(id); }
+
+    const moveTask = () => {
+
+    }
+
+    $actionButton.addEventListener('click', (e) => {
+      const actionMenu = new ActionMenu({props: {
+        x: e.pageX,
+        y: e.pageY,
+        title: "actions",
+        items: [
+          {
+            title: 'Details',
+            iconSrc: detailsIcon,
+            callback: openDetails,
+          },
+          {
+            title: 'Rename',
+            iconSrc: renameIcon,
+            callback: renameTask,
+          },
+          {
+            title: 'Move to',
+            iconSrc: moveIcon,
+            callback: moveTask,
+          },
+          {
+            title: 'Remove',
+            iconSrc: removeIcon,
+            callback: removeTask,
+          },
+        ],
+      }});
+
+      e.stopPropagation();
+    });
 
     $checkbox.addEventListener('click', (e) => {
       tasksStore.toggleCompleted(id);
       e.stopPropagation();
     });
 
-    $task.addEventListener('click', () => {
-      this.emit('openDetails', {id});
-      new TaskModal({props: {id, hasBackdrop: true}});
-    });
+    $task.addEventListener('click', openDetails);
   }
 
   render({id, hiddenDueDate = false}) {

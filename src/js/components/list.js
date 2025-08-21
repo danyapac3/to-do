@@ -26,9 +26,10 @@ export default class List extends Component {
   }
 
   renderPredicate({name, args, store, returnValue}) {
-    return (
-      (name === 'addTask' && args[0] === this.props.id)
-      || (name === 'moveTaskToList') && (this.props.id === args[0] || this.props.id === args[1])
+    return (args[0] === this.props.id) && (
+      name === 'addTask'
+      || name === 'removeTask'
+      || name === 'insertTask'
     );
   }
 
@@ -58,7 +59,8 @@ export default class List extends Component {
     });
 
     function moveListToProject (destinationId) {
-      useProjectsStore().moveListToProject(id, project.id, destinationId);
+      useProjectsStore().removeList(list.parentId, list.id);
+      useProjectsStore().insertList(destinationId, list.id);
     };
 
     const showMoveMenu = (pageX, pageY) => {
@@ -118,16 +120,18 @@ export default class List extends Component {
         $body.classList.add('has-dragging');
       },
 
-      onEnd: ({ from: $from, to: $to, oldIndex, newIndex }) => {
+      onEnd: ({ from: $from, to: $to, oldIndex, newIndex, item }) => {
         $body.classList.remove('has-dragging');
 
         const oldListId = $from.closest('.list').dataset.id;
         const newListId = $to.closest('.list').dataset.id;
+        const taskId = item.dataset.id
         
         if(oldListId === newListId) {
           listsStore.moveTask(newListId, oldIndex, newIndex);
         } else {
-          listsStore.moveTaskToList(oldListId, newListId, oldIndex, newIndex);
+          listsStore.removeTask(oldListId, taskId);
+          listsStore.insertTask(newListId, taskId, newIndex);
         }
       },
 

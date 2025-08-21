@@ -77,6 +77,12 @@ const useListsStore = defineStore({
       list.taskIds.splice(list.taskIds.indexOf(taskId), 1);
     },
 
+    insertTask(listId, taskId, index) {
+      const list = this[listId];
+      list.taskIds.splice(index, 0, taskId);
+      useTasksStore().setParent(taskId, list);
+    },
+
     moveTask(listId, oldIndex, newIndex) {
       const list = this[listId];
       const [taskId] = list.taskIds.splice(oldIndex, 1);

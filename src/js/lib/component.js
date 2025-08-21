@@ -28,14 +28,15 @@ export default class Component {
     this.cleanUp = this.cleanUp ? this.cleanUp.bind(this, this.props || {}) : () => {};
     
     if (parent) parent.addChild(this);
-
-    this.init();
-    this.render();
-
+    
     this.unsubscribeStoreFunctions = stores.map(store => store.$onAction((data) => {
       if (!this.renderPredicate(data)) return;
       this.render();
     }));
+    
+    this.init();
+    this.render();
+
   }
 
   addChild(child) {

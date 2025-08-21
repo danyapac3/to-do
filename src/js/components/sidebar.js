@@ -151,7 +151,8 @@ export default class Sidebar extends Component {
       if (data.type === 'list') {
         const list = useListsStore().$state[data.id];
 
-        useProjectsStore().moveListToProject(list.id, list.parentId, target.dataset.id);
+        useProjectsStore().removeList(list.parentId, list.id);
+        useProjectsStore().insertList(target.dataset.id, list.id);
       }
     });
   }
