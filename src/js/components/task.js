@@ -1,12 +1,16 @@
 import removeIcon from '/images/icons/bin.svg';
 import renameIcon from '/images/icons/edit.svg';
 import detailsIcon from '/images/icons/details.svg';
-import moveIcon from '/images/icons/move-to.svg'
+import moveIcon from '/images/icons/move-to.svg';
+import hashIcon from '/images/icons/hash.svg';
+import listIcon from '/images/icons/list.svg';
 
 import Component from '/js/lib/component';
 import template from './task.html';
 import { htmlToNode } from '/js/lib/utils/dom';
 import useTasksStore from '/js/stores/tasksStore';
+import useListsStore from '/js/stores/listsStore';
+import useProjectsStore from '/js/stores/projectsStore';
 import ActionMenu from '/js/components/action-menu';
 import DatePicker from '/js/components/date-picker';
 
@@ -15,6 +19,8 @@ import { formatDate } from '/js/lib/utils/common';
 
 const tasksStore = useTasksStore();
 const tasksStoreState = tasksStore.$state;
+const listsStore = useListsStore();
+const projectsStore = useProjectsStore();
 
 export default class Task extends Component {
   constructor({parent, props}) {
@@ -50,8 +56,70 @@ export default class Task extends Component {
 
     const removeTask = () => { tasksStore.removeTask(id); }
 
-    const moveTask = () => {
+    const moveTask = (destinationId, destinationType) => {
+      const task = tasksStore[id];
+      console.log(task);
 
+      switch (task.parentType) {
+        case 'task':
+          tasksStore.removeSubtask(task.parentId, task.id);
+          break;
+        case 'list':
+          listsStore.removeTask(task.parentId, task.id);
+          break;
+        case 'project':
+          projectsStore.removeTask(task.parentId, task.id);
+      }
+
+      switch(destinationType) {
+        case 'task':
+          tasksStore.insertSubtask(destinationId, task.id, 0);
+          break
+        case 'list':
+          listsStore.insertTask(destinationId, task.id, 0);
+          break;
+        case 'project':
+          projectsStore.insertTask(destinationId, task.id, 0);
+          break;
+      }
+    }
+
+    const selectDestination = (x, y, project) => {
+      const listsState = listsStore.$state;
+      const lists = project.listIds.map(listId => listsState[listId]);
+
+      const items = lists.map(list => ({
+        title: list.title,
+        iconSrc: listIcon,
+        callback: () => moveTask(list.id, list.type),
+      }));
+
+      items.unshift({
+        title: project.title, 
+        iconSrc: hashIcon,
+        callback: () => moveTask(project.id, project.type),
+      });
+
+      const actionMenu = new ActionMenu({props: {
+        x, y,
+        title: "Select project",
+        items,
+      }});
+    }
+
+    const selectProject = (x, y) => {
+      const projects = Object.values(projectsStore.$state);
+      const items = projects.map(project => ({
+        iconSrc: hashIcon,
+        title: project.title,
+        callback: () => selectDestination(x, y, project),
+      }));
+
+      const actionMenu = new ActionMenu({props: {
+        x, y,
+        title: "Select project",
+        items,
+      }});
     }
 
     $actionButton.addEventListener('click', (e) => {
@@ -73,7 +141,7 @@ export default class Task extends Component {
           {
             title: 'Move to',
             iconSrc: moveIcon,
-            callback: moveTask,
+            callback: () => selectProject(e.pageX, e.pageY),
           },
           {
             title: 'Remove',

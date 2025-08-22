@@ -4,9 +4,9 @@ import template from "/js/components/action-menu.html";
 import { htmlToNode } from '/js/lib/utils/dom';
 
 const createItem = (title, iconSrc) => htmlToNode(
-  `<div class="context-menu__item">
-    ${iconSrc ? `<img class="context-menu__item-icon" src="${iconSrc}" alt="">` : ''}
-    <div class="context-menu__item-title">${title || 'untitled'}</div>
+  `<div class="action-menu__item">
+    ${iconSrc ? `<img class="action-menu__item-icon" src="${iconSrc}" alt="">` : ''}
+    <div class="action-menu__item-title">${title || 'untitled'}</div>
   </div>`);
 
 class ActionMenu extends Component {
