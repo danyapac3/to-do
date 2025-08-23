@@ -31,7 +31,8 @@ const useListsStore = defineStore({
     if (!state || !projectsState) return fallbackState;
 
     state = filterObject(state, (_, list) => {
-      return !!projectsState[list.parentId];
+      const parentProject = projectsState[list.parentId];
+      return !!(parentProject && parentProject.listIds.includes(list.id));
     });
 
     Object.values(state).forEach(list => {

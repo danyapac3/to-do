@@ -102,6 +102,12 @@ const useProjectsStore = defineStore({
       useListsStore().setParent(listId, project);
     },
 
+    addTask(id, title) {
+      const project = this[id];
+      const task = useTasksStore().addTask(title, project);
+      project.taskIds.push(task.id);
+    },
+
     moveList(projectId, indexFrom, indexTo) {
       const project = this[projectId];
       const listId = project.listIds[indexFrom];

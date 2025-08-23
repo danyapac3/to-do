@@ -126,7 +126,7 @@ $sidebar-item-padding: 10px;
   user-select: none;
   position: relative;
 
-  &:has(input:not(:disabled)) {
+  &:has(input:not(:read-only)) {
     border: 2px solid black;
     background:white;
     gap: 0;
@@ -190,6 +190,11 @@ $sidebar-item-padding: 10px;
 
   @include has-hover {
     padding: 0;
+  }
+
+  &:read-only {
+    cursor: pointer;
+    user-select: none;
   }
 }
 

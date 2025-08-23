@@ -88,17 +88,11 @@ export default class Task extends Component {
       const listsState = listsStore.$state;
       const lists = project.listIds.map(listId => listsState[listId]);
 
-      const items = lists.map(list => ({
+      let items = lists.map(list => ({
         title: list.title,
         iconSrc: listIcon,
         callback: () => moveTask(list.id, list.type),
       }));
-
-      items.unshift({
-        title: project.title, 
-        iconSrc: hashIcon,
-        callback: () => moveTask(project.id, project.type),
-      });
 
       const actionMenu = new ActionMenu({props: {
         x, y,

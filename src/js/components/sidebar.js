@@ -14,9 +14,7 @@ import useAppStore from "/js/stores/appStore";
 const projectsStore = useProjectsStore();
 const appStore = useAppStore();
 
-const matchProjectElm = (elm) => {
-  return elm.dataset.type === 'project';
-}
+const getProjectElm = (elm) => elm.closest('[data-type="project"]');
 
 const setActiveItem = ($sidebarElm) => {
   const $activeItems = $sidebarElm.querySelectorAll('.sidebar__item--active');
@@ -30,7 +28,7 @@ const createProject = (project) => {
   const template = 
     /*html*/ `
     <div class="sidebar__item sidebar__item--project" data-type="project" data-id="${project.id}">
-      <input class="sidebar__item-title" value="${project.title}" disabled>
+      <input class="sidebar__item-title" readOnly>
       <div class="sidebar__item-action-button"></div>
     </div>`;
   const element = htmlToNode(template);
@@ -38,9 +36,9 @@ const createProject = (project) => {
 
   const $title = element.querySelector('.sidebar__item-title');
   let prevValue = project.title
-
+  
   const save = () => {
-    $title.disabled = true;
+    $title.readOnly = true;
     const trimmed = $title.value.trim();
     if (trimmed === "" || trimmed === prevValue) {
       $title.value = prevValue;
@@ -49,7 +47,8 @@ const createProject = (project) => {
     prevValue = trimmed;
     projectsStore.renameProject(project.id, trimmed);
   };
-
+  
+  $title.value = project.title;
   $title.onchange = save;
   $title.onblur = save; 
   return element;
@@ -65,7 +64,7 @@ const showProjectActionMenu = (projectId, x, y, $sidebar) => {
           iconSrc: editIcon,
           callback: () => { 
             const $title = $sidebar.querySelector(`.sidebar__item--project[data-id="${projectId}"] .sidebar__item-title`);
-            $title.disabled = false;
+            $title.readOnly = false;
             $title.focus();
           },
         },
@@ -114,11 +113,15 @@ export default class Sidebar extends Component {
 
     $sidebar.addEventListener('dragover', (e) => {
       e.preventDefault();
+      const $projectItem = getProjectElm(e.target);
+      if (!$projectItem) return;
+      $projectItem.classList.add('drag-over');
     });
 
     $sidebar.addEventListener('dragenter', ({target}) => {
-      if (!matchProjectElm(target)) return;
-      target.classList.add('drag-over');
+      const $projectItem = getProjectElm(target);
+      if (!$projectItem) return;
+      $projectItem.classList.add('drag-over');
     });
 
     $sidebar.addEventListener('click', ({target, pageX, pageY}) => {
@@ -127,32 +130,36 @@ export default class Sidebar extends Component {
         showProjectActionMenu(projectId, pageX, pageY, $sidebar);
         return;
       }
+
       const closest = target.closest('.sidebar__item');
+      console.log(closest);
       if (!closest) return;
-      if (!matchProjectElm(closest)) return;
+      if (!getProjectElm(closest)) return;
       appStore.setCurrentProject(closest.dataset.id);
       setActiveItem($sidebar);
     });
 
     $sidebar.addEventListener('dragleave', ({target}) => {
-      if (!matchProjectElm(target)) return;
+      if (!getProjectElm(target)) return;
       target.classList.remove('drag-over');
     });
 
     $sidebar.addEventListener('drop', ({target, dataTransfer}) => {
-      if (!matchProjectElm(target)) return;
+      const $projectItem = getProjectElm(target);
+
+      if (!$projectItem) return;
       
-      target.classList.remove('drag-over'); 
+      $projectItem.classList.remove('drag-over'); 
       
       let data;
       try { data = JSON.parse(dataTransfer.getData('Text')); }
       catch { return }
 
-      if (data.type === 'list') {
+      if (data.type === 'list' && $projectItem.dataset.id !== appStore.currentProject) {
         const list = useListsStore().$state[data.id];
 
         useProjectsStore().removeList(list.parentId, list.id);
-        useProjectsStore().insertList(target.dataset.id, list.id);
+        useProjectsStore().insertList($projectItem.dataset.id, list.id);
       }
     });
   }

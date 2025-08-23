@@ -23,8 +23,9 @@ const useTasksStore = defineStore({
         'list': listsState,
         'project': projectsState,
       }[task.parentType];
+      const parent = parentState && task.parentId in parentState && parentState[task.parentId];
 
-      return (!!parentState && task.parentId in parentState);
+      return (!!parent);
     });
 
     Object.values(state).forEach(task => {
