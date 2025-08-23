@@ -120,6 +120,10 @@ export default class List extends Component {
         $body.classList.add('has-dragging');
       },
 
+      setData: (dataTransfer, dragElm) => {
+        dataTransfer.setData('Text', JSON.stringify({type: 'task', id: dragElm.dataset.id}));
+      },
+
       onEnd: ({ from: $from, to: $to, oldIndex, newIndex, item }) => {
         $body.classList.remove('has-dragging');
 
@@ -127,6 +131,7 @@ export default class List extends Component {
         const newListId = $to.closest('.list').dataset.id;
         const taskId = item.dataset.id
         
+        if(!listsStore[oldListId].taskIds.includes(taskId)) return;
         if(oldListId === newListId) {
           listsStore.moveTask(newListId, oldIndex, newIndex);
         } else {

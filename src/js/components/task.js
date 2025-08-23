@@ -94,6 +94,17 @@ export default class Task extends Component {
         callback: () => moveTask(list.id, list.type),
       }));
 
+      if (!items.length) {
+        items = [{
+          title: 'Untitled',
+          iconSrc: listIcon,
+          callback: () => {
+            const list = projectsStore.addList(project.id, 'Untitled');
+            moveTask(list.id, list.type);
+          }
+        }];
+      }
+
       const actionMenu = new ActionMenu({props: {
         x, y,
         title: "Select project",

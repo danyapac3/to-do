@@ -89,6 +89,7 @@ const useProjectsStore = defineStore({
       const list = listsStore.addList(title, project);
 
       project.listIds.push(list.id);
+      return list;
     },
 
     removeList(projectId, listId) {

@@ -9,8 +9,10 @@ import {htmlToNode} from '/js/lib/utils/dom';
 import template from './sidebar.html';
 import useProjectsStore from "/js/stores/projectsStore";
 import useListsStore from "/js/stores/listsStore";
+import useTasksStore from "/js/stores/tasksStore";
 import useAppStore from "/js/stores/appStore";
 
+const listsStore = useListsStore();
 const projectsStore = useProjectsStore();
 const appStore = useAppStore();
 
@@ -146,8 +148,10 @@ export default class Sidebar extends Component {
 
     $sidebar.addEventListener('drop', ({target, dataTransfer}) => {
       const $projectItem = getProjectElm(target);
-
       if (!$projectItem) return;
+      
+      const projectId = $projectItem.dataset.id;
+      const project = projectsStore[projectId];
       
       $projectItem.classList.remove('drag-over'); 
       
@@ -155,11 +159,21 @@ export default class Sidebar extends Component {
       try { data = JSON.parse(dataTransfer.getData('Text')); }
       catch { return }
 
-      if (data.type === 'list' && $projectItem.dataset.id !== appStore.currentProject) {
-        const list = useListsStore().$state[data.id];
+      if (project.id === appStore.currentProject) return;
+      if (data.type === 'list' ) {
+        const list = listsStore.$state[data.id];
 
-        useProjectsStore().removeList(list.parentId, list.id);
-        useProjectsStore().insertList($projectItem.dataset.id, list.id);
+        projectsStore.removeList(list.parentId, list.id);
+        projectsStore.insertList(project.id, list.id);
+      } else if (data.type === 'task') {
+        const task = useTasksStore().$state[data.id];
+
+        const destinationList = !project.listIds.length
+          ? projectsStore.addList(project.id, 'Untitled')
+          : listsStore[project.listIds[0]];
+
+        listsStore.removeTask(task.parentId, task.id);
+        listsStore.insertTask(destinationList.id, task.id);
       }
     });
   }
