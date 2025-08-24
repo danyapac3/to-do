@@ -22,6 +22,10 @@ export default class Dialog extends Component {
 
     let startedOnChildren = false;
 
+    $dialog.addEventListener('close', e => {
+      this.close();
+    });
+
     $dialog.addEventListener('click', (e) => {
       if (startedOnChildren) {
         startedOnChildren = true;
