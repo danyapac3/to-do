@@ -42,6 +42,7 @@ export default class Task extends Component {
 
   init({id}) {
     const $task = this.element;
+    const $title = $task.querySelector('.task__title'); 
     const $checkbox = $task.querySelector('.task__checkbox');
     const $actionButton = $task.querySelector('.task__action-button');
 
@@ -50,15 +51,62 @@ export default class Task extends Component {
       new TaskModal({props: {id, hasBackdrop: true}});
     }
 
-    const renameTask = () => {
-
-    }
-
     const removeTask = () => { tasksStore.removeTask(id); }
+
+    const renameTask = () => {
+      $task.classList.add('task--in-edit');
+      $title.setAttribute("tabindex", 0); 
+      $title.contentEditable = "plaintext-only";
+      $title.focus();
+
+      const prevTitleContent = $title.textContent;
+
+      const save = () => {
+        const trimmed = $title.textContent.trim();
+        tasksStore.renameTask(id, trimmed || prevTitleContent);
+      }
+
+      const finishRenaming = () => {
+        $title.removeAttribute("tabindex");
+        $title.onblur = null;
+        $title.onkeydown = null;
+        $title.oninput = null;
+        $task.ondragstart = null;
+        $task.classList.remove('task--in-edit');
+        $title.contentEditable = false;
+        save();
+      }
+
+      $task.ondragstart = () => {
+        return false;
+      };
+
+      $title.oninput = (e) => {
+        if ($title.innerHTML === '<br>' || $title.textContent === ' ') {
+          $title.innerHTML = '';
+          return;
+        }
+        if (e.data && e.data.length > 1) {
+          $title.textContent = $title.textContent.replace(/\s+/gi, ' ');
+        }
+      };
+
+      $title.onkeydown = (e) => {
+        if (e.key === 'Enter') {
+        e.preventDefault();
+        finishRenaming();
+        } else if (e.key === ' ' && $title.textContent.at(-1) === ' ') {
+          e.preventDefault();
+        }
+      }
+
+      $title.onblur = (e) => {
+        finishRenaming();
+      };
+    }
 
     const moveTask = (destinationId, destinationType) => {
       const task = tasksStore[id];
-      console.log(task);
 
       switch (task.parentType) {
         case 'task':
@@ -163,8 +211,6 @@ export default class Task extends Component {
       tasksStore.toggleCompleted(id);
       e.stopPropagation();
     });
-
-    $task.addEventListener('click', openDetails);
   }
 
   render({id, hiddenDueDate = false}) {

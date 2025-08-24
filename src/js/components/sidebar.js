@@ -134,7 +134,6 @@ export default class Sidebar extends Component {
       }
 
       const closest = target.closest('.sidebar__item');
-      console.log(closest);
       if (!closest) return;
       if (!getProjectElm(closest)) return;
       appStore.setCurrentProject(closest.dataset.id);

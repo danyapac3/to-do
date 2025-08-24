@@ -9,31 +9,32 @@ $task-title-lines-number: 3;
 $task-gap: 10px;
 $indicators-size: $task-font-size;
 
-@mixin there-is-chosen {
-  :root:has(.chosen) {
-    @content
-  }
-}
-
 .task {
   background-color: white;
   border-radius: 10px;
   transition: background-color 0.2s;
   padding: 10px;
   
-  @include button(white);
-
-  &.drag {
-    padding: 8px;
-    border: 2px dashed black;
+  &--in-edit {
+    border: 1.5px solid black;
+    padding: 8.5px;
   }
+  
+  &:not(&--in-edit) {
+    @include button(white);
 
-  &.ghost {
-    background-color: rgb(0 0 0 / .1);
-    color: rgb(0 0 0 / 0);
-    & * {
-      transition: none;
-      opacity: 0;
+    &.drag {
+      padding: 8px;
+      border: 2px dashed black;
+    }
+
+    &.ghost {
+      background-color: rgb(0 0 0 / .1);
+      color: rgb(0 0 0 / 0);
+      & * {
+        transition: none !important; 
+        opacity: 0 !important;
+      }
     }
   }
 }
@@ -65,6 +66,10 @@ $indicators-size: $task-font-size;
   &:checked, &:active {
     opacity: 1;
   }
+
+  .task--in-edit & {
+    opacity: 0 !important;
+  }
 }
 
 .task__title {
@@ -94,6 +99,12 @@ $indicators-size: $task-font-size;
     margin-left: 0;
     opacity: 1;
   }
+
+  .task--in-edit & {
+    margin-left: -$checkbox-size - $task-gap !important;
+    padding-right: 0 !important;
+    width: 100% !important;
+  }
 }
 
 
@@ -105,6 +116,9 @@ $indicators-size: $task-font-size;
   top: -2px;
   transition: background-color 0.2s, opacity 0.2s;
 
+  .task--in-edit & {
+    display: none;
+  }
   
   @include button(white);
   
@@ -135,6 +149,10 @@ $indicators-size: $task-font-size;
 
   &:not(:first-child) {
     margin-top: 10px;
+  }
+
+  .task--in-edit &{
+    display: none;
   }
 }
 
