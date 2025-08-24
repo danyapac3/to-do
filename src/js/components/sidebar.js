@@ -168,11 +168,13 @@ export default class Sidebar extends Component {
       } else if (data.type === 'task') {
         const task = useTasksStore().$state[data.id];
 
+        
+        listsStore.removeTask(task.parentId, task.id);
+        
         const destinationList = !project.listIds.length
           ? projectsStore.addList(project.id, 'Untitled')
           : listsStore[project.listIds[0]];
-
-        listsStore.removeTask(task.parentId, task.id);
+        
         listsStore.insertTask(destinationList.id, task.id);
       }
     });

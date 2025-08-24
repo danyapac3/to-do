@@ -129,8 +129,7 @@ export default class List extends Component {
 
         const oldListId = $from.closest('.list').dataset.id;
         const newListId = $to.closest('.list').dataset.id;
-        const taskId = item.dataset.id
-        
+        const taskId = item.dataset.id;
         if(!listsStore[oldListId].taskIds.includes(taskId)) return;
         if(oldListId === newListId) {
           listsStore.moveTask(newListId, oldIndex, newIndex);

@@ -14,15 +14,15 @@ export default class ProjectBoard extends Component {
       element: htmlToNode(template),
       parent,
       props,
-      stores: [useListsStore(), useProjectsStore()],
+      stores: [useProjectsStore()],
     });
 
     this.currentId = null;
   }
 
-  renderPredicate({name}) {
+  renderPredicate({name, args}) {
+    if(args[0] === this.props.id)
     return (name === 'addList')
-    || (name === 'moveListToProject')
     || (name === 'removeList')
     || (name === 'renameProject');
   }
