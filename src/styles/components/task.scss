@@ -78,9 +78,11 @@ $indicators-size: $task-font-size;
   line-height: $task-title-line-height;
   max-height: $task-title-line-height * $task-title-lines-number;
   width: calc(100% - $checkbox-size - $task-gap);
+  padding-right: 28px;
   
   @include has-hover() {
     margin-left: -$checkbox-size - $task-gap;
+    padding-right: 0;
   }
 
   *:not(.has-dragging) > .task:hover & {
@@ -98,12 +100,22 @@ $indicators-size: $task-font-size;
 .task__action-button {
   padding: 4px;
   border-radius: 5px;
-  transition: background-color 0.2s;
   position: absolute;
   right: 0;
+  top: -2px;
+  transition: background-color 0.2s, opacity 0.2s;
 
-  @include transparent-button();
-
+  
+  @include button(white);
+  
+  @include has-hover {
+    opacity: 0;
+    
+    .task:hover & {
+      opacity: 1;
+    }
+  }
+  
   &:after {
     content: '';
     display: block;
