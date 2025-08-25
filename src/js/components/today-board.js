@@ -116,20 +116,8 @@ export default class TodayBoard extends Component {
     const $overdueList = $board.querySelector('.simple-list[data-type="overdue"]');
     const $todayTasks = $todayList.querySelector('.simple-list__tasks');
     const $overdueTasks = $overdueList.querySelector('.simple-list__tasks');
-    const $todayFooter = $todayList.querySelector('.simple-list__footer');
 
     const inboxProject = projectsStore['system.inbox'];
-    
-    const addTaskForm = new AddItemForm({parent: this, props: {title: "Add New Task"}});
-    addTaskForm.on('save', ({text}) => {
-      const firstInboxList = 
-        listsStore[inboxProject.listIds[0]]
-        || projectsStore.addList(inboxProject.id, 'untitled');
-
-      listsStore.addTask(firstInboxList.id, text, calcTodayTimestamp());
-    });
-    
-    $todayFooter.appendChild(addTaskForm.element);
 
     const tasks = Object.values(tasksStore.$state);
     const todayTasks = [];
@@ -147,6 +135,17 @@ export default class TodayBoard extends Component {
 
     mountTasks(this, todayTasks, $todayTasks);
     mountTasks(this, overdueTasks, $overdueTasks);
+
+    const addTaskForm = new AddItemForm({parent: this, props: {title: "Add New Task"}});
+    addTaskForm.on('save', ({text}) => {
+      const firstInboxList = 
+        listsStore[inboxProject.listIds[0]]
+        || projectsStore.addList(inboxProject.id, 'untitled');
+
+      listsStore.addTask(firstInboxList.id, text, calcTodayTimestamp());
+    });
+    
+    $todayTasks.appendChild(addTaskForm.element);
   }
 
   cleanUp() {

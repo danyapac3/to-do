@@ -41,7 +41,9 @@ const useListsStore = defineStore({
         : []
     });
 
-    return state || fallbackState;
+    storage.save(storageKey, state);
+
+    return state;
   },
 
   onAction: ({state}) => {

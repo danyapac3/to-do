@@ -19,7 +19,6 @@ const useTasksStore = defineStore({
 
     state = filterObject(state, (_, task) => {
       const parentState = {
-        'task': state,
         'list': listsState,
         'project': projectsState,
       }[task.parentType];

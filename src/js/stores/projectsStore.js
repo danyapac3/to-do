@@ -78,7 +78,7 @@ const useProjectsStore = defineStore({
     removeProject(projectId) {
       const project = this[projectId];
       project.listIds.forEach(listId => {
-        delete listsStore.$state
+        listsStore.removeList(listId);
       });
       delete this[projectId];
       return project;

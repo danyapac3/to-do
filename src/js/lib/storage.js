@@ -1,4 +1,4 @@
-export default (() => {
+const storage = (() => {
   const save = (key, data) => {
     localStorage.setItem(key, JSON.stringify(data));
   }
@@ -19,5 +19,7 @@ export default (() => {
     localStorage.removeItem(key);
   }
 
-  return {save, load, remove}
+  return {save, load, remove};
 })();
+
+export default storage;
