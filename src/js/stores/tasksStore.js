@@ -40,7 +40,7 @@ const useTasksStore = defineStore({
   },
 
   actions: {
-    addTask(title, parent) {
+    addTask(title, parent, timestamp) {
       const id = uuid();
       const task = {
         id,
@@ -52,7 +52,7 @@ const useTasksStore = defineStore({
         description: "",
         parentId: parent?.id || null,
         parentType: parent?.type || null,
-        dueDate: null,
+        dueDate: timestamp || null,
       };
 
       this[id] = task

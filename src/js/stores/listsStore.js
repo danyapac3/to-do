@@ -67,9 +67,9 @@ const useListsStore = defineStore({
       this[id].title = title;
     },
 
-    addTask(id, title) {
+    addTask(id, title, timestamp) {
       const list = this[id];
-      const task = useTasksStore().addTask(title, list);
+      const task = useTasksStore().addTask(title, list, timestamp);
       list.taskIds.push(task.id);
     },
 

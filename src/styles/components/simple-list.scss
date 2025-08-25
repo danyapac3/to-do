@@ -104,4 +104,7 @@
 
 
 .simple-list__footer {
+  &:not(:first-child) {
+    margin-top: 15px;
+  }
 }

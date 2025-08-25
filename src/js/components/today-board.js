@@ -4,11 +4,17 @@ import template from './today-board.html';
 import {htmlToNode} from '/js/lib/utils/dom';
 import {isToday, isAfter, endOfDay} from  'date-fns';
 import useTasksStore from '/js/stores/tasksStore';
+import useListsStore from '/js/stores/listsStore';
+import useProjectsStore from '/js/stores/projectsStore';
 import Task from '/js/components/task';
 import DatePicker from '/js/components/date-picker';
 import Sortable from 'sortablejs/modular/sortable.core.esm';
 
 const tasksStore = useTasksStore();
+const listsStore = useListsStore();
+const projectsStore = useProjectsStore();
+
+const calcTodayTimestamp = () => endOfDay(new Date()).getTime();
 
 const mountTasks = (parent, tasks, $mountPlace, hiddenDueDate = false) => {
   for (let task of tasks) {
@@ -97,7 +103,7 @@ export default class TodayBoard extends Component {
 
       onAdd({item}) {
         const id = item.dataset.id;
-        tasksStore.setDueDate(id, endOfDay(new Date()).getTime());
+        tasksStore.setDueDate(id, calcTodayTimestamp());
       }
     })
 
@@ -110,6 +116,20 @@ export default class TodayBoard extends Component {
     const $overdueList = $board.querySelector('.simple-list[data-type="overdue"]');
     const $todayTasks = $todayList.querySelector('.simple-list__tasks');
     const $overdueTasks = $overdueList.querySelector('.simple-list__tasks');
+    const $todayFooter = $todayList.querySelector('.simple-list__footer');
+
+    const inboxProject = projectsStore['system.inbox'];
+    
+    const addTaskForm = new AddItemForm({parent: this, props: {title: "Add New Task"}});
+    addTaskForm.on('save', ({text}) => {
+      const firstInboxList = 
+        listsStore[inboxProject.listIds[0]]
+        || projectsStore.addList(inboxProject.id, 'untitled');
+
+      listsStore.addTask(firstInboxList.id, text, calcTodayTimestamp());
+    });
+    
+    $todayFooter.appendChild(addTaskForm.element);
 
     const tasks = Object.values(tasksStore.$state);
     const todayTasks = [];

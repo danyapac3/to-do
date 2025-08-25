@@ -11,7 +11,7 @@
   transition: background-color 0.2s;
   line-height: 1;
 
-  @include button($primary-color);
+  @include transparent-button;
   
   &::before {
     content: "";
