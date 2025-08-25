@@ -47,6 +47,8 @@ export default class TodayBoard extends Component {
     const $board = this.element;
     const $overdueList = $board.querySelector('.simple-list[data-type="overdue"]');
     const $overdueTasks = $overdueList.querySelector('.simple-list__tasks');
+    const $todayList = $board.querySelector('.simple-list[data-type="today"]');
+    const $todayTasks = $todayList.querySelector('.simple-list__tasks');
     const $rescheduleButton = $overdueList.querySelector('.simple-list__reschedule-button');
 
     $board.addEventListener('click', (e) => {
@@ -78,53 +80,28 @@ export default class TodayBoard extends Component {
       })
     });
 
+    const overdueSortable = new Sortable($overdueTasks, {
+      ...generalSortableRules,
+      group: {
+        put: false,
+        pull: true,
+      },
+    });
 
-    // const $inProgressBody = $board.querySelector('.board__list[data-type="in-progress"] .list__body');
-    // const $overdueBody = $board.querySelector('.board__list[data-type="overdue"] .list__body');
-    // const $completedBody = $board.querySelector('.board__list[data-type="completed"] .list__body');
+    const todaySortable = new Sortable($todayTasks, {
+      ...generalSortableRules,
+      group: {
+        put: true,
+        pull: true,
+      },
 
-    // const inProgressSortable = new Sortable($inProgressBody, {
-    //   ...generalSortableRules,
+      onAdd({item}) {
+        const id = item.dataset.id;
+        tasksStore.setDueDate(id, endOfDay(new Date()).getTime());
+      }
+    })
 
-    //   onAdd({item}) {
-    //     const task = tasksStore[item.dataset.id];
-    //     if (task.completed) {
-    //       tasksStore.toggleCompleted(task.id);
-    //       return;
-    //     }
-
-    //     const date = new Date(task.dueDate);
-    //     if (!isToday(date)) {
-    //       const newDate = addDays(date, differenceInDays(endOfDay(new Date()), date));
-    //       tasksStore.setDueDate(task.id, newDate.getTime());
-    //     }
-    //   }
-    // });
-
-    // const overdueSortable = new Sortable($overdueBody, {
-    //   ...generalSortableRules,
-    //   group: {
-    //     name: 'list',
-    //     put: false,
-    //   },
-    // });
-
-    // const completedSortable = new Sortable($completedBody, {
-    //   ...generalSortableRules,
-
-    //   onAdd({item}) {
-    //     const task = tasksStore[item.dataset.id];
-    //     if (!task.completed) {
-    //       tasksStore.toggleCompleted(task.id);
-    //     }
-    //   }
-    // });
-
-    // this.sortables = [
-    //   inProgressSortable,
-    //   overdueSortable,
-    //   completedSortable,
-    // ];
+    this.sortables = [overdueSortable, todaySortable];
   }
 
   render() {
@@ -153,8 +130,8 @@ export default class TodayBoard extends Component {
   }
 
   cleanUp() {
-    // this.sortables.forEach(sortable => {
-    //   sortable.destroy();
-    // });
+    this.sortables.forEach(sortable => {
+      sortable.destroy();
+    });
   }
 }
