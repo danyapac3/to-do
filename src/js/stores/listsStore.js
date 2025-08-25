@@ -4,16 +4,6 @@ import storage from '/js/lib/storage';
 import {filterObject} from '/js/lib/utils/common';
 import { v4 as uuid } from 'uuid';
 
-// const hasParent = (entity) => !!stateByType[entity.parentType][entity.parentId];
-
-// const removeParentlessEntities = (state) => {
-//   for (const [key, entity] of Object.entries(state)) {
-//     if (hasParent(entity)) continue;
-//     delete state[key];
-//   }
-// };
-
-
 const storageKey = 'listsStore';
 const projectsStorageKey = 'projectsStore';
 const tasksStorageKey = 'tasksStore';
