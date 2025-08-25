@@ -19,18 +19,32 @@ $sidebar-item-padding: 10px;
 
 .sidebar {
   --sidebar-width: #{$sidebar-width};
+
+  width: var(--sidebar-width);
   height: 100%;
   display: grid;
   grid-template-columns: 1fr 0px;
   overflow: visible;
-  transition: grid-template-columns 0.35s;
+  transition: grid-template-columns 0.35s, width 0.35s;
   position: relative;
-  z-index: 1;
+  z-index: 10;
   background-color: $primary-color;
   border-right: 1px solid $secondary-text-color;
+  flex-shrink: 0;
 
   &.collapsed {
     grid-template-columns: 0fr 0px;
+    width: 0;
+  }
+
+  @include media-to(breakpoint(md)) {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+
+  @include media-to(breakpoint(sm)) { 
+    --sidebar-width: 100vw;
   }
 }
 
@@ -48,7 +62,6 @@ $sidebar-item-padding: 10px;
 }
 
 .sidebar__toggle-visibility-button {
-  border: $secondary-text-color 1px solid;
   border-radius: 5px;
   width: $toggle-visibility-button-size;
   height: $toggle-visibility-button-size;
@@ -58,14 +71,16 @@ $sidebar-item-padding: 10px;
   top: 10px;
   right: 10px;
   transform: translateX(0);
-
-  transition: transform 0.2s;
+  border: $primary-color 1px solid;
+  
+  transition: transform 0.2s, border 0.2s;
 
   @include button($primary-color);
 
   .sidebar.collapsed & {
-    transition: transform 0.2s 0.35s;
-    transform: translateX(32px + 26px);
+    border: $secondary-text-color 1px solid;
+    transition: transform 0.2s 0.35s, border 0.2s 0.35s;
+    transform: translateX(32px + 32px);
   }
 
   &::after {
@@ -81,6 +96,25 @@ $sidebar-item-padding: 10px;
   }
 }
 
+.sidebar__backdrop {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 0vw;
+  opacity: 0;
+  transition: opacity 0.35s, width 0s 0.35s;
+  z-index: -1;
+  background-color: rgba(0, 0, 0, 0.300);
+  height: 100dvh;
+  
+  @include media-to(breakpoint('md')) {
+    .sidebar:not(.collapsed) & {
+      transition: opacity 0.35s, width 0s;
+      opacity: 1;
+      width: 100vw;
+    }
+  }
+}
 
 .sidebar__sections {
   overflow: hidden;
